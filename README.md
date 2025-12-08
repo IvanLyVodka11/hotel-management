@@ -126,4 +126,4 @@ mvn test
 | Deluxe | 1,500,000 VND | x1.5 | 4 người |
 
 ## 📝 License
-MIT License - OOP Project 2024
+MIT License - OOP Project 2025

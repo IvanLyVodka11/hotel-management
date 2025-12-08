@@ -374,5 +374,5 @@ User → RoomPanel → RoomManager → Filter → Display
 ---
 
 **Tài liệu version:** 1.0
-**Ngày tạo:** 08/12/2024
+**Ngày tạo:** 08/12/2025
 **Tác giả:** Thành viên 1

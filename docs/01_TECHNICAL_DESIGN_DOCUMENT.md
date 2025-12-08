@@ -497,5 +497,5 @@ src/
 ---
 
 **Document Version**: 1.0
-**Last Updated**: 08/12/2024
+**Last Updated**: 08/12/2025
 **Status**: DRAFT - Chờ Review
