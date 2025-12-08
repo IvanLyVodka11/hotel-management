@@ -1,0 +1,21 @@
+{
+  "users": [
+    {
+      "id": "U001",
+      "username": "admin",
+      "password": "admin123",
+      "name": "Quản trị viên",
+      "phone": "0901234567",
+      "role": "ADMIN"
+    },
+    {
+      "id": "U002",
+      "username": "staff1",
+      "password": "staff123",
+      "name": "Nhân viên 1",
+      "phone": "0907654321",
+      "role": "STAFF"
+    }
+  ],
+  "version": "1.0"
+}
