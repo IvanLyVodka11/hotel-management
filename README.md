@@ -10,7 +10,7 @@
 | Thành viên 2 | Quản lý Đặt phòng, Khách hàng, Hóa đơn | 🔄 Đang phát triển |
 
 ## 🛠️ Công nghệ sử dụng
-- **Ngôn ngữ**: Java 17
+- **Ngôn ngữ**: Java 21
 - **UI Framework**: Java Swing + FlatLaf
 - **Storage**: JSON (Gson)
 - **Build Tool**: Maven
@@ -62,7 +62,7 @@ OOPproject/
 ## 🚀 Hướng dẫn chạy
 
 ### Yêu cầu
-- Java JDK 17+
+- Java JDK 21+
 - Maven 3.6+
 
 ### Cài đặt dependencies
