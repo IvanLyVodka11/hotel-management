@@ -1,0 +1,16 @@
+# Maven / build outputs
+/target/
+
+# VS Code Java extension output
+/out/
+
+# Compiled classes
+*.class
+
+# OS / misc
+.DS_Store
+Thumbs.db
+
+# IntelliJ
+/.idea/
+*.iml

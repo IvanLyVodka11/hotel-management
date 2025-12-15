@@ -7,7 +7,7 @@
 | Thành viên | Nhiệm vụ | Trạng thái |
 |------------|----------|------------|
 | Thành viên 1 | Quản lý Phòng, Menu, Storage, Login | ✅ Hoàn thành |
-| Thành viên 2 | Quản lý Đặt phòng, Khách hàng, Hóa đơn | 🔄 Đang phát triển |
+| Thành viên 2 | Quản lý Đặt phòng, Khách hàng, Hóa đơn | ✅ Hoàn thành |
 
 ## 🛠️ Công nghệ sử dụng
 - **Ngôn ngữ**: Java 21
@@ -18,44 +18,62 @@
 
 ## 📐 Cấu trúc dự án
 ```
-OOPproject/
+hotel-management/
 ├── src/
 │   └── com/hotel/
 │       ├── Main.java              # Entry point
 │       ├── model/                 # Data models
-│       │   ├── room/              # Room classes
-│       │   │   ├── Room.java      # Abstract class
+│       │   ├── room/              # Room classes (Thành viên 1)
+│       │   │   ├── Room.java
 │       │   │   ├── StandardRoom.java
 │       │   │   ├── VIPRoom.java
 │       │   │   ├── DeluxeRoom.java
 │       │   │   └── RoomFactory.java
+│       │   ├── customer/          # Customer classes (Thành viên 2)
+│       │   │   └── Customer.java
+│       │   ├── booking/           # Booking classes (Thành viên 2)
+│       │   │   └── Booking.java
+│       │   ├── invoice/           # Invoice classes (Thành viên 2)
+│       │   │   └── Invoice.java
 │       │   └── enums/             # Enums
 │       │       ├── RoomType.java
 │       │       ├── RoomStatus.java
 │       │       └── BookingStatus.java
 │       ├── service/               # Business logic
 │       │   ├── RoomManager.java
+│       │   ├── CustomerManager.java
+│       │   ├── BookingManager.java
+│       │   ├── InvoiceManager.java
 │       │   └── interfaces/
 │       │       ├── IManageable.java
 │       │       ├── ISearchable.java
 │       │       └── IStorable.java
 │       ├── storage/               # Data persistence
-│       │   └── RoomStorage.java
+│       │   ├── RoomStorage.java
+│       │   └── DataStorage.java
 │       └── ui/                    # User interface
 │           ├── LoginFrame.java
 │           ├── MainFrame.java
 │           ├── RoomPanel.java
-│           └── RoomDialog.java
+│           ├── RoomDialog.java
+│           ├── BookingPanel.java
+│           ├── CustomerPanel.java
+│           └── InvoicePanel.java
 ├── test/                          # Unit tests
-│   └── com/hotel/
-│       ├── model/room/RoomTest.java
-│       └── service/RoomManagerTest.java
+│   └── SimpleRoomTest.java
 ├── data/                          # Data files
 │   ├── rooms.json
-│   └── users.json
+│   ├── users.json
+│   ├── customers.json
+│   ├── bookings.json
+│   └── invoices.json
 ├── docs/                          # Documentation
 │   ├── 01_TECHNICAL_DESIGN.md
-│   └── 02_BACKLOG_MEMBER1.md
+│   ├── 02_BACKLOG_MEMBER1.md
+│   ├── 03_BACKLOG_MEMBER2.md
+│   ├── 04_MEMBER2_SUMMARY.md
+│   ├── 05_CLASS_DIAGRAM_MEMBER2.md
+│   └── 06_USER_GUIDE_MEMBER2.md
 └── pom.xml                        # Maven config
 ```
 
@@ -111,11 +129,94 @@ mvn test
 - [x] **Interfaces**: IManageable, ISearchable, IStorable
 - [x] **Design Patterns**: Singleton (RoomManager), Factory (RoomFactory)
 
-## 🔄 Tính năng đang phát triển (Thành viên 2)
-- [ ] Quản lý Khách hàng
-- [ ] Quản lý Đặt phòng
-- [ ] Hóa đơn
-- [ ] Báo cáo doanh thu
+## ✅ Tính năng đã hoàn thành (Thành viên 2)
+
+Ghi chú: Đã tích hợp UI vào MainFrame (tab Đặt phòng/Khách hàng/Báo cáo) và hoàn thiện luồng tạo/sửa đặt phòng.
+
+### 1. Quản lý Khách hàng
+- [x] Model Customer class
+  - [x] Attributes: customerId, fullName, email, phoneNumber, idCard, address, registrationDate, isVIP, loyaltyPoints
+  - [x] Getters/Setters
+  - [x] Loyalty points system
+- [x] CustomerManager (CRUD + Search)
+  - [x] add(), update(), delete(), getById(), getAll()
+  - [x] search() - tìm theo tên, email, phone
+  - [x] filter() - lọc theo VIP status, loyalty points
+  - [x] getTotalCustomers(), getVIPCustomers()
+
+### 2. Quản lý Đặt phòng
+- [x] Model Booking class
+  - [x] References to Customer và Room
+  - [x] Attributes: bookingId, checkInDate, checkOutDate, status, totalPrice, notes
+  - [x] calculateTotalPrice() - tính dựa trên số ngày
+  - [x] getNumberOfDays() method
+  - [x] isValid() - kiểm tra tính hợp lệ
+- [x] BookingManager (CRUD + Search)
+  - [x] add(), update(), delete(), getById(), getAll()
+  - [x] search() - tìm theo booking ID, customer name, room ID
+  - [x] filter() - lọc theo status, customer, room
+  - [x] isRoomAvailable() - kiểm tra phòng trống
+  - [x] getAvailableRooms() - lấy danh sách phòng còn trống
+  - [x] getBookingsByStatus(), getCustomerBookings()
+  - [x] getTotalRevenue(), getMonthlyRevenue()
+
+### 3. Quản lý Hóa đơn
+- [x] Model Invoice class
+  - [x] References to Booking
+  - [x] Attributes: invoiceId, invoiceDate, subtotal, taxRate, taxAmount, totalAmount, status, notes
+  - [x] Automatic amount calculation
+  - [x] markAsPaid(), markAsIssued(), cancel() methods
+- [x] InvoiceManager (CRUD)
+  - [x] add(), update(), delete(), getById(), getAll()
+  - [x] createInvoiceFromBooking()
+  - [x] getInvoiceByBooking(), getInvoicesByCustomer()
+  - [x] getInvoicesByStatus(), getInvoicesByDateRange()
+  - [x] getTotalRevenue(), getTotalTax(), getUnpaidRevenue()
+  - [x] markInvoiceAsPaid(), cancelInvoice()
+  - [x] getMonthlyRevenue()
+  - [x] getPaidInvoices(), getUnpaidInvoices()
+
+### 4. Storage & Persistence
+- [x] DataStorage class
+  - [x] Load/Save Customers to JSON
+  - [x] Load/Save Bookings to JSON
+  - [x] Load/Save Invoices to JSON
+  - [x] Proper serialization/deserialization
+  - [x] Handle relationships between entities
+
+### 5. Design Patterns & OOP Concepts (Thành viên 2)
+- [x] **Encapsulation**: Private fields với public getters/setters
+- [x] **Inheritance**: Proper class hierarchy
+- [x] **Interfaces**: IManageable, ISearchable implementation
+- [x] **Composition**: Booking contains Customer và Room, Invoice contains Booking
+- [x] **JSON Serialization**: Custom JSON parsing and conversion
+
+## ✅ Tích hợp UI (Thành viên 2)
+- [x] UI Integration: gắn BookingPanel/CustomerPanel/InvoicePanel vào MainFrame
+- [x] Menu Integration: bật menu Đặt phòng, Danh sách đặt phòng, Báo cáo doanh thu
+- [x] AddBookingDialog: nạp danh sách phòng trống theo ngày + tạo Booking thật
+- [x] EditBookingDialog: hiển thị ngày hiện tại + cập nhật ngày/trạng thái
+
+## 📋 Báo cáo Compilation (Thành viên 2)
+- [COMPILATION_REPORT.md](COMPILATION_REPORT.md) - **Báo cáo đầy đủ về việc fix tất cả 40+ lỗi compilation**
+  - ✅ 0 errors, 5 warnings (unused imports)
+  - ✅ Tất cả interface contracts đã tuân thủ
+  - ✅ Type mismatches đã được khắc phục
+  - ✅ 8 files compiled successfully
+
+## 📚 Tài liệu chi tiết (Thành viên 2)
+
+### Backlog & Planning
+- [03_BACKLOG_MEMBER2.md](docs/03_BACKLOG_MEMBER2.md) - Chi tiết Sprint planning, user stories, tasks
+
+### Implementation Summary
+- [04_MEMBER2_SUMMARY.md](docs/04_MEMBER2_SUMMARY.md) - Tóm tắt các tính năng, phương thức, thống kê code
+
+### Architecture & Design
+- [05_CLASS_DIAGRAM_MEMBER2.md](docs/05_CLASS_DIAGRAM_MEMBER2.md) - UML diagrams, entity relationships, data flow
+
+### User Guide
+- [06_USER_GUIDE_MEMBER2.md](docs/06_USER_GUIDE_MEMBER2.md) - Hướng dẫn sử dụng API, code examples
 
 ## 📊 Loại phòng
 
@@ -124,6 +225,36 @@ mvn test
 | Standard | 500,000 VND | x1.0 | 2 người |
 | VIP | 1,000,000 VND | x1.2 | 3 người |
 | Deluxe | 1,500,000 VND | x1.5 | 4 người |
+
+## 🔗 Quick Links
+
+### APIs (Thành viên 2)
+```java
+// Customer Management
+CustomerManager.add(Customer)
+CustomerManager.search(keyword)
+CustomerManager.filter(criteria, value)
+
+// Booking Management
+BookingManager.add(Booking)
+BookingManager.isRoomAvailable(room, checkIn, checkOut)
+BookingManager.getAvailableRooms(checkIn, checkOut)
+BookingManager.getMonthlyRevenue(month, year)
+
+// Invoice Management
+InvoiceManager.createInvoiceFromBooking(booking, invoiceId)
+InvoiceManager.markInvoiceAsPaid(invoiceId)
+InvoiceManager.getTotalRevenue()
+
+// Data Persistence
+DataStorage.loadAllData()
+DataStorage.saveAllData()
+```
+
+## 📞 Hỗ trợ & Liên hệ
+
+- **Thành viên 1** (Room Management): [Backlog](docs/02_BACKLOG_MEMBER1.md)
+- **Thành viên 2** (Booking, Customer, Invoice): [Summary](docs/04_MEMBER2_SUMMARY.md)
 
 ## 📝 License
 MIT License - OOP Project 2025

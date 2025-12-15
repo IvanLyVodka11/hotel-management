@@ -67,11 +67,16 @@ public class RoomManager implements IManageable<Room>, ISearchable<Room> {
         }
         
         String roomId = room.getRoomId();
-        if (roomId == null || roomMap.containsKey(roomId)) {
+        if (roomId == null) {
+            return false;
+        }
+
+        String normalizedId = roomId.toUpperCase();
+        if (roomMap.containsKey(normalizedId)) {
             return false; // ID null hoặc đã tồn tại
         }
-        
-        roomMap.put(roomId, room);
+
+        roomMap.put(normalizedId, room);
         return true;
     }
     
@@ -87,11 +92,16 @@ public class RoomManager implements IManageable<Room>, ISearchable<Room> {
         }
         
         String roomId = room.getRoomId();
-        if (roomId == null || !roomMap.containsKey(roomId)) {
+        if (roomId == null) {
+            return false;
+        }
+
+        String normalizedId = roomId.toUpperCase();
+        if (!roomMap.containsKey(normalizedId)) {
             return false; // Không tìm thấy phòng
         }
-        
-        roomMap.put(roomId, room);
+
+        roomMap.put(normalizedId, room);
         return true;
     }
     
@@ -102,11 +112,16 @@ public class RoomManager implements IManageable<Room>, ISearchable<Room> {
      */
     @Override
     public boolean delete(String roomId) {
-        if (roomId == null || !roomMap.containsKey(roomId)) {
+        if (roomId == null) {
             return false;
         }
-        
-        roomMap.remove(roomId);
+
+        String normalizedId = roomId.toUpperCase();
+        if (!roomMap.containsKey(normalizedId)) {
+            return false;
+        }
+
+        roomMap.remove(normalizedId);
         return true;
     }
     
@@ -508,7 +523,7 @@ public class RoomManager implements IManageable<Room>, ISearchable<Room> {
             roomMap.clear();
             for (Room room : rooms) {
                 if (room != null && room.getRoomId() != null) {
-                    roomMap.put(room.getRoomId(), room);
+                    roomMap.put(room.getRoomId().toUpperCase(), room);
                 }
             }
         }

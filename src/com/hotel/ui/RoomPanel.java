@@ -46,7 +46,7 @@ public class RoomPanel extends JPanel {
     public RoomPanel() {
         this.roomManager = RoomManager.getInstance();
         this.roomStorage = new RoomStorage();
-        
+
         initializeUI();
         loadData();
     }
@@ -187,6 +187,10 @@ public class RoomPanel extends JPanel {
                     "Lỗi", 
                     JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public void saveRoomsData() {
+        saveData();
     }
     
     public void refreshTable() {

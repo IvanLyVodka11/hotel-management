@@ -1,30 +1,25 @@
 {
   "rooms": [
     {
-      "roomType": "STANDARD",
-      "roomId": "R101",
-      "floor": 1,
-      "basePrice": 500000,
+      "roomType": "DELUXE",
+      "roomId": "R303",
+      "floor": 3,
+      "basePrice": 2000000.0,
       "status": "AVAILABLE",
-      "description": "Phòng tiêu chuẩn tầng 1, view hồ bơi",
-      "bedCount": 1,
-      "area": 20.0
-    },
-    {
-      "roomType": "STANDARD",
-      "roomId": "R102",
-      "floor": 1,
-      "basePrice": 500000,
-      "status": "OCCUPIED",
-      "description": "Phòng tiêu chuẩn tầng 1",
-      "bedCount": 1,
-      "area": 20.0
+      "description": "Phòng Deluxe Presidential Suite",
+      "bedCount": 3,
+      "area": 75.0,
+      "hasView": true,
+      "hasPrivateBathroom": true,
+      "hasJacuzzi": true,
+      "hasMinibar": true,
+      "hasLivingRoom": true
     },
     {
       "roomType": "STANDARD",
       "roomId": "R103",
       "floor": 1,
-      "basePrice": 550000,
+      "basePrice": 550000.0,
       "status": "AVAILABLE",
       "description": "Phòng tiêu chuẩn tầng 1, có ban công",
       "bedCount": 2,
@@ -32,21 +27,9 @@
     },
     {
       "roomType": "VIP",
-      "roomId": "R201",
-      "floor": 2,
-      "basePrice": 1000000,
-      "status": "AVAILABLE",
-      "description": "Phòng VIP tầng 2, view thành phố",
-      "bedCount": 2,
-      "area": 35.0,
-      "hasView": true,
-      "hasPrivateBathroom": true
-    },
-    {
-      "roomType": "VIP",
       "roomId": "R202",
       "floor": 2,
-      "basePrice": 1000000,
+      "basePrice": 1000000.0,
       "status": "MAINTENANCE",
       "description": "Phòng VIP tầng 2",
       "bedCount": 2,
@@ -55,22 +38,10 @@
       "hasPrivateBathroom": true
     },
     {
-      "roomType": "VIP",
-      "roomId": "R203",
-      "floor": 2,
-      "basePrice": 1200000,
-      "status": "AVAILABLE",
-      "description": "Phòng VIP Premium tầng 2",
-      "bedCount": 2,
-      "area": 40.0,
-      "hasView": true,
-      "hasPrivateBathroom": true
-    },
-    {
       "roomType": "DELUXE",
       "roomId": "R301",
       "floor": 3,
-      "basePrice": 1500000,
+      "basePrice": 1500000.0,
       "status": "AVAILABLE",
       "description": "Phòng Deluxe Suite tầng 3, view biển",
       "bedCount": 2,
@@ -82,10 +53,22 @@
       "hasLivingRoom": true
     },
     {
+      "roomType": "VIP",
+      "roomId": "R203",
+      "floor": 2,
+      "basePrice": 1200000.0,
+      "status": "AVAILABLE",
+      "description": "Phòng VIP Premium tầng 2",
+      "bedCount": 2,
+      "area": 40.0,
+      "hasView": true,
+      "hasPrivateBathroom": true
+    },
+    {
       "roomType": "DELUXE",
       "roomId": "R302",
       "floor": 3,
-      "basePrice": 1800000,
+      "basePrice": 1800000.0,
       "status": "OCCUPIED",
       "description": "Phòng Deluxe Premium Suite tầng 3",
       "bedCount": 3,
@@ -97,21 +80,36 @@
       "hasLivingRoom": true
     },
     {
-      "roomType": "DELUXE",
-      "roomId": "R303",
-      "floor": 3,
-      "basePrice": 2000000,
+      "roomType": "STANDARD",
+      "roomId": "R101",
+      "floor": 1,
+      "basePrice": 500000.0,
       "status": "AVAILABLE",
-      "description": "Phòng Deluxe Presidential Suite",
-      "bedCount": 3,
-      "area": 75.0,
+      "description": "Phòng tiêu chuẩn tầng 1, view hồ bơi",
+      "bedCount": 1,
+      "area": 20.0
+    },
+    {
+      "roomType": "STANDARD",
+      "roomId": "R102",
+      "floor": 1,
+      "basePrice": 500000.0,
+      "status": "OCCUPIED",
+      "description": "Phòng tiêu chuẩn tầng 1",
+      "bedCount": 1,
+      "area": 20.0
+    },
+    {
+      "roomType": "VIP",
+      "roomId": "R201",
+      "floor": 2,
+      "basePrice": 1000000.0,
+      "status": "AVAILABLE",
+      "description": "Phòng VIP tầng 2, view thành phố",
+      "bedCount": 2,
+      "area": 35.0,
       "hasView": true,
-      "hasPrivateBathroom": true,
-      "hasJacuzzi": true,
-      "hasMinibar": true,
-      "hasLivingRoom": true
+      "hasPrivateBathroom": true
     }
-  ],
-  "version": "1.0",
-  "lastModified": 1702022400000
+  ]
 }
