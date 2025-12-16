@@ -1,1 +1,57 @@
-[]
+[
+  {
+    "customerId": "CUST001",
+    "fullName": "Nguyen Minh Anh",
+    "email": "minhanh@example.com",
+    "phoneNumber": "0901000001",
+    "idCard": "012345678901",
+    "address": "Ha Noi",
+    "registrationDate": "2025-10-05",
+    "isVIP": true,
+    "loyaltyPoints": 1200.0
+  },
+  {
+    "customerId": "CUST002",
+    "fullName": "Tran Quoc Huy",
+    "email": "quochuy@example.com",
+    "phoneNumber": "0901000002",
+    "idCard": "012345678902",
+    "address": "TP HCM",
+    "registrationDate": "2025-10-20",
+    "isVIP": false,
+    "loyaltyPoints": 150.0
+  },
+  {
+    "customerId": "CUST003",
+    "fullName": "Le Thao Vy",
+    "email": "thaovy@example.com",
+    "phoneNumber": "0901000003",
+    "idCard": "012345678903",
+    "address": "Da Nang",
+    "registrationDate": "2025-11-02",
+    "isVIP": false,
+    "loyaltyPoints": 320.0
+  },
+  {
+    "customerId": "CUST004",
+    "fullName": "Pham Gia Bao",
+    "email": "giabao@example.com",
+    "phoneNumber": "0901000004",
+    "idCard": "012345678904",
+    "address": "Hai Phong",
+    "registrationDate": "2025-11-18",
+    "isVIP": true,
+    "loyaltyPoints": 980.0
+  },
+  {
+    "customerId": "CUST005",
+    "fullName": "Vo Ngoc Lan",
+    "email": "ngoclan@example.com",
+    "phoneNumber": "0901000005",
+    "idCard": "012345678905",
+    "address": "Can Tho",
+    "registrationDate": "2025-12-01",
+    "isVIP": false,
+    "loyaltyPoints": 40.0
+  }
+]

@@ -332,18 +332,46 @@ public class BookingPanel extends JPanel {
     private void showReports() {
         double totalRevenue = bookingManager.getTotalRevenue();
         int totalBookings = bookingManager.getTotalBookings();
-        
+        int completedBookings = bookingManager.getCompletedBookings();
+
+        int pending = bookingManager.getBookingsByStatus(BookingStatus.PENDING).size();
+        int confirmed = bookingManager.getBookingsByStatus(BookingStatus.CONFIRMED).size();
+        int checkedIn = bookingManager.getBookingsByStatus(BookingStatus.CHECKED_IN).size();
+        int checkedOut = bookingManager.getBookingsByStatus(BookingStatus.CHECKED_OUT).size();
+        int cancelled = bookingManager.getBookingsByStatus(BookingStatus.CANCELLED).size();
+
+        java.time.LocalDate now = java.time.LocalDate.now();
+        int month = now.getMonthValue();
+        int year = now.getYear();
+        double monthlyRevenue = bookingManager.getMonthlyRevenue(month, year);
+
         String report = String.format(
-                "📊 BÁO CÁO ĐẶT PHÒNG\n\n" +
-                "Tổng đặt phòng: %d\n" +
-                "Tổng doanh thu: %,.0f VND\n" +
-                "Doanh thu bình quân: %,.0f VND\n\n" +
-                "Trạng thái:\n",
-                totalBookings,
-                totalRevenue,
-                totalBookings > 0 ? totalRevenue / totalBookings : 0
+            "📊 BÁO CÁO ĐẶT PHÒNG\n\n" +
+            "Tổng booking: %d\n" +
+            "Hoàn thành (đã trả phòng): %d\n" +
+            "Tổng doanh thu (booking hoàn thành): %,.0f VND\n" +
+            "Doanh thu bình quân/booking hoàn thành: %,.0f VND\n" +
+            "Doanh thu tháng %02d/%d: %,.0f VND\n\n" +
+            "Trạng thái booking:\n" +
+            "- %s: %d\n" +
+            "- %s: %d\n" +
+            "- %s: %d\n" +
+            "- %s: %d\n" +
+            "- %s: %d\n",
+            totalBookings,
+            completedBookings,
+            totalRevenue,
+            completedBookings > 0 ? totalRevenue / completedBookings : 0,
+            month,
+            year,
+            monthlyRevenue,
+            BookingStatus.PENDING.getDisplayName(), pending,
+            BookingStatus.CONFIRMED.getDisplayName(), confirmed,
+            BookingStatus.CHECKED_IN.getDisplayName(), checkedIn,
+            BookingStatus.CHECKED_OUT.getDisplayName(), checkedOut,
+            BookingStatus.CANCELLED.getDisplayName(), cancelled
         );
-        
+
         JOptionPane.showMessageDialog(this, report, "Báo cáo", JOptionPane.INFORMATION_MESSAGE);
     }
     

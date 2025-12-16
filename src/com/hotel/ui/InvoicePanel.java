@@ -356,19 +356,34 @@ public class InvoicePanel extends JPanel {
         double totalTax = invoiceManager.getTotalTax();
         double unpaidRevenue = invoiceManager.getUnpaidRevenue();
         int totalInvoices = invoiceManager.getTotalInvoices();
+        int paidInvoices = invoiceManager.getPaidInvoices();
+        int unpaidInvoices = invoiceManager.getUnpaidInvoices();
+
+        java.time.LocalDate now = java.time.LocalDate.now();
+        int month = now.getMonthValue();
+        int year = now.getYear();
+        double monthlyRevenue = invoiceManager.getMonthlyRevenue(month, year);
         
         String report = String.format(
                 "📊 BÁO CÁO HÓA ĐƠN\n\n" +
                 "Tổng hóa đơn: %d\n" +
+            "Đã thanh toán: %d\n" +
+            "Chưa thanh toán: %d\n" +
                 "Tổng doanh thu: %,.0f VND\n" +
+            "Doanh thu tháng %02d/%d: %,.0f VND\n" +
                 "Tổng thuế: %,.0f VND\n" +
                 "Chưa thanh toán: %,.0f VND\n\n" +
-                "Tỉ lệ thanh toán: %.1f%%",
+            "Tỉ lệ thanh toán: %.1f%%",
                 totalInvoices,
+            paidInvoices,
+            unpaidInvoices,
                 totalRevenue,
+            month,
+            year,
+            monthlyRevenue,
                 totalTax,
                 unpaidRevenue,
-                totalRevenue > 0 ? ((totalRevenue - unpaidRevenue) * 100.0 / totalRevenue) : 0
+            totalInvoices > 0 ? (paidInvoices * 100.0 / totalInvoices) : 0
         );
         
         JOptionPane.showMessageDialog(this, report, "Báo cáo", JOptionPane.INFORMATION_MESSAGE);
