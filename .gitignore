@@ -1,0 +1,17 @@
+# Compiled files
+out/
+target/
+*.class
+*.jar
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data files (optional, keep if you want shared data)
+# data/*.json
