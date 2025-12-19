@@ -6,6 +6,12 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import com.hotel.service.BookingManager;
+import com.hotel.service.CustomerManager;
+import com.hotel.service.InvoiceManager;
+import com.hotel.service.RoomManager;
+import com.hotel.storage.DataStorage;
+
 /**
  * Frame chính của ứng dụng Quản lý Khách sạn
  * 
@@ -24,7 +30,17 @@ public class MainFrame extends JFrame {
     
     private JTabbedPane tabbedPane;
     private RoomPanel roomPanel;
+    private BookingPanel bookingPanel;
+    private CustomerPanel customerPanel;
+    private InvoicePanel invoicePanel;
     private JLabel statusBar;
+
+    // ==================== SERVICES ====================
+
+    private CustomerManager customerManager;
+    private BookingManager bookingManager;
+    private InvoiceManager invoiceManager;
+    private DataStorage dataStorage;
     
     // ==================== CONSTRUCTOR ====================
     
@@ -103,11 +119,21 @@ public class MainFrame extends JFrame {
         JMenu bookingMenu = new JMenu("📅 Đặt phòng");
         
         JMenuItem newBookingItem = new JMenuItem("➕ Đặt phòng mới");
-        newBookingItem.setEnabled(false); // Sẽ được Member 2 implement
+        newBookingItem.addActionListener(e -> {
+            tabbedPane.setSelectedIndex(1);
+            if (bookingPanel != null) {
+                bookingPanel.openAddDialogFromMenu();
+            }
+        });
         bookingMenu.add(newBookingItem);
         
         JMenuItem listBookingsItem = new JMenuItem("📋 Danh sách đặt phòng");
-        listBookingsItem.setEnabled(false);
+        listBookingsItem.addActionListener(e -> {
+            tabbedPane.setSelectedIndex(1);
+            if (bookingPanel != null) {
+                bookingPanel.refreshData();
+            }
+        });
         bookingMenu.add(listBookingsItem);
         
         menuBar.add(bookingMenu);
@@ -120,7 +146,12 @@ public class MainFrame extends JFrame {
         reportMenu.add(roomReportItem);
         
         JMenuItem revenueReportItem = new JMenuItem("💰 Báo cáo doanh thu");
-        revenueReportItem.setEnabled(false); // Member 2
+        revenueReportItem.addActionListener(e -> {
+            tabbedPane.setSelectedIndex(3);
+            if (invoicePanel != null) {
+                invoicePanel.showReportDialogFromMenu();
+            }
+        });
         reportMenu.add(revenueReportItem);
         
         menuBar.add(reportMenu);
@@ -147,18 +178,26 @@ public class MainFrame extends JFrame {
         // Tab 1: Room Management (Member 1)
         roomPanel = new RoomPanel();
         tabbedPane.addTab("🛏️ Quản lý Phòng", roomPanel);
+
+        // Shared services (Member 2)
+        RoomManager roomManager = RoomManager.getInstance();
+        customerManager = new CustomerManager();
+        bookingManager = new BookingManager(roomManager);
+        invoiceManager = new InvoiceManager(bookingManager);
+        dataStorage = new DataStorage(customerManager, bookingManager, invoiceManager, roomManager);
+        dataStorage.loadAllData();
         
-        // Tab 2: Booking Management (Placeholder for Member 2)
-        JPanel bookingPlaceholder = createPlaceholderPanel("Quản lý Đặt phòng", "Thành viên 2 sẽ implement phần này");
-        tabbedPane.addTab("📅 Đặt phòng", bookingPlaceholder);
+        // Tab 2: Booking Management (Member 2)
+        bookingPanel = new BookingPanel(customerManager, bookingManager, roomManager);
+        tabbedPane.addTab("📅 Đặt phòng", bookingPanel);
         
-        // Tab 3: Customer Management (Placeholder for Member 2)
-        JPanel customerPlaceholder = createPlaceholderPanel("Quản lý Khách hàng", "Thành viên 2 sẽ implement phần này");
-        tabbedPane.addTab("👥 Khách hàng", customerPlaceholder);
+        // Tab 3: Customer Management (Member 2)
+        customerPanel = new CustomerPanel(customerManager);
+        tabbedPane.addTab("👥 Khách hàng", customerPanel);
         
-        // Tab 4: Reports
-        JPanel reportPlaceholder = createPlaceholderPanel("Báo cáo & Thống kê", "Đang phát triển...");
-        tabbedPane.addTab("📊 Báo cáo", reportPlaceholder);
+        // Tab 4: Reports / Invoices (Member 2)
+        invoicePanel = new InvoicePanel(bookingManager, invoiceManager);
+        tabbedPane.addTab("📊 Báo cáo", invoicePanel);
         
         contentPanel.add(tabbedPane, BorderLayout.CENTER);
         
@@ -194,9 +233,18 @@ public class MainFrame extends JFrame {
     
     private void saveAllData() {
         setStatus("💾 Đang lưu dữ liệu...");
-        // RoomPanel will handle its own save
-        // Trigger save from RoomPanel
-        setStatus("✅ Đã lưu dữ liệu");
+        try {
+            if (roomPanel != null) {
+                roomPanel.saveRoomsData();
+            }
+            if (dataStorage != null) {
+                dataStorage.saveAllData();
+            }
+            setStatus("✅ Đã lưu dữ liệu");
+        } catch (Exception ex) {
+            setStatus("❌ Lỗi khi lưu dữ liệu");
+            JOptionPane.showMessageDialog(this, "Lỗi khi lưu dữ liệu: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     private void onExit() {

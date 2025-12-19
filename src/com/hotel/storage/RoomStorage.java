@@ -1,7 +1,7 @@
 package com.hotel.storage;
 
 import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
+
 import com.hotel.model.enums.RoomStatus;
 import com.hotel.model.enums.RoomType;
 import com.hotel.model.room.*;
@@ -26,13 +26,31 @@ public class RoomStorage implements IStorable {
     
     // ==================== CONSTANTS ====================
     
-    private static final String DEFAULT_DATA_DIR = "data";
+    private static final String DEFAULT_DATA_DIR = getDefaultDataDir();
     private static final String ROOMS_FILE = "rooms.json";
     
     // ==================== ATTRIBUTES ====================
     
     private final String dataDirectory;
     private final Gson gson;
+    
+    // ==================== HELPER METHODS ====================
+    
+    /**
+     * Lấy đường dẫn thư mục data - sử dụng user.dir nếu có, nếu không tạo mới
+     */
+    private static String getDefaultDataDir() {
+        // Thử tìm thư mục data từ project root
+        String userDir = System.getProperty("user.dir");
+        Path projectDataDir = Paths.get(userDir, "data");
+        
+        if (Files.exists(projectDataDir)) {
+            return projectDataDir.toString();
+        }
+        
+        // Nếu không tìm thấy, sử dụng "data" (đường dẫn tương đối)
+        return "data";
+    }
     
     // ==================== CONSTRUCTOR ====================
     
@@ -62,7 +80,7 @@ public class RoomStorage implements IStorable {
             try {
                 Files.createDirectories(path);
             } catch (IOException e) {
-                System.err.println("Không thể tạo thư mục dữ liệu: " + e.getMessage());
+                System.err.println("RoomStorage: Không thể tạo thư mục dữ liệu: " + e.getMessage());
             }
         }
     }
@@ -140,9 +158,11 @@ public class RoomStorage implements IStorable {
         try {
             String json = Files.readString(filePath, StandardCharsets.UTF_8);
             RoomDataWrapper wrapper = gson.fromJson(json, RoomDataWrapper.class);
-            return wrapper != null && wrapper.rooms != null ? wrapper.rooms : new ArrayList<>();
+            List<Room> result = wrapper != null && wrapper.rooms != null ? wrapper.rooms : new ArrayList<>();
+            return result;
         } catch (IOException | JsonSyntaxException e) {
-            System.err.println("Lỗi khi đọc file: " + e.getMessage());
+            System.err.println("RoomStorage: Lỗi khi đọc file: " + e.getMessage());
+            e.printStackTrace();
             return new ArrayList<>();
         }
     }
@@ -173,8 +193,6 @@ public class RoomStorage implements IStorable {
      */
     private static class RoomDataWrapper {
         List<Room> rooms;
-        String version = "2.0";
-        long lastModified = System.currentTimeMillis();
         
         RoomDataWrapper(List<Room> rooms) {
             this.rooms = rooms;

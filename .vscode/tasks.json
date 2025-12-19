@@ -1,0 +1,18 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Main (skip login)",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "$ErrorActionPreference = 'Stop'; Set-Location '${workspaceFolder}'; $repo = Join-Path $env:USERPROFILE '.m2\\repository'; $gson = Join-Path $repo 'com\\google\\code\\gson\\gson\\2.10.1\\gson-2.10.1.jar'; $flatlaf = Join-Path $repo 'com\\formdev\\flatlaf\\3.2.5\\flatlaf-3.2.5.jar'; if (!(Test-Path $gson) -or !(Test-Path $flatlaf)) { Write-Error 'Missing dependency jars. Run: mvn dependency:go-offline (or mvn test) to download.'; exit 1 }; $classes = if (Test-Path 'out\\com\\hotel\\Main.class') { 'out' } elseif (Test-Path 'target\\classes\\com\\hotel\\Main.class') { 'target\\classes' } else { Write-Error 'No compiled classes found. Build the project first (Maven or VS Code Java build).'; exit 1 }; $cp = "$classes;$gson;$flatlaf"; java -Djava.awt.headless=false -cp $cp com.hotel.Main --skip-login"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+[
+  {
+    "invoiceId": "INV001",
+    "bookingId": "BK001",
+    "invoiceDate": "2025-12-04",
+    "subtotal": 1500000.0,
+    "taxRate": 0.1,
+    "taxAmount": 150000.0,
+    "totalAmount": 1650000.0,
+    "status": "PAID",
+    "notes": "Test: paid invoice (counts revenue)"
+  },
+  {
+    "invoiceId": "INV002",
+    "bookingId": "BK002",
+    "invoiceDate": "2025-12-12",
+    "subtotal": 1100000.0,
+    "taxRate": 0.08,
+    "taxAmount": 88000.0,
+    "totalAmount": 1188000.0,
+    "status": "ISSUED",
+    "notes": "Test: issued, unpaid"
+  },
+  {
+    "invoiceId": "INV003",
+    "bookingId": "BK005",
+    "invoiceDate": "2025-11-07",
+    "subtotal": 4500000.0,
+    "taxRate": 0.1,
+    "taxAmount": 450000.0,
+    "totalAmount": 4950000.0,
+    "status": "CANCELLED",
+    "notes": "Test: cancelled invoice"
+  },
+  {
+    "invoiceId": "INV004",
+    "bookingId": "BK006",
+    "invoiceDate": "2025-12-16",
+    "subtotal": 9000000.0,
+    "taxRate": 0.1,
+    "taxAmount": 900000.0,
+    "totalAmount": 9900000.0,
+    "status": "DRAFT",
+    "notes": "Test: draft invoice"
+  }
+]

@@ -1,10 +1,20 @@
 package com.hotel.ui;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Frame đăng nhập hệ thống
@@ -16,13 +26,19 @@ public class LoginFrame extends JFrame {
     
     // ==================== CONSTANTS ====================
     
-    private static final String TITLE = "🏨 Đăng nhập - Hệ thống Quản lý Khách sạn";
-    private static final int WIDTH = 400;
+    private static final String TITLE = "Đăng nhập - Hệ thống Quản lý Khách sạn";
+    private static final int WIDTH = 480;
     private static final int HEIGHT = 300;
     
     // Default credentials (for demo)
     private static final String DEFAULT_USERNAME = "admin";
     private static final String DEFAULT_PASSWORD = "admin123";
+
+    private static final String DEFAULT_DATA_DIR = getDefaultDataDir();
+    private static final String USERS_FILE = Paths.get(DEFAULT_DATA_DIR, "users.json").toString();
+
+    private final Map<String, String> credentials = new HashMap<>();
+    private boolean credentialsLoaded = false;
     
     // ==================== COMPONENTS ====================
     
@@ -37,6 +53,14 @@ public class LoginFrame extends JFrame {
         initializeFrame();
         initializeUI();
     }
+
+    @Override
+    public void setVisible(boolean visible) {
+        super.setVisible(visible);
+        if (visible) {
+            focusUsernameField();
+        }
+    }
     
     // ==================== UI INITIALIZATION ====================
     
@@ -46,6 +70,73 @@ public class LoginFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
+
+        // When the window gains focus (first time or after Alt-Tab), focus the username field.
+        addWindowFocusListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowGainedFocus(java.awt.event.WindowEvent e) {
+                focusUsernameField();
+            }
+        });
+    }
+
+    private static String getDefaultDataDir() {
+        String userDir = System.getProperty("user.dir");
+        Path projectDataDir = Paths.get(userDir, "data");
+        if (Files.exists(projectDataDir)) {
+            return projectDataDir.toString();
+        }
+        return "data";
+    }
+
+    private void loadCredentialsIfNeeded() {
+        if (credentialsLoaded) return;
+        credentialsLoaded = true;
+
+        // Always keep the demo admin account as a fallback.
+        credentials.put(DEFAULT_USERNAME, DEFAULT_PASSWORD);
+
+        try {
+            Path usersPath = Paths.get(USERS_FILE);
+            if (!Files.exists(usersPath)) return;
+
+            String content = Files.readString(usersPath);
+            if (content == null || content.trim().isEmpty()) return;
+
+            JsonObject root = JsonParser.parseString(content).getAsJsonObject();
+            if (!root.has("users")) return;
+
+            JsonArray users = root.getAsJsonArray("users");
+            for (JsonElement el : users) {
+                if (!el.isJsonObject()) continue;
+                JsonObject u = el.getAsJsonObject();
+                if (!u.has("username") || !u.has("password")) continue;
+
+                String username = u.get("username").getAsString();
+                String password = u.get("password").getAsString();
+                if (username != null && !username.isBlank()) {
+                    credentials.put(username.trim(), password != null ? password : "");
+                }
+            }
+        } catch (Exception ignored) {
+            // If users.json is invalid/unreadable, fall back to demo admin.
+        }
+    }
+
+    private void focusUsernameField() {
+        SwingUtilities.invokeLater(() -> {
+            try {
+                toFront();
+                requestFocus();
+            } catch (Exception ignored) {
+                // Best-effort: some platforms may block focus stealing
+            }
+
+            if (usernameField != null) {
+                usernameField.requestFocusInWindow();
+                usernameField.selectAll();
+            }
+        });
     }
     
     private void initializeUI() {
@@ -54,7 +145,7 @@ public class LoginFrame extends JFrame {
         mainPanel.setBackground(new Color(240, 248, 255));
         
         // Header
-        JLabel headerLabel = new JLabel("🏨 ĐĂNG NHẬP HỆ THỐNG", SwingConstants.CENTER);
+        JLabel headerLabel = new JLabel("ĐĂNG NHẬP HỆ THỐNG", SwingConstants.CENTER);
         headerLabel.setFont(new Font("Arial", Font.BOLD, 18));
         headerLabel.setForeground(new Color(0, 51, 102));
         headerLabel.setBorder(new EmptyBorder(0, 0, 20, 0));
@@ -69,12 +160,14 @@ public class LoginFrame extends JFrame {
         
         // Username
         gbc.gridx = 0; gbc.gridy = 0;
-        JLabel userLabel = new JLabel("👤 Tên đăng nhập:");
+        gbc.weightx = 0;
+        JLabel userLabel = new JLabel("Tên đăng nhập:");
         userLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         formPanel.add(userLabel, gbc);
         
         gbc.gridx = 1;
-        usernameField = new JTextField(15);
+        gbc.weightx = 1.0;
+        usernameField = new JTextField(22);
         usernameField.setFont(new Font("Arial", Font.PLAIN, 14));
         usernameField.addKeyListener(new KeyAdapter() {
             @Override
@@ -88,12 +181,14 @@ public class LoginFrame extends JFrame {
         
         // Password
         gbc.gridx = 0; gbc.gridy = 1;
-        JLabel passLabel = new JLabel("🔒 Mật khẩu:");
+        gbc.weightx = 0;
+        JLabel passLabel = new JLabel("Mật khẩu:");
         passLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         formPanel.add(passLabel, gbc);
         
         gbc.gridx = 1;
-        passwordField = new JPasswordField(15);
+        gbc.weightx = 1.0;
+        passwordField = new JPasswordField(22);
         passwordField.setFont(new Font("Arial", Font.PLAIN, 14));
         passwordField.addKeyListener(new KeyAdapter() {
             @Override
@@ -119,7 +214,7 @@ public class LoginFrame extends JFrame {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
         buttonPanel.setOpaque(false);
         
-        loginButton = new JButton("🔑 Đăng nhập");
+        loginButton = new JButton("Đăng nhập");
         loginButton.setFont(new Font("Arial", Font.BOLD, 14));
         loginButton.setPreferredSize(new Dimension(150, 35));
         loginButton.setBackground(new Color(0, 102, 204));
@@ -127,23 +222,20 @@ public class LoginFrame extends JFrame {
         loginButton.setFocusPainted(false);
         loginButton.addActionListener(e -> performLogin());
         buttonPanel.add(loginButton);
+
+        getRootPane().setDefaultButton(loginButton);
         
-        JButton exitButton = new JButton("❌ Thoát");
+        JButton exitButton = new JButton("Thoát");
         exitButton.setFont(new Font("Arial", Font.PLAIN, 14));
         exitButton.setPreferredSize(new Dimension(100, 35));
         exitButton.addActionListener(e -> System.exit(0));
         buttonPanel.add(exitButton);
-        
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
-        
-        add(mainPanel);
-        
+
         // Hint label
-        JLabel hintLabel = new JLabel("💡 Demo: admin / admin123", SwingConstants.CENTER);
+        JLabel hintLabel = new JLabel("Demo: admin / admin123", SwingConstants.CENTER);
         hintLabel.setFont(new Font("Arial", Font.ITALIC, 10));
         hintLabel.setForeground(Color.GRAY);
         hintLabel.setBorder(new EmptyBorder(5, 0, 5, 0));
-        mainPanel.add(hintLabel, BorderLayout.SOUTH);
         
         // Rebuild button panel with hint
         JPanel southPanel = new JPanel(new BorderLayout());
@@ -151,6 +243,8 @@ public class LoginFrame extends JFrame {
         southPanel.add(buttonPanel, BorderLayout.CENTER);
         southPanel.add(hintLabel, BorderLayout.SOUTH);
         mainPanel.add(southPanel, BorderLayout.SOUTH);
+
+        add(mainPanel);
     }
     
     // ==================== LOGIN LOGIC ====================
@@ -161,20 +255,20 @@ public class LoginFrame extends JFrame {
         
         // Validation
         if (username.isEmpty()) {
-            showMessage("⚠️ Vui lòng nhập tên đăng nhập!", Color.ORANGE);
+            showMessage("Vui lòng nhập tên đăng nhập!", Color.ORANGE);
             usernameField.requestFocus();
             return;
         }
         
         if (password.isEmpty()) {
-            showMessage("⚠️ Vui lòng nhập mật khẩu!", Color.ORANGE);
+            showMessage("Vui lòng nhập mật khẩu!", Color.ORANGE);
             passwordField.requestFocus();
             return;
         }
         
         // Check credentials (simple demo authentication)
         if (authenticate(username, password)) {
-            showMessage("✅ Đăng nhập thành công!", new Color(0, 128, 0));
+            showMessage("Đăng nhập thành công!", new Color(0, 128, 0));
             
             // Open Main Frame
             SwingUtilities.invokeLater(() -> {
@@ -183,7 +277,7 @@ public class LoginFrame extends JFrame {
                 dispose(); // Close login frame
             });
         } else {
-            showMessage("❌ Sai tên đăng nhập hoặc mật khẩu!", Color.RED);
+            showMessage("Sai tên đăng nhập hoặc mật khẩu!", Color.RED);
             passwordField.setText("");
             passwordField.requestFocus();
         }
@@ -194,8 +288,9 @@ public class LoginFrame extends JFrame {
      * Trong thực tế sẽ kiểm tra từ database/file
      */
     private boolean authenticate(String username, String password) {
-        // Simple authentication for demo
-        return DEFAULT_USERNAME.equals(username) && DEFAULT_PASSWORD.equals(password);
+        loadCredentialsIfNeeded();
+        String expected = credentials.get(username);
+        return expected != null && expected.equals(password);
     }
     
     private void showMessage(String message, Color color) {
