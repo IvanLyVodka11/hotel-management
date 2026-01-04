@@ -646,7 +646,128 @@ src/com/hotel/
 | `RoomStorage` | Load/Save rooms.json, users.json |
 | `DataStorage` | Load/Save customers.json, bookings.json, invoices.json |
 
-## 4.3 Các nguyên lý OOP được áp dụng
+## 4.3 Truy cập và làm việc với Cơ sở dữ liệu
+
+### 4.3.1 Kiến trúc lưu trữ dữ liệu
+
+Hệ thống sử dụng **JSON files** làm cơ sở dữ liệu thay vì RDBMS truyền thống (MySQL, PostgreSQL). Lý do:
+
+| Tiêu chí | JSON Files | RDBMS |
+|----------|------------|-------|
+| **Độ phức tạp** | Đơn giản, không cần cài đặt server | Cần cài đặt, cấu hình |
+| **Phù hợp đồ án** | ✅ Phù hợp quy mô nhỏ | Quá phức tạp |
+| **Portable** | File đi kèm project | Cần export/import database |
+| **Học tập OOP** | Tập trung vào logic OOP | Phân tán sang SQL |
+
+### 4.3.2 Sơ đồ luồng dữ liệu
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        UI LAYER                                 │
+│   (RoomPanel, BookingPanel, CustomerPanel, InvoicePanel)        │
+└─────────────────────────────┬───────────────────────────────────┘
+                              │ gọi methods
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                     SERVICE LAYER                               │
+│         (RoomManager, BookingManager, CustomerManager)          │
+│                                                                 │
+│   - Xử lý business logic                                        │
+│   - Validate dữ liệu                                            │
+│   - Gọi Storage để lưu/tải                                      │
+└─────────────────────────────┬───────────────────────────────────┘
+                              │ gọi save()/load()
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                     STORAGE LAYER                               │
+│              (RoomStorage, DataStorage)                         │
+│                                                                 │
+│   - Serialize Object → JSON (Gson)                              │
+│   - Deserialize JSON → Object                                   │
+│   - Đọc/ghi file                                                │
+└─────────────────────────────┬───────────────────────────────────┘
+                              │ read/write
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                     DATA FILES (JSON)                           │
+│   rooms.json | customers.json | bookings.json | invoices.json   │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### 4.3.3 Cơ chế hoạt động của Storage
+
+**1. Serialize (Lưu dữ liệu):**
+```java
+// Trong RoomStorage.java
+public boolean saveRooms(List<Room> rooms) {
+    Gson gson = new GsonBuilder()
+        .setPrettyPrinting()
+        .registerTypeAdapter(Room.class, new RoomTypeAdapter())
+        .create();
+    
+    String json = gson.toJson(wrapper);  // Object → JSON String
+    Files.writeString(path, json);       // Ghi ra file
+}
+```
+
+**2. Deserialize (Tải dữ liệu):**
+```java
+// Trong DataStorage.java
+public void loadCustomers() {
+    String content = readFile(CUSTOMERS_FILE);        // Đọc file
+    JsonArray jsonArray = JsonParser.parseString(content).getAsJsonArray();
+    
+    for (JsonElement element : jsonArray) {
+        Customer customer = parseCustomer(element);   // JSON → Object
+        customerManager.add(customer);
+    }
+}
+```
+
+### 4.3.4 Xử lý Polymorphism trong JSON (Room Types)
+
+Vì `Room` là abstract class với nhiều subclass, cần `TypeAdapter` đặc biệt:
+
+```java
+// RoomTypeAdapter - xử lý serialize/deserialize cho Room hierarchy
+public class RoomTypeAdapter extends TypeAdapter<Room> {
+    @Override
+    public void write(JsonWriter out, Room room) {
+        // Lưu thêm trường "type" để biết loại phòng
+        out.name("type").value(room.getRoomType().name());
+        out.name("roomId").value(room.getRoomId());
+        // ... các trường khác
+    }
+    
+    @Override
+    public Room read(JsonReader in) {
+        // Đọc "type" để tạo đúng loại Room
+        String type = ...;
+        return RoomFactory.createRoom(RoomType.valueOf(type), ...);
+    }
+}
+```
+
+### 4.3.5 Cấu trúc các file JSON
+
+| File | Nội dung | Ví dụ |
+|------|----------|-------|
+| `rooms.json` | Danh sách phòng | `{"rooms": [{"roomId": "R101", "type": "STANDARD", ...}]}` |
+| `customers.json` | Danh sách khách hàng | `[{"customerId": "CUST001", "fullName": "Nguyen Van A", ...}]` |
+| `bookings.json` | Danh sách đặt phòng | `[{"bookingId": "BK001", "customerId": "CUST001", ...}]` |
+| `invoices.json` | Danh sách hóa đơn | `[{"invoiceId": "INV001", "bookingId": "BK001", ...}]` |
+| `users.json` | Tài khoản đăng nhập | `{"users": [{"username": "admin", "role": "ADMIN", ...}]}` |
+
+### 4.3.6 Ưu điểm của thiết kế Storage Layer
+
+| Ưu điểm | Giải thích |
+|---------|------------|
+| **Tách biệt** | UI không biết dữ liệu lưu ở đâu (có thể đổi sang DB sau) |
+| **Dễ test** | Có thể mock Storage để test Manager |
+| **Human-readable** | File JSON có thể đọc/sửa bằng text editor |
+| **Version control** | File JSON có thể commit lên Git |
+
+## 4.4 Các nguyên lý OOP được áp dụng
 
 | Nguyên lý | Áp dụng trong dự án |
 |-----------|---------------------|
@@ -655,7 +776,7 @@ src/com/hotel/
 | **Polymorphism** | `calculatePrice()` trả về giá khác nhau cho từng loại phòng |
 | **Abstraction** | Abstract class `Room`; Interface `IManageable`, `ISearchable`, `IStorable` |
 
-## 4.4 Design Patterns sử dụng
+## 4.5 Design Patterns sử dụng
 
 | Pattern | Áp dụng | Lý do |
 |---------|---------|-------|
