@@ -1,0 +1,12 @@
+﻿giới thiệu bối cảnh & bài toán->đặc tả actor và các nghiệp vụ quan trọng/phức tạp nhất->Use case tổng quan của hệ thống-> đặc tả các use case quan trọng/phức tạp nhất đặc thù về nghiệp vụ -> phân tích use case đó và sequence diagram ->chia thành bao nhiêu lớp đối tượng  (tại sao đưa ra các class như thế này)-> mỗi đối tượng chịu trách nghiệm gì-> từ đó có class và cấu trúc-> sang phần thiết kế (có thêm các class khác như kiểu cơ sở dữ liệu do sử dụng thêm các công nghệ,…) ....->phần cuối:tổ chức và thiết kế thành bao nhiêu file mã nguồn -> tổ chức và thiết kế thế nào, tại sao nó hợp lý, công nghệ sử dụng,...
+1 số lưu ý:
+đặc tả: tương tác giữa người dùng với hệ thống 
+use case: chức năng đạt được mục tiêu của actor 
+thiết kế ko cần phải làm hết các loai diagram vì rất tốn tài nguyên, cái nào quan trọng thì làm ví dụ như usecase nghiệp vụ quan trọng nhất,..
+vận dụng các kiến thức thiết kế class: ví dụ tổng quát hóa,...
+1.tóm tắt đề tài
+phân tích nghiệp vụ cho hợp lý 
+2.use case (đừng nhỏ quá cũng đừng lớn quá) là phải đáp ứng đạt được mục đích, không phải quá trình
+3.phân rã usecase để ra các class
+4. entity thì chỉ có CRUD
+5.truy cập đến cơ sở dữ liệu thì như nào (làm việc với csdl?)

@@ -33,6 +33,13 @@
             <version>3.2.5</version>
         </dependency>
         
+        <!-- FlatLaf Extras - Icons and additional components -->
+        <dependency>
+            <groupId>com.formdev</groupId>
+            <artifactId>flatlaf-extras</artifactId>
+            <version>3.2.5</version>
+        </dependency>
+        
         <!-- JUnit 5 for Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

@@ -3,7 +3,6 @@ package com.hotel;
 import com.hotel.ui.LoginFrame;
 import com.hotel.ui.MainFrame;
 
-
 import javax.swing.*;
 
 /**
@@ -13,16 +12,12 @@ import javax.swing.*;
  * @version 1.0
  */
 public class Main {
-
+    
     /**
      * Main method - Entry point
-     * 
      * @param args Command line arguments
      */
     public static void main(String[] args) {
-        // Set font to support emoji
-        setUIFont(new javax.swing.plaf.FontUIResource("Segoe UI Emoji", java.awt.Font.PLAIN, 13));
-
         // Set Look and Feel
         try {
             // Try to use FlatLaf for modern look
@@ -35,12 +30,12 @@ public class Main {
                 // Use default
             }
         }
-
+        
         // Run on Event Dispatch Thread
         SwingUtilities.invokeLater(() -> {
             // Check if we should skip login (for development)
             boolean skipLogin = args.length > 0 && "--skip-login".equals(args[0]);
-
+            
             if (skipLogin) {
                 // Go directly to main frame
                 MainFrame mainFrame = new MainFrame();
@@ -54,7 +49,8 @@ public class Main {
     }
 
     /**
-     * Set default font for all Swing components
+     * Sets the default font for all Swing components
+     * @param f The font resource to set
      */
     private static void setUIFont(javax.swing.plaf.FontUIResource f) {
         java.util.Enumeration<Object> keys = UIManager.getDefaults().keys();

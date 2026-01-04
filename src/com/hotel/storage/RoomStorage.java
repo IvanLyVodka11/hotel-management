@@ -6,6 +6,7 @@ import com.hotel.model.enums.RoomStatus;
 import com.hotel.model.enums.RoomType;
 import com.hotel.model.room.*;
 import com.hotel.service.interfaces.IStorable;
+import com.hotel.util.AppLogger;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -23,19 +24,19 @@ import java.util.List;
  * @version 2.0
  */
 public class RoomStorage implements IStorable {
-    
+
     // ==================== CONSTANTS ====================
-    
+
     private static final String DEFAULT_DATA_DIR = getDefaultDataDir();
     private static final String ROOMS_FILE = "rooms.json";
-    
+
     // ==================== ATTRIBUTES ====================
-    
+
     private final String dataDirectory;
     private final Gson gson;
-    
+
     // ==================== HELPER METHODS ====================
-    
+
     /**
      * Lấy đường dẫn thư mục data - sử dụng user.dir nếu có, nếu không tạo mới
      */
@@ -43,27 +44,27 @@ public class RoomStorage implements IStorable {
         // Thử tìm thư mục data từ project root
         String userDir = System.getProperty("user.dir");
         Path projectDataDir = Paths.get(userDir, "data");
-        
+
         if (Files.exists(projectDataDir)) {
             return projectDataDir.toString();
         }
-        
+
         // Nếu không tìm thấy, sử dụng "data" (đường dẫn tương đối)
         return "data";
     }
-    
+
     // ==================== CONSTRUCTOR ====================
-    
+
     public RoomStorage() {
         this(DEFAULT_DATA_DIR);
     }
-    
+
     public RoomStorage(String dataDirectory) {
         this.dataDirectory = dataDirectory;
         this.gson = createGson();
         ensureDataDirectoryExists();
     }
-    
+
     /**
      * Tạo Gson instance với custom adapter cho Room polymorphism
      */
@@ -73,145 +74,156 @@ public class RoomStorage implements IStorable {
                 .registerTypeAdapter(Room.class, new RoomTypeAdapter())
                 .create();
     }
-    
+
     private void ensureDataDirectoryExists() {
         Path path = Paths.get(dataDirectory);
         if (!Files.exists(path)) {
             try {
                 Files.createDirectories(path);
+                AppLogger.info("Đã tạo thư mục dữ liệu: %s", dataDirectory);
             } catch (IOException e) {
-                System.err.println("RoomStorage: Không thể tạo thư mục dữ liệu: " + e.getMessage());
+                AppLogger.error("Không thể tạo thư mục dữ liệu: " + dataDirectory, e);
             }
         }
     }
-    
+
     // ==================== IStorable IMPLEMENTATION ====================
-    
+
     @Override
     @SuppressWarnings("unchecked")
     public <T> boolean save(List<T> data) {
-        if (data == null) return false;
+        if (data == null)
+            return false;
         try {
             List<Room> rooms = (List<Room>) data;
             return saveRooms(rooms);
         } catch (ClassCastException e) {
-            System.err.println("Dữ liệu không đúng định dạng Room: " + e.getMessage());
+            AppLogger.error("Invalid data format for Room save", e);
             return false;
         }
     }
-    
+
     @Override
     @SuppressWarnings("unchecked")
     public <T> List<T> load() {
         return (List<T>) loadRooms();
     }
-    
+
     @Override
     public String getFilePath() {
         return Paths.get(dataDirectory, ROOMS_FILE).toString();
     }
-    
+
     @Override
     public boolean exists() {
         return Files.exists(Paths.get(getFilePath()));
     }
-    
+
     @Override
     public boolean delete() {
         try {
-            return Files.deleteIfExists(Paths.get(getFilePath()));
+            boolean deleted = Files.deleteIfExists(Paths.get(getFilePath()));
+            if (deleted) {
+                AppLogger.info("Đã xóa file: %s", getFilePath());
+            }
+            return deleted;
         } catch (IOException e) {
-            System.err.println("Không thể xóa file: " + e.getMessage());
+            AppLogger.error("Không thể xóa file: " + getFilePath(), e);
             return false;
         }
     }
-    
+
     // ==================== SPECIFIC METHODS ====================
-    
+
     /**
      * Lưu danh sách phòng vào file JSON
      */
     public boolean saveRooms(List<Room> rooms) {
-        if (rooms == null) return false;
-        
+        if (rooms == null)
+            return false;
+
         try {
             RoomDataWrapper wrapper = new RoomDataWrapper(rooms);
             String json = gson.toJson(wrapper);
             Files.writeString(Paths.get(getFilePath()), json, StandardCharsets.UTF_8);
+            AppLogger.info("Saved %d rooms to %s", rooms.size(), getFilePath());
             return true;
         } catch (IOException e) {
-            System.err.println("Lỗi khi lưu file: " + e.getMessage());
+            AppLogger.error("Error saving rooms to file", e);
             return false;
         }
     }
-    
+
     /**
      * Đọc danh sách phòng từ file JSON
      */
     public List<Room> loadRooms() {
         Path filePath = Paths.get(getFilePath());
-        
+
         if (!Files.exists(filePath)) {
+            AppLogger.debug("Room data file does not exist: %s", filePath);
             return new ArrayList<>();
         }
-        
+
         try {
             String json = Files.readString(filePath, StandardCharsets.UTF_8);
             RoomDataWrapper wrapper = gson.fromJson(json, RoomDataWrapper.class);
             List<Room> result = wrapper != null && wrapper.rooms != null ? wrapper.rooms : new ArrayList<>();
+            AppLogger.info("Loaded %d rooms from %s", result.size(), filePath);
             return result;
         } catch (IOException | JsonSyntaxException e) {
-            System.err.println("RoomStorage: Lỗi khi đọc file: " + e.getMessage());
-            e.printStackTrace();
+            AppLogger.error("Error loading rooms from file: " + filePath, e);
             return new ArrayList<>();
         }
     }
-    
+
     /**
      * Backup file dữ liệu
      */
     public boolean backup() {
         Path source = Paths.get(getFilePath());
-        if (!Files.exists(source)) return false;
-        
+        if (!Files.exists(source))
+            return false;
+
         String backupFileName = "rooms_backup_" + System.currentTimeMillis() + ".json";
         Path backup = Paths.get(dataDirectory, backupFileName);
-        
+
         try {
             Files.copy(source, backup, StandardCopyOption.REPLACE_EXISTING);
+            AppLogger.info("Created backup: %s", backup);
             return true;
         } catch (IOException e) {
-            System.err.println("Lỗi khi backup: " + e.getMessage());
+            AppLogger.error("Error creating backup", e);
             return false;
         }
     }
-    
+
     // ==================== INNER CLASSES ====================
-    
+
     /**
      * Wrapper class cho JSON structure
      */
     private static class RoomDataWrapper {
         List<Room> rooms;
-        
+
         RoomDataWrapper(List<Room> rooms) {
             this.rooms = rooms;
         }
     }
-    
+
     /**
      * Custom TypeAdapter để xử lý polymorphism của Room
      * Gson cần biết cách serialize/deserialize các subclass của Room
      */
     private static class RoomTypeAdapter implements JsonSerializer<Room>, JsonDeserializer<Room> {
-        
+
         @Override
         public JsonElement serialize(Room room, Type typeOfSrc, JsonSerializationContext context) {
             JsonObject json = new JsonObject();
-            
+
             // Lưu loại phòng để biết deserialize thành class nào
             json.addProperty("roomType", room.getRoomType().name());
-            
+
             // Thuộc tính chung
             json.addProperty("roomId", room.getRoomId());
             json.addProperty("floor", room.getFloor());
@@ -220,7 +232,7 @@ public class RoomStorage implements IStorable {
             json.addProperty("description", room.getDescription());
             json.addProperty("bedCount", room.getBedCount());
             json.addProperty("area", room.getArea());
-            
+
             // Thuộc tính riêng của từng loại phòng
             if (room instanceof VIPRoom) {
                 VIPRoom vip = (VIPRoom) room;
@@ -234,18 +246,18 @@ public class RoomStorage implements IStorable {
                 json.addProperty("hasMinibar", deluxe.hasMinibar());
                 json.addProperty("hasLivingRoom", deluxe.hasLivingRoom());
             }
-            
+
             return json;
         }
-        
+
         @Override
-        public Room deserialize(JsonElement jsonElement, Type typeOfT, 
-                                JsonDeserializationContext context) throws JsonParseException {
+        public Room deserialize(JsonElement jsonElement, Type typeOfT,
+                JsonDeserializationContext context) throws JsonParseException {
             JsonObject json = jsonElement.getAsJsonObject();
-            
+
             // Đọc loại phòng
             RoomType roomType = RoomType.valueOf(json.get("roomType").getAsString());
-            
+
             // Đọc thuộc tính chung
             String roomId = json.get("roomId").getAsString();
             int floor = json.get("floor").getAsInt();
@@ -254,7 +266,7 @@ public class RoomStorage implements IStorable {
             String description = getStringOrDefault(json, "description", "");
             int bedCount = getIntOrDefault(json, "bedCount", 1);
             double area = getDoubleOrDefault(json, "area", 20.0);
-            
+
             // Tạo đối tượng theo loại phòng
             Room room;
             switch (roomType) {
@@ -277,24 +289,24 @@ public class RoomStorage implements IStorable {
                     room = new StandardRoom(roomId, floor, basePrice, description, bedCount, area);
                     break;
             }
-            
+
             room.setStatus(status);
             return room;
         }
-        
+
         // Helper methods để xử lý null-safe
         private String getStringOrDefault(JsonObject json, String key, String defaultValue) {
             return json.has(key) && !json.get(key).isJsonNull() ? json.get(key).getAsString() : defaultValue;
         }
-        
+
         private int getIntOrDefault(JsonObject json, String key, int defaultValue) {
             return json.has(key) && !json.get(key).isJsonNull() ? json.get(key).getAsInt() : defaultValue;
         }
-        
+
         private double getDoubleOrDefault(JsonObject json, String key, double defaultValue) {
             return json.has(key) && !json.get(key).isJsonNull() ? json.get(key).getAsDouble() : defaultValue;
         }
-        
+
         private boolean getBooleanOrDefault(JsonObject json, String key, boolean defaultValue) {
             return json.has(key) && !json.get(key).isJsonNull() ? json.get(key).getAsBoolean() : defaultValue;
         }

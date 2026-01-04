@@ -77,6 +77,13 @@ hotel-management/
 └── pom.xml                        # Maven config
 ```
 
+## 📄 Tài liệu dự án
+
+> **📘 Tài liệu đầy đủ:** [BaoCao_HotelManagement.md](docs/BaoCao_HotelManagement.md)
+>
+> Báo cáo tổng hợp bao gồm: Use Case Diagram, Đặc tả Use Case, Sequence Diagram, Class Diagram, và hướng dẫn chi tiết.
+
+
 ## 🚀 Hướng dẫn chạy
 
 ### Yêu cầu
@@ -204,19 +211,29 @@ Ghi chú: Đã tích hợp UI vào MainFrame (tab Đặt phòng/Khách hàng/Bá
   - ✅ Type mismatches đã được khắc phục
   - ✅ 8 files compiled successfully
 
-## 📚 Tài liệu chi tiết (Thành viên 2)
+## 📚 Tài liệu chi tiết
 
-### Backlog & Planning
-- [03_BACKLOG_MEMBER2.md](docs/03_BACKLOG_MEMBER2.md) - Chi tiết Sprint planning, user stories, tasks
+📘 **[Báo cáo đầy đủ - BaoCao_HotelManagement.md](docs/BaoCao_HotelManagement.md)** - Tài liệu tổng hợp bao gồm:
+- Chương 1: Giới thiệu bối cảnh và bài toán
+- Chương 2: Phân tích yêu cầu (Use Case, Sequence Diagram, Đặc tả chi tiết)
+- Chương 3: Thiết kế hệ thống (Kiến trúc MVC, Class Diagram)
+- Chương 4: Thiết kế chi tiết các lớp
+- Chương 5: Tổ chức mã nguồn
+- Chương 6: Hướng dẫn sử dụng
 
-### Implementation Summary
-- [04_MEMBER2_SUMMARY.md](docs/04_MEMBER2_SUMMARY.md) - Tóm tắt các tính năng, phương thức, thống kê code
+<details>
+<summary>📁 Các file tài liệu gốc (đã tổng hợp)</summary>
 
-### Architecture & Design
-- [05_CLASS_DIAGRAM_MEMBER2.md](docs/05_CLASS_DIAGRAM_MEMBER2.md) - UML diagrams, entity relationships, data flow
+| File | Mô tả |
+|------|-------|
+| [01_TECHNICAL_DESIGN.md](docs/01_TECHNICAL_DESIGN.md) | Thiết kế kỹ thuật |
+| [02_BACKLOG_MEMBER1.md](docs/02_BACKLOG_MEMBER1.md) | Backlog thành viên 1 |
+| [03_BACKLOG_MEMBER2.md](docs/03_BACKLOG_MEMBER2.md) | Backlog thành viên 2 |
+| [04_MEMBER2_SUMMARY.md](docs/04_MEMBER2_SUMMARY.md) | Tổng kết thành viên 2 |
+| [05_CLASS_DIAGRAM_MEMBER2.md](docs/05_CLASS_DIAGRAM_MEMBER2.md) | Class diagram |
+| [06_USER_GUIDE_MEMBER2.md](docs/06_USER_GUIDE_MEMBER2.md) | Hướng dẫn sử dụng API |
 
-### User Guide
-- [06_USER_GUIDE_MEMBER2.md](docs/06_USER_GUIDE_MEMBER2.md) - Hướng dẫn sử dụng API, code examples
+</details>
 
 ## 📊 Loại phòng
 

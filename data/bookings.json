@@ -2,61 +2,31 @@
   {
     "bookingId": "BK001",
     "customerId": "CUST001",
-    "roomId": "R101",
-    "checkInDate": "2025-12-01",
-    "checkOutDate": "2025-12-04",
-    "status": "CHECKED_OUT",
-    "totalPrice": 1500000.0,
-    "notes": "Test: checked out (creates revenue)"
+    "roomId": "R201",
+    "checkInDate": "2025-12-15",
+    "checkOutDate": "2025-12-18",
+    "status": "CHECKED_IN",
+    "totalPrice": 3600000.0,
+    "notes": "Khách VIP - Ưu tiên phục vụ"
   },
   {
     "bookingId": "BK002",
     "customerId": "CUST002",
-    "roomId": "R103",
-    "checkInDate": "2025-12-10",
-    "checkOutDate": "2025-12-12",
-    "status": "CHECKED_OUT",
-    "totalPrice": 1100000.0,
-    "notes": "Test: completed booking in Dec"
+    "roomId": "R101",
+    "checkInDate": "2025-12-20",
+    "checkOutDate": "2025-12-22",
+    "status": "PENDING",
+    "totalPrice": 1000000.0,
+    "notes": ""
   },
   {
     "bookingId": "BK003",
     "customerId": "CUST003",
-    "roomId": "R201",
-    "checkInDate": "2025-12-15",
-    "checkOutDate": "2025-12-18",
-    "status": "CONFIRMED",
-    "totalPrice": 3600000.0,
-    "notes": "Test: confirmed (not yet checked in)"
-  },
-  {
-    "bookingId": "BK004",
-    "customerId": "CUST004",
-    "roomId": "R203",
-    "checkInDate": "2025-12-20",
-    "checkOutDate": "2025-12-23",
-    "status": "PENDING",
-    "totalPrice": 4320000.0,
-    "notes": "Test: pending confirmation"
-  },
-  {
-    "bookingId": "BK005",
-    "customerId": "CUST005",
-    "roomId": "R301",
-    "checkInDate": "2025-11-05",
-    "checkOutDate": "2025-11-07",
-    "status": "CANCELLED",
-    "totalPrice": 4500000.0,
-    "notes": "Test: cancelled (no revenue)"
-  },
-  {
-    "bookingId": "BK006",
-    "customerId": "CUST002",
     "roomId": "R303",
-    "checkInDate": "2025-12-25",
-    "checkOutDate": "2025-12-28",
-    "status": "CHECKED_IN",
-    "totalPrice": 9000000.0,
-    "notes": "Test: checked in (occupying)"
+    "checkInDate": "2025-12-10",
+    "checkOutDate": "2025-12-14",
+    "status": "CHECKED_OUT",
+    "totalPrice": 1.2E7,
+    "notes": "Đã trả phòng"
   }
 ]

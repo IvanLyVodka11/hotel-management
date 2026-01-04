@@ -28,26 +28,26 @@ public class AddBookingDialog extends JDialog {
     private final CustomerManager customerManager;
     private final RoomManager roomManager;
     private JButton saveBtn;
-    
+
     public AddBookingDialog(BookingPanel parentPanel, BookingManager bookingManager,
-                           CustomerManager customerManager, RoomManager roomManager) {
+            CustomerManager customerManager, RoomManager roomManager) {
         super((Frame) SwingUtilities.getWindowAncestor(parentPanel), "Thêm đặt phòng", true);
         this.parentPanel = parentPanel;
         this.bookingManager = bookingManager;
         this.customerManager = customerManager;
         this.roomManager = roomManager;
         this.bookingManager.setRoomManager(roomManager);
-        
+
         initializeUI();
         setSize(500, 350);
         setLocationRelativeTo(null);
     }
-    
+
     private void initializeUI() {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(5, 2, 10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-        
+
         // Customer
         mainPanel.add(new JLabel("Khách hàng:"));
         customerCombo = new JComboBox<>();
@@ -55,43 +55,47 @@ public class AddBookingDialog extends JDialog {
             customerCombo.addItem(customer.getCustomerId() + " - " + customer.getFullName());
         }
         mainPanel.add(customerCombo);
-        
-        // Room
-        mainPanel.add(new JLabel("Phòng:"));
-        roomCombo = new JComboBox<>();
-        refreshAvailableRooms();
-        mainPanel.add(roomCombo);
-        
-        // Check-in
+
+        // Check-in (tạo trước Room để dùng cho filter)
         mainPanel.add(new JLabel("Check-in:"));
         SpinnerDateModel checkInModel = new SpinnerDateModel();
         checkInModel.setValue(new java.util.Date());
         checkInSpinner = new JSpinner(checkInModel);
         checkInSpinner.setEditor(new JSpinner.DateEditor(checkInSpinner, "dd/MM/yyyy"));
         mainPanel.add(checkInSpinner);
-        
+
         // Check-out
         mainPanel.add(new JLabel("Check-out:"));
         SpinnerDateModel checkOutModel = new SpinnerDateModel();
-        checkOutModel.setValue(new java.util.Date());
+        // Mặc định checkout là ngày mai
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.add(java.util.Calendar.DAY_OF_MONTH, 1);
+        checkOutModel.setValue(cal.getTime());
         checkOutSpinner = new JSpinner(checkOutModel);
         checkOutSpinner.setEditor(new JSpinner.DateEditor(checkOutSpinner, "dd/MM/yyyy"));
         mainPanel.add(checkOutSpinner);
 
+        // Room (tạo sau spinners)
+        mainPanel.add(new JLabel("Phòng:"));
+        roomCombo = new JComboBox<>();
+        refreshAvailableRooms(); // Bây giờ spinners đã được khởi tạo
+        mainPanel.add(roomCombo);
+
+        // Listener để refresh rooms khi thay đổi ngày
         ChangeListener refreshRoomsListener = e -> refreshAvailableRooms();
         checkInSpinner.addChangeListener(refreshRoomsListener);
         checkOutSpinner.addChangeListener(refreshRoomsListener);
-        
+
         // Buttons
         JPanel buttonPanel = new JPanel();
         saveBtn = new JButton("Lưu");
         saveBtn.addActionListener(e -> saveBooking());
         buttonPanel.add(saveBtn);
-        
+
         JButton cancelBtn = new JButton("Hủy");
         cancelBtn.addActionListener(e -> dispose());
         buttonPanel.add(cancelBtn);
-        
+
         add(mainPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
     }
@@ -99,7 +103,8 @@ public class AddBookingDialog extends JDialog {
     private void refreshAvailableRooms() {
         roomCombo.removeAllItems();
         if (roomManager == null || bookingManager == null) {
-            if (saveBtn != null) saveBtn.setEnabled(false);
+            if (saveBtn != null)
+                saveBtn.setEnabled(false);
             return;
         }
 
@@ -108,7 +113,8 @@ public class AddBookingDialog extends JDialog {
 
         boolean datesOk = checkIn != null && checkOut != null && checkOut.isAfter(checkIn);
         if (!datesOk) {
-            if (saveBtn != null) saveBtn.setEnabled(false);
+            if (saveBtn != null)
+                saveBtn.setEnabled(false);
             return;
         }
 
@@ -118,24 +124,27 @@ public class AddBookingDialog extends JDialog {
                 .toList();
 
         for (Room room : rooms) {
-            roomCombo.addItem(room.getRoomId() + " - " + room.getRoomType().getDisplayName() + " - " + room.getStatus().getDisplayName());
+            roomCombo.addItem(room.getRoomId() + " - " + room.getRoomType().getDisplayName() + " - "
+                    + room.getStatus().getDisplayName());
         }
 
-        if (saveBtn != null) saveBtn.setEnabled(roomCombo.getItemCount() > 0);
+        if (saveBtn != null)
+            saveBtn.setEnabled(roomCombo.getItemCount() > 0);
     }
 
     private LocalDate toLocalDate(Date date) {
-        if (date == null) return null;
+        if (date == null)
+            return null;
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
-    
+
     private void saveBooking() {
         if (customerCombo.getSelectedItem() == null || roomCombo.getSelectedItem() == null) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng và phòng!", "Lỗi", 
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng và phòng!", "Lỗi",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         try {
             String customerId = ((String) customerCombo.getSelectedItem()).split(" - ")[0];
             Customer customer = customerManager.getById(customerId);
@@ -149,7 +158,7 @@ public class AddBookingDialog extends JDialog {
             if (checkIn == null || checkOut == null || !checkOut.isAfter(checkIn)) {
                 throw new Exception("Ngày check-out phải sau ngày check-in");
             }
-            
+
             if (customer == null) {
                 throw new Exception("Khách hàng không tồn tại");
             }
@@ -176,12 +185,12 @@ public class AddBookingDialog extends JDialog {
             // Mark room as reserved (visual status)
             room.setStatus(RoomStatus.RESERVED);
             roomManager.update(room);
-            
+
             JOptionPane.showMessageDialog(this, "Tạo đặt phòng thành công!");
             parentPanel.refreshData();
             dispose();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Lỗi: " + ex.getMessage(), "Lỗi", 
+            JOptionPane.showMessageDialog(this, "Lỗi: " + ex.getMessage(), "Lỗi",
                     JOptionPane.ERROR_MESSAGE);
         }
     }

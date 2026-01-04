@@ -10,10 +10,42 @@
     },
     {
       "id": "U002",
+      "username": "manager",
+      "password": "manager123",
+      "name": "Nguyễn Văn Quản Lý",
+      "phone": "0912345678",
+      "role": "MANAGER"
+    },
+    {
+      "id": "U003",
       "username": "staff1",
       "password": "staff123",
-      "name": "Nhân viên 1",
+      "name": "Trần Thị Lễ Tân",
       "phone": "0907654321",
+      "role": "STAFF"
+    },
+    {
+      "id": "U004",
+      "username": "staff2",
+      "password": "staff123",
+      "name": "Lê Văn Nhân Viên",
+      "phone": "0908765432",
+      "role": "STAFF"
+    },
+    {
+      "id": "U005",
+      "username": "service",
+      "password": "service123",
+      "name": "Phạm Thị Dịch Vụ",
+      "phone": "0909876543",
+      "role": "SERVICE"
+    },
+    {
+      "id": "U006",
+      "username": "test",
+      "password": "test",
+      "name": "Tài khoản Test",
+      "phone": "0999999999",
       "role": "STAFF"
     }
   ],

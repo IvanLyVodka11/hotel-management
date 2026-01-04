@@ -76,7 +76,7 @@ public class InvoicePanel extends JPanel {
         
         // Search panel
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        searchPanel.add(new JLabel("🔍 Tìm kiếm:"));
+        searchPanel.add(new JLabel("Tim kiem:"));
         searchField = new JTextField(15);
         searchField.addActionListener(e -> performSearch());
         searchPanel.add(searchField);
@@ -119,11 +119,11 @@ public class InvoicePanel extends JPanel {
     private JPanel createButtonPanel() {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         
-        JButton createBtn = new JButton("➕ Tạo từ đặt phòng");
+        JButton createBtn = new JButton("[+] Tao tu dat phong");
         createBtn.addActionListener(e -> createFromBooking());
         buttonPanel.add(createBtn);
         
-        JButton markIssuedBtn = new JButton("🏷️ Phát hành");
+        JButton markIssuedBtn = new JButton("Phat hanh");
         markIssuedBtn.addActionListener(e -> markAsIssued());
         buttonPanel.add(markIssuedBtn);
         
@@ -131,15 +131,15 @@ public class InvoicePanel extends JPanel {
         markPaidBtn.addActionListener(e -> markAsPaid());
         buttonPanel.add(markPaidBtn);
         
-        JButton cancelBtn = new JButton("❌ Hủy");
+        JButton cancelBtn = new JButton("Huy");
         cancelBtn.addActionListener(e -> cancelInvoice());
         buttonPanel.add(cancelBtn);
         
-        JButton reportBtn = new JButton("📊 Báo cáo");
+        JButton reportBtn = new JButton("Bao cao");
         reportBtn.addActionListener(e -> showReports());
         buttonPanel.add(reportBtn);
         
-        JButton refreshBtn = new JButton("🔄 Làm mới");
+        JButton refreshBtn = new JButton("[R] Lam moi");
         refreshBtn.addActionListener(e -> loadData());
         buttonPanel.add(refreshBtn);
         
@@ -365,7 +365,7 @@ public class InvoicePanel extends JPanel {
         double monthlyRevenue = invoiceManager.getMonthlyRevenue(month, year);
         
         String report = String.format(
-                "📊 BÁO CÁO HÓA ĐƠN\n\n" +
+                "=== BAO CAO HOA DON ===\n\n" +
                 "Tổng hóa đơn: %d\n" +
             "Đã thanh toán: %d\n" +
             "Chưa thanh toán: %d\n" +

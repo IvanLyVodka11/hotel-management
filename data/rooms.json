@@ -104,7 +104,7 @@
       "roomId": "R201",
       "floor": 2,
       "basePrice": 1000000.0,
-      "status": "AVAILABLE",
+      "status": "OCCUPIED",
       "description": "Phòng VIP tầng 2, view thành phố",
       "bedCount": 2,
       "area": 35.0,
