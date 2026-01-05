@@ -80,11 +80,37 @@ Trong ngành dịch vụ khách sạn hiện đại, việc quản lý thông ti
 
 | Actor | Mô tả | Chức năng chính |
 |-------|-------|-----------------|
+| **Nhân viên (Employee)** | Actor cha - tất cả nhân viên khách sạn | Đăng nhập, xem thông tin cá nhân |
 | **Lễ tân (Receptionist)** | Nhân viên tiếp tân tại quầy lễ tân | Đặt phòng, check-in, check-out, quản lý khách hàng |
 | **Quản lý (Manager)** | Người quản lý khách sạn | Quản lý phòng, xem báo cáo doanh thu, quản lý người dùng |
-| **Bộ phận dịch vụ (Service)** | Nhân viên phục vụ | Cung cấp dịch vụ, tiếp nhận yêu cầu khách hàng |
+| **Nhân viên Dịch vụ (Service Staff)** | Nhân viên phục vụ khách hàng | Cung cấp dịch vụ, tiếp nhận yêu cầu khách hàng |
 
-### 2.1.2 Mô tả chi tiết Actor
+### 2.1.2 Phân cấp Actor (Generalization)
+
+```
+                    ┌─────────────┐
+                    │  Nhân viên  │  (Actor cha)
+                    │ (Employee)  │
+                    └──────┬──────┘
+                           │
+           ┌───────────────┼───────────────┐
+           │               │               │
+           ▽               ▽               ▽
+    ┌─────────────┐ ┌─────────────┐ ┌─────────────────┐
+    │   Lễ tân    │ │   Quản lý   │ │ Nhân viên Dịch  │
+    │(Receptionist│ │  (Manager)  │ │  vụ (Service    │
+    │             │ │             │ │     Staff)      │
+    └─────────────┘ └─────────────┘ └─────────────────┘
+```
+
+> **Lưu ý về Generalization:** Các Actor con (Lễ tân, Quản lý, Nhân viên Dịch vụ) kế thừa tất cả chức năng của Actor cha (Nhân viên). Do đó, tất cả đều có thể thực hiện "Đăng nhập" mà không cần nối từng Actor vào Use Case "Đăng nhập".
+
+### 2.1.3 Mô tả chi tiết Actor
+
+**Nhân viên (Actor cha):**
+- Đây là actor tổng quát đại diện cho tất cả nhân viên
+- Chức năng chung: Đăng nhập, xem thông tin cá nhân
+- Các actor con sẽ kế thừa chức năng này
 
 **Lễ tân:**
 - Là actor chính sử dụng hệ thống nhiều nhất
@@ -96,111 +122,175 @@ Trong ngành dịch vụ khách sạn hiện đại, việc quản lý thông ti
 - Quản lý thêm/sửa/xóa phòng
 - Xem báo cáo doanh thu, thống kê
 
-**Bộ phận dịch vụ:**
+**Nhân viên Dịch vụ:**
 - Tiếp nhận yêu cầu dịch vụ từ khách
 - Hỗ trợ khách hàng trong quá trình lưu trú
 
 ## 2.2 Use Case tổng quan hệ thống
 
-### 2.2.1 Sơ đồ Use Case tổng quan
+### 2.2.1 Sơ đồ Use Case tổng quan (Chuẩn UML)
 
 ```mermaid
-flowchart LR
+flowchart TB
     subgraph System["Hệ thống Quản lý Khách sạn"]
-        UC1[Đăng nhập]
-        UC2[Quản lý Phòng]
-        UC3[Đặt phòng]
-        UC4[Check-in]
-        UC5[Check-out]
-        UC6[Quản lý Khách hàng]
-        UC7[Quản lý Hóa đơn]
-        UC8[Xem Báo cáo]
-        UC9[Cung cấp Dịch vụ]
+        UC1((Đăng nhập))
+        UC2((Quản lý Phòng))
+        UC3((Đặt phòng))
+        UC4((Check-in))
+        UC5((Check-out))
+        UC6((Quản lý Khách hàng))
+        UC7((Quản lý Hóa đơn))
+        UC8((Xem Báo cáo))
+        UC9((Cung cấp Dịch vụ))
     end
     
-    LT((Lễ tân))
-    QL((Quản lý))
-    DV((Bộ phận<br>Dịch vụ))
+    %% Actor cha
+    NV[/"Nhân viên<br/>(Employee)"/]
     
-    LT --> UC1
-    LT --> UC3
-    LT --> UC4
-    LT --> UC5
-    LT --> UC6
-    LT --> UC7
+    %% Actor con (kế thừa từ Nhân viên)
+    LT[/"Lễ tân<br/>(Receptionist)"/]
+    QL[/"Quản lý<br/>(Manager)"/]
+    NVDV[/"Nhân viên Dịch vụ<br/>(Service Staff)"/]
     
-    QL --> UC1
-    QL --> UC2
-    QL --> UC8
+    %% Generalization (Actor con kế thừa Actor cha)
+    LT -.->|▷| NV
+    QL -.->|▷| NV
+    NVDV -.->|▷| NV
     
-    DV --> UC1
-    DV --> UC9
+    %% Actor cha nối với Use Case chung
+    NV --- UC1
+    
+    %% Actor Lễ tân nối trực tiếp với các Use Case riêng (KHÔNG có flow)
+    LT --- UC3
+    LT --- UC4
+    LT --- UC5
+    LT --- UC6
+    LT --- UC7
+    
+    %% Actor Quản lý nối trực tiếp với các Use Case riêng
+    QL --- UC2
+    QL --- UC8
+    
+    %% Actor Nhân viên Dịch vụ nối trực tiếp với các Use Case riêng
+    NVDV --- UC9
 ```
+
+> **Giải thích ký pháp UML:**
+> - `---` : Liên kết (Association) giữa Actor và Use Case
+> - `-.->|▷|` : Generalization (Actor con kế thừa Actor cha) - mũi tên tam giác rỗng
+> - Các Use Case **KHÔNG có mũi tên nối với nhau** (Use Case Diagram không thể hiện flow/trình tự)
+> - "Nhân viên" là Actor cha, nối với "Đăng nhập" → tất cả Actor con đều được thừa hưởng chức năng này
 
 ### 2.2.2 Usecase dành cho tác nhân "Lễ tân"
 
 ```mermaid
-flowchart LR
-    subgraph Booking["Đặt phòng"]
-        UC1[Đăng nhập]
-        UC2[Tìm phòng trống]
-        UC3[Đặt phòng mới]
-        UC4[Check-in]
-        UC5[Check-out]
-        UC6[Tạo hóa đơn]
+flowchart TB
+    subgraph System["Hệ thống Quản lý Khách sạn"]
+        UC1((Đăng nhập))
+        UC2((Tìm phòng trống))
+        UC3((Đặt phòng mới))
+        UC4((Check-in))
+        UC5((Check-out))
+        UC6((Tạo hóa đơn))
+        UC7((Quản lý Khách hàng))
     end
     
-    LT((Lễ tân))
+    %% Actor cha và con
+    NV[/"Nhân viên"/]
+    LT[/"Lễ tân<br/>(Receptionist)"/]
     
-    LT --> UC1
-    LT --> UC2
-    LT --> UC3
-    LT --> UC4
-    LT --> UC5
-    LT --> UC6
+    %% Generalization
+    LT -.->|▷| NV
+    
+    %% Actor cha nối với Use Case chung
+    NV --- UC1
+    
+    %% Actor Lễ tân nối TRỰC TIẾP với từng Use Case (không có flow)
+    LT --- UC2
+    LT --- UC3
+    LT --- UC4
+    LT --- UC5
+    LT --- UC6
+    LT --- UC7
+    
+    %% Quan hệ Include (Đặt phòng include Tìm phòng trống)
+    UC3 -.->|<<include>>| UC2
+    %% Quan hệ Include (Check-out include Tạo hóa đơn)
+    UC5 -.->|<<include>>| UC6
 ```
+
+> **Giải thích quan hệ <<include>>:**
+> - "Đặt phòng mới" **bắt buộc phải** "Tìm phòng trống" trước → dùng `<<include>>`
+> - "Check-out" **bắt buộc phải** "Tạo hóa đơn" → dùng `<<include>>`
+> - Mũi tên nét đứt từ Use Case gốc hướng về Use Case được include
 
 ### 2.2.3 Usecase dành cho tác nhân "Quản lý"
 
 ```mermaid
-flowchart LR
-    subgraph Management["Quản lý"]
-        UC1[Đăng nhập]
-        UC2[Thêm phòng]
-        UC3[Sửa phòng]
-        UC4[Xóa phòng]
-        UC5[Xem báo cáo doanh thu]
-        UC6[Xem thống kê phòng]
+flowchart TB
+    subgraph System["Hệ thống Quản lý Khách sạn"]
+        UC1((Đăng nhập))
+        UC2((Thêm phòng))
+        UC3((Sửa phòng))
+        UC4((Xóa phòng))
+        UC5((Xem báo cáo doanh thu))
+        UC6((Xem thống kê phòng))
     end
     
-    QL((Quản lý))
+    %% Actor cha và con
+    NV[/"Nhân viên"/]
+    QL[/"Quản lý<br/>(Manager)"/]
     
-    QL --> UC1
-    QL --> UC2
-    QL --> UC3
-    QL --> UC4
-    QL --> UC5
-    QL --> UC6
+    %% Generalization
+    QL -.->|▷| NV
+    
+    %% Actor cha nối với Use Case chung
+    NV --- UC1
+    
+    %% Actor Quản lý nối TRỰC TIẾP với từng Use Case
+    QL --- UC2
+    QL --- UC3
+    QL --- UC4
+    QL --- UC5
+    QL --- UC6
 ```
 
-### 2.2.4 Usecase dành cho tác nhân "Bộ phận dịch vụ"
+### 2.2.4 Usecase dành cho tác nhân "Nhân viên Dịch vụ"
 
 ```mermaid
-flowchart LR
-    subgraph Service["Dịch vụ"]
-        UC1[Đăng nhập]
-        UC2[Cung cấp dịch vụ]
-        UC3[Tiếp nhận dịch vụ]
-        UC4[Hỗ trợ khách hàng]
+flowchart TB
+    subgraph System["Hệ thống Quản lý Khách sạn"]
+        UC1((Đăng nhập))
+        UC2((Cung cấp dịch vụ))
+        UC3((Tiếp nhận yêu cầu))
+        UC4((Hỗ trợ khách hàng))
     end
     
-    DV((Bộ phận<br>Dịch vụ))
+    %% Actor cha và con
+    NV[/"Nhân viên"/]
+    NVDV[/"Nhân viên Dịch vụ<br/>(Service Staff)"/]
     
-    DV --> UC1
-    DV --> UC2
-    DV --> UC3
-    DV --> UC4
+    %% Generalization
+    NVDV -.->|▷| NV
+    
+    %% Actor cha nối với Use Case chung
+    NV --- UC1
+    
+    %% Actor Nhân viên Dịch vụ nối TRỰC TIẾP với từng Use Case
+    NVDV --- UC2
+    NVDV --- UC3
+    NVDV --- UC4
+    
+    %% Quan hệ Include
+    UC2 -.->|<<include>>| UC3
 ```
+
+> **Lưu ý quan trọng về Use Case Diagram:**
+> 1. **Không dùng flow arrows** - Use Case Diagram chỉ trả lời "Hệ thống làm được gì?", không trả lời "Làm xong này thì đến việc gì?"
+> 2. **Quan hệ <<include>>** - Dùng mũi tên nét đứt, khi Use Case A **bắt buộc** phải thực hiện Use Case B
+> 3. **Quan hệ <<extend>>** - Dùng khi Use Case B là **tùy chọn** mở rộng của Use Case A
+> 4. **Generalization** - Actor con kế thừa tất cả quyền của Actor cha
+
 
 ## 2.3 Đặc tả các Usecase và hiện thực hoá
 
@@ -209,7 +299,7 @@ flowchart LR
 | Trường | Nội dung |
 |--------|----------|
 | **Use Case** | Đăng nhập |
-| **Tác nhân** | Lễ tân, Bộ phận dịch vụ, Quản lý |
+| **Tác nhân** | Nhân viên (Actor cha - tất cả Actor con đều kế thừa) |
 | **Mô tả UC** | Cho phép người dùng đăng nhập để vào hệ thống |
 | **Tiền điều kiện** | Người dùng chưa đăng nhập |
 | **Luồng sự kiện** | 1). Hệ thống hiện form đăng nhập và yêu cầu nhập tài khoản và mật khẩu.<br>2). Người dùng nhập tài khoản và mật khẩu của mình và nhấn nút đăng nhập.<br>3). Hệ thống sẽ kiểm tra tài khoản.<br>4). Hệ thống thông báo đăng nhập thành công và cho actor vào hệ thống và phân quyền theo vai trò. |
