@@ -539,7 +539,339 @@ classDiagram
     Booking "1" --> "1" Invoice : generates
 ```
 
-## 3.3 Giải thích thiết kế lớp
+### 3.2.4 Class Diagram TỔNG THỂ toàn dự án
+
+```mermaid
+classDiagram
+    %% ==================== INTERFACES ====================
+    class IManageable~T~ {
+        <<interface>>
+        +add(item: T) boolean
+        +update(item: T) boolean
+        +delete(id: String) boolean
+        +getById(id: String) T
+        +getAll() List~T~
+    }
+    
+    class ISearchable~T~ {
+        <<interface>>
+        +search(keyword: String) List~T~
+        +filter(criteria: String, value: Object) List~T~
+    }
+    
+    class IStorable~T~ {
+        <<interface>>
+        +save() void
+        +load() List~T~
+    }
+
+    %% ==================== ENUMS ====================
+    class RoomType {
+        <<enumeration>>
+        STANDARD
+        VIP
+        DELUXE
+    }
+    
+    class RoomStatus {
+        <<enumeration>>
+        AVAILABLE
+        OCCUPIED
+        MAINTENANCE
+        CLEANING
+    }
+    
+    class BookingStatus {
+        <<enumeration>>
+        PENDING
+        CONFIRMED
+        CHECKED_IN
+        COMPLETED
+        CANCELLED
+    }
+    
+    class InvoiceStatus {
+        <<enumeration>>
+        DRAFT
+        ISSUED
+        PAID
+        CANCELLED
+    }
+
+    %% ==================== MODEL LAYER ====================
+    class Room {
+        <<abstract>>
+        #roomId: String
+        #floor: int
+        #basePrice: double
+        #status: RoomStatus
+        #description: String
+        #bedCount: int
+        #area: double
+        +calculatePrice(days: int)* double
+        +getRoomType()* RoomType
+        +getRoomTypeDescription()* String
+        +isAvailable() boolean
+        +occupy() void
+        +release() void
+    }
+    
+    class StandardRoom {
+        -PRICE_MULTIPLIER: double = 1.0
+        +calculatePrice(days: int) double
+        +getRoomType() RoomType
+        +getRoomTypeDescription() String
+    }
+    
+    class VIPRoom {
+        -PRICE_MULTIPLIER: double = 1.2
+        -hasJacuzzi: boolean
+        -hasMinibar: boolean
+        +calculatePrice(days: int) double
+        +getRoomType() RoomType
+        +getRoomTypeDescription() String
+    }
+    
+    class DeluxeRoom {
+        -PRICE_MULTIPLIER: double = 1.5
+        -hasPrivatePool: boolean
+        -hasButlerService: boolean
+        +calculatePrice(days: int) double
+        +getRoomType() RoomType
+        +getRoomTypeDescription() String
+    }
+    
+    class Customer {
+        -customerId: String
+        -fullName: String
+        -email: String
+        -phoneNumber: String
+        -idCard: String
+        -address: String
+        -registrationDate: LocalDate
+        -isVIP: boolean
+        -loyaltyPoints: double
+        +addLoyaltyPoints(points: double)
+    }
+    
+    class Booking {
+        -bookingId: String
+        -customer: Customer
+        -room: Room
+        -checkInDate: LocalDate
+        -checkOutDate: LocalDate
+        -status: BookingStatus
+        -totalPrice: double
+        -notes: String
+        +calculateTotalPrice() double
+        +getNumberOfDays() long
+        +isValid() boolean
+    }
+    
+    class Invoice {
+        -invoiceId: String
+        -booking: Booking
+        -invoiceDate: LocalDate
+        -subtotal: double
+        -taxRate: double
+        -taxAmount: double
+        -totalAmount: double
+        -status: InvoiceStatus
+        -notes: String
+        +calculateAmounts() void
+        +markAsPaid() void
+        +markAsIssued() void
+        +cancel() void
+    }
+    
+    class RoomFactory {
+        <<Factory>>
+        +createRoom(type: RoomType, id: String, floor: int, price: double) Room
+        +createStandardRoom(id: String, floor: int) Room
+        +createVIPRoom(id: String, floor: int) Room
+        +createDeluxeRoom(id: String, floor: int) Room
+    }
+
+    %% ==================== SERVICE LAYER ====================
+    class RoomManager {
+        -rooms: List~Room~
+        -storage: RoomStorage
+        +add(room: Room) boolean
+        +update(room: Room) boolean
+        +delete(roomId: String) boolean
+        +getById(roomId: String) Room
+        +getAll() List~Room~
+        +findByFloor(floor: int) List~Room~
+        +findByType(type: RoomType) List~Room~
+        +findAvailableRooms() List~Room~
+        +getStatistics() Map
+    }
+    
+    class CustomerManager {
+        -customers: List~Customer~
+        +add(customer: Customer) boolean
+        +update(customer: Customer) boolean
+        +delete(customerId: String) boolean
+        +getById(customerId: String) Customer
+        +getAll() List~Customer~
+        +search(keyword: String) List~Customer~
+        +filter(criteria: String, value: Object) List~Customer~
+        +getTotalCustomers() int
+        +getVIPCustomers() int
+    }
+    
+    class BookingManager {
+        -bookings: List~Booking~
+        -roomManager: RoomManager
+        +add(booking: Booking) boolean
+        +update(booking: Booking) boolean
+        +delete(bookingId: String) boolean
+        +getById(bookingId: String) Booking
+        +getAll() List~Booking~
+        +search(keyword: String) List~Booking~
+        +filter(criteria: String, value: Object) List~Booking~
+        +isRoomAvailable(room: Room, checkIn: LocalDate, checkOut: LocalDate) boolean
+        +getAvailableRooms(checkIn: LocalDate, checkOut: LocalDate) List~Room~
+        +getTotalRevenue() double
+        +getMonthlyRevenue(month: int, year: int) double
+    }
+    
+    class InvoiceManager {
+        -invoices: List~Invoice~
+        +add(invoice: Invoice) boolean
+        +update(invoice: Invoice) boolean
+        +delete(invoiceId: String) boolean
+        +getById(invoiceId: String) Invoice
+        +getAll() List~Invoice~
+        +createInvoiceFromBooking(booking: Booking, invoiceId: String) Invoice
+        +markInvoiceAsPaid(invoiceId: String) boolean
+        +cancelInvoice(invoiceId: String) boolean
+        +getTotalRevenue() double
+        +getTotalTax() double
+        +getUnpaidRevenue() double
+    }
+
+    %% ==================== STORAGE LAYER ====================
+    class RoomStorage {
+        -ROOMS_FILE: String
+        -USERS_FILE: String
+        -gson: Gson
+        +saveRooms(rooms: List~Room~) boolean
+        +loadRooms() List~Room~
+        +saveUsers(users: List~User~) boolean
+        +loadUsers() List~User~
+    }
+    
+    class DataStorage {
+        -CUSTOMERS_FILE: String
+        -BOOKINGS_FILE: String
+        -INVOICES_FILE: String
+        -customerManager: CustomerManager
+        -bookingManager: BookingManager
+        -invoiceManager: InvoiceManager
+        +loadAllData() void
+        +saveAllData() void
+        +loadCustomers() void
+        +saveCustomers() void
+        +loadBookings() void
+        +saveBookings() void
+        +loadInvoices() void
+        +saveInvoices() void
+    }
+
+    %% ==================== AUTH LAYER ====================
+    class UserSession {
+        <<Singleton>>
+        -instance: UserSession
+        -currentUser: User
+        -loginTime: LocalDateTime
+        +getInstance() UserSession
+        +login(user: User) void
+        +logout() void
+        +getCurrentUser() User
+        +isLoggedIn() boolean
+    }
+    
+    class PermissionManager {
+        +hasPermission(user: User, action: String) boolean
+        +canManageRooms(user: User) boolean
+        +canManageBookings(user: User) boolean
+        +canViewReports(user: User) boolean
+    }
+
+    %% ==================== UI LAYER (chỉ hiện chính) ====================
+    class MainFrame {
+        -roomPanel: RoomPanel
+        -bookingPanel: BookingPanel
+        -customerPanel: CustomerPanel
+        -invoicePanel: InvoicePanel
+        +showPanel(panelName: String) void
+    }
+    
+    class LoginFrame {
+        -usernameField: JTextField
+        -passwordField: JPasswordField
+        +authenticate() boolean
+    }
+
+    %% ==================== RELATIONSHIPS ====================
+    %% Inheritance
+    Room <|-- StandardRoom
+    Room <|-- VIPRoom
+    Room <|-- DeluxeRoom
+    
+    %% Implements
+    RoomManager ..|> IManageable
+    CustomerManager ..|> IManageable
+    CustomerManager ..|> ISearchable
+    BookingManager ..|> IManageable
+    BookingManager ..|> ISearchable
+    InvoiceManager ..|> IManageable
+    RoomStorage ..|> IStorable
+    
+    %% Composition
+    Booking *-- Customer : contains
+    Booking *-- Room : contains
+    Invoice *-- Booking : contains
+    
+    %% Dependencies
+    RoomManager --> RoomStorage : uses
+    RoomManager --> RoomFactory : uses
+    BookingManager --> RoomManager : uses
+    DataStorage --> CustomerManager : manages
+    DataStorage --> BookingManager : manages
+    DataStorage --> InvoiceManager : manages
+    MainFrame --> RoomManager : uses
+    MainFrame --> BookingManager : uses
+    LoginFrame --> UserSession : uses
+    LoginFrame --> PermissionManager : uses
+    
+    %% Enum usage
+    Room --> RoomStatus : uses
+    Room --> RoomType : uses
+    Booking --> BookingStatus : uses
+    Invoice --> InvoiceStatus : uses
+```
+
+**Hình 3.1: Class Diagram tổng thể Hệ thống Quản lý Khách sạn**
+
+---
+
+### Giải thích Class Diagram tổng thể
+
+| Layer | Classes | Vai trò |
+|-------|---------|---------|
+| **Interface** | `IManageable<T>`, `ISearchable<T>`, `IStorable<T>` | Định nghĩa hợp đồng cho các class |
+| **Enum** | `RoomType`, `RoomStatus`, `BookingStatus`, `InvoiceStatus` | Định nghĩa các trạng thái cố định |
+| **Model** | `Room`, `StandardRoom`, `VIPRoom`, `DeluxeRoom`, `Customer`, `Booking`, `Invoice` | Entity classes chứa dữ liệu |
+| **Factory** | `RoomFactory` | Tạo các loại Room (Factory Pattern) |
+| **Service** | `RoomManager`, `CustomerManager`, `BookingManager`, `InvoiceManager` | Business logic |
+| **Storage** | `RoomStorage`, `DataStorage` | Lưu trữ JSON |
+| **Auth** | `UserSession`, `PermissionManager` | Xác thực và phân quyền |
+| **UI** | `MainFrame`, `LoginFrame`, các Panel | Giao diện người dùng |
+
+---
+
 
 ### Tại sao sử dụng Abstract Class cho Room?
 
