@@ -1,0 +1,127 @@
+<mxfile host="app.diagrams.net" modified="2026-01-05" agent="Claude" version="22.1.0">
+  <diagram name="Class Diagram - Interfaces" id="classinterface">
+    <mxGraphModel dx="1000" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="600" background="#ffffff">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        
+        <!-- Title -->
+        <mxCell id="title" value="Class Diagram: Interfaces" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="350" y="10" width="300" height="30" as="geometry"/>
+        </mxCell>
+        
+        <!-- IManageable Interface -->
+        <mxCell id="imanageable" value="&lt;&lt;interface&gt;&gt;&#xa;IManageable&lt;T&gt;" style="swimlane;fontStyle=3;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="60" y="60" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="imanageableLine" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="imanageable" vertex="1">
+          <mxGeometry y="40" width="220" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="imanageableMethods" value="+ add(item: T): boolean&#xa;+ update(item: T): boolean&#xa;+ delete(id: String): boolean&#xa;+ getById(id: String): T&#xa;+ getAll(): List&lt;T&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=11;fontStyle=2;" parent="imanageable" vertex="1">
+          <mxGeometry y="48" width="220" height="82" as="geometry"/>
+        </mxCell>
+        
+        <!-- ISearchable Interface -->
+        <mxCell id="isearchable" value="&lt;&lt;interface&gt;&gt;&#xa;ISearchable&lt;T&gt;" style="swimlane;fontStyle=3;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="390" y="60" width="220" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="isearchableLine" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="isearchable" vertex="1">
+          <mxGeometry y="40" width="220" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="isearchableMethods" value="+ search(keyword: String): List&lt;T&gt;&#xa;+ filter(criteria: String, value: Object): List&lt;T&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=11;fontStyle=2;" parent="isearchable" vertex="1">
+          <mxGeometry y="48" width="220" height="52" as="geometry"/>
+        </mxCell>
+        
+        <!-- IStorable Interface -->
+        <mxCell id="istorable" value="&lt;&lt;interface&gt;&gt;&#xa;IStorable&lt;T&gt;" style="swimlane;fontStyle=3;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="720" y="60" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="istorableLine" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="istorable" vertex="1">
+          <mxGeometry y="40" width="180" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="istorableMethods" value="+ save(): void&#xa;+ load(): List&lt;T&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=11;fontStyle=2;" parent="istorable" vertex="1">
+          <mxGeometry y="48" width="180" height="52" as="geometry"/>
+        </mxCell>
+        
+        <!-- RoomManager -->
+        <mxCell id="roomManager" value="RoomManager" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="60" y="300" width="220" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="roomManagerAttr" value="- rooms: List&lt;Room&gt;&#xa;- storage: RoomStorage&#xa;- instance: RoomManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=11;" parent="roomManager" vertex="1">
+          <mxGeometry y="26" width="220" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="roomManagerLine" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="roomManager" vertex="1">
+          <mxGeometry y="76" width="220" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="roomManagerMethods" value="+ getInstance(): RoomManager&#xa;+ add(room: Room): boolean&#xa;+ findAvailableRooms(): List&lt;Room&gt;&#xa;+ getStatistics(): Map" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=11;" parent="roomManager" vertex="1">
+          <mxGeometry y="84" width="220" height="76" as="geometry"/>
+        </mxCell>
+        
+        <!-- CustomerManager -->
+        <mxCell id="customerManager" value="CustomerManager" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="340" y="300" width="220" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="customerManagerAttr" value="- customers: List&lt;Customer&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=11;" parent="customerManager" vertex="1">
+          <mxGeometry y="26" width="220" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="customerManagerLine" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="customerManager" vertex="1">
+          <mxGeometry y="52" width="220" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="customerManagerMethods" value="+ add, update, delete, getAll...&#xa;+ search(keyword): List&lt;Customer&gt;&#xa;+ filter(criteria, value): List" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=11;" parent="customerManager" vertex="1">
+          <mxGeometry y="60" width="220" height="70" as="geometry"/>
+        </mxCell>
+        
+        <!-- BookingManager -->
+        <mxCell id="bookingManager" value="BookingManager" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="620" y="300" width="230" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="bookingManagerAttr" value="- bookings: List&lt;Booking&gt;&#xa;- roomManager: RoomManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=11;" parent="bookingManager" vertex="1">
+          <mxGeometry y="26" width="230" height="36" as="geometry"/>
+        </mxCell>
+        <mxCell id="bookingManagerLine" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="bookingManager" vertex="1">
+          <mxGeometry y="62" width="230" height="8" as="geometry"/>
+        </mxCell>
+        <mxCell id="bookingManagerMethods" value="+ add, update, delete, getAll...&#xa;+ getAvailableRooms(dates): List&#xa;+ getTotalRevenue(): double" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=11;" parent="bookingManager" vertex="1">
+          <mxGeometry y="70" width="230" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- Implements arrows -->
+        <mxCell id="impl1" style="endArrow=block;endFill=0;dashed=1;html=1;strokeWidth=2;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="roomManager" target="imanageable" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="impl2" style="endArrow=block;endFill=0;dashed=1;html=1;strokeWidth=2;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="customerManager" target="imanageable" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="395" y="240"/>
+              <mxPoint x="170" y="240"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="impl3" style="endArrow=block;endFill=0;dashed=1;html=1;strokeWidth=2;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="customerManager" target="isearchable" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="impl4" style="endArrow=block;endFill=0;dashed=1;html=1;strokeWidth=2;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" parent="1" source="bookingManager" target="imanageable" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="678" y="220"/>
+              <mxPoint x="225" y="220"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="impl5" style="endArrow=block;endFill=0;dashed=1;html=1;strokeWidth=2;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="bookingManager" target="isearchable" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="735" y="250"/>
+              <mxPoint x="500" y="250"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Note -->
+        <mxCell id="note" value="- - - ▷ : implements (triển khai interface)&#xa;&#xa;Lợi ích Interface:&#xa;• Đa hình (Polymorphism)&#xa;• Loose coupling&#xa;• Dễ test và mở rộng" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#ffffc0;strokeColor=#ff9900;fontSize=10;align=left;spacingLeft=5;" parent="1" vertex="1">
+          <mxGeometry x="720" y="490" width="200" height="100" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

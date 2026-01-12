@@ -1,0 +1,176 @@
+<mxfile host="app.diagrams.net" modified="2026-01-12" agent="Claude" version="22.1.0">
+  <diagram name="Sequence - Đặt phòng" id="seqbooking">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="900" background="#ffffff">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        
+        <!-- Title -->
+        <mxCell id="title" value="Biểu đồ tuần tự: Đặt phòng (SD: Create Booking)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="350" y="10" width="400" height="30" as="geometry"/>
+        </mxCell>
+        
+        <!-- Actors/Objects with UML symbols -->
+        <mxCell id="lt" value="Lễ tân" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=11;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="50" y="50" width="40" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="bp" value="BookingPanel" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry x="150" y="60" width="100" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="dialog" value="AddBookingDialog" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry x="320" y="60" width="100" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="bm" value="BookingManager" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry x="500" y="60" width="80" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="ds" value="DataStorage" style="shape=umlEntity;whiteSpace=wrap;html=1;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry x="670" y="60" width="80" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- Lifelines -->
+        <mxCell id="ll1" style="endArrow=none;dashed=1;html=1;strokeWidth=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="130" as="sourcePoint"/>
+            <mxPoint x="70" y="850" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll2" style="endArrow=none;dashed=1;html=1;strokeWidth=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="200" y="120" as="sourcePoint"/>
+            <mxPoint x="200" y="850" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll3" style="endArrow=none;dashed=1;html=1;strokeWidth=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="120" as="sourcePoint"/>
+            <mxPoint x="370" y="850" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll4" style="endArrow=none;dashed=1;html=1;strokeWidth=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="120" as="sourcePoint"/>
+            <mxPoint x="540" y="850" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll5" style="endArrow=none;dashed=1;html=1;strokeWidth=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="120" as="sourcePoint"/>
+            <mxPoint x="710" y="850" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Activation Bars -->
+        <mxCell id="act1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="195" y="150" width="10" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="act2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="365" y="200" width="10" height="500" as="geometry"/>
+        </mxCell>
+        <mxCell id="act3" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="535" y="280" width="10" height="400" as="geometry"/>
+        </mxCell>
+        <mxCell id="act5" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+          <mxGeometry x="705" y="640" width="10" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- Messages -->
+        <mxCell id="m1" value="1: Chọn 'Thêm đặt phòng'" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="160" as="sourcePoint"/>
+            <mxPoint x="195" y="160" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m2" value="2: openAddDialog()" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="205" y="200" as="sourcePoint"/>
+            <mxPoint x="365" y="200" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m3" value="3: Nhập ngày check-in/out" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="250" as="sourcePoint"/>
+            <mxPoint x="365" y="250" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m4" value="4: refreshAvailableRooms()" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;curved=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="375" y="280" as="sourcePoint"/>
+            <mxPoint x="375" y="300" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="420" y="290"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m5" value="4.1: bookingManager.isRoomAvailable(room, checkIn, checkOut)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="375" y="320" as="sourcePoint"/>
+            <mxPoint x="535" y="320" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m6" value="4.2: Trả về danh sách phòng AVAILABLE" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="535" y="380" as="sourcePoint"/>
+            <mxPoint x="375" y="380" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m8" value="5: Hiển thị phòng trong roomCombo" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="365" y="420" as="sourcePoint"/>
+            <mxPoint x="70" y="420" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m9" value="6: Chọn phòng và khách hàng" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="500" as="sourcePoint"/>
+            <mxPoint x="365" y="500" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m10" value="8: Nhấn 'Lưu'" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="540" as="sourcePoint"/>
+            <mxPoint x="365" y="540" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m11" value="9: saveBooking()" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;curved=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="375" y="570" as="sourcePoint"/>
+            <mxPoint x="375" y="590" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="420" y="580"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m12" value="10: bookingManager.add(booking)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="375" y="620" as="sourcePoint"/>
+            <mxPoint x="535" y="620" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m13" value="10.1: DataStorage.saveAllData()" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="545" y="650" as="sourcePoint"/>
+            <mxPoint x="705" y="650" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m14" value="10.2: Lưu thành công" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="705" y="680" as="sourcePoint"/>
+            <mxPoint x="545" y="680" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m15" value="11: Booking đã tạo" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="535" y="710" as="sourcePoint"/>
+            <mxPoint x="375" y="710" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m16" value="12: Thông báo thành công" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="365" y="750" as="sourcePoint"/>
+            <mxPoint x="70" y="750" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

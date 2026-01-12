@@ -341,27 +341,24 @@ flowchart TB
 ```mermaid
 sequenceDiagram
     participant User as Người dùng
-    participant LoginFrame as Form đăng nhập
-    participant AuthService as AuthService
-    participant UserStorage as UserStorage
-    participant MainFrame as Trang chủ
+    participant LoginFrame as LoginFrame
+    participant UserSession as UserSession (Singleton)
+    participant MainFrame as MainFrame
 
-    User->>LoginFrame: 1: Nhập tài khoản/mật khẩu
-    User->>LoginFrame: 2: Nhấn vào đăng nhập
-    LoginFrame->>AuthService: 3: Gửi yêu cầu
-    AuthService->>AuthService: 4: Xác thực định dạng
-    AuthService->>UserStorage: 5: Gửi thông tin đăng nhập người dùng
-    UserStorage->>UserStorage: 6: Xác thực tài khoản/mật khẩu
+    User->>LoginFrame: 1: Nhập username/password
+    User->>LoginFrame: 2: Nhấn nút Đăng nhập
+    LoginFrame->>LoginFrame: 2.1: performLogin()
+    LoginFrame->>LoginFrame: 2.2: authenticate(username, password)
     
     alt Đăng nhập thành công
-        UserStorage-->>AuthService: 7: Trả về User object
-        AuthService-->>LoginFrame: 8: Đăng nhập thành công
-        LoginFrame->>MainFrame: 9: Hiển thị lên trang chủ
-        MainFrame-->>User: 10: Hiển thị giao diện chính
+        LoginFrame->>UserSession: 3: UserSession.getInstance().login(userId, username, displayName, role)
+        UserSession->>UserSession: 3.1: Lưu thông tin user vào session
+        UserSession-->>LoginFrame: 4: true
+        LoginFrame->>MainFrame: 5: new MainFrame()
+        MainFrame->>MainFrame: 5.1: setVisible(true)
+        MainFrame-->>User: 6: Hiển thị giao diện chính
     else Đăng nhập thất bại
-        UserStorage-->>AuthService: 7: Đăng nhập thất bại
-        AuthService-->>LoginFrame: 8: Thông báo lỗi
-        LoginFrame-->>User: 9: Hiển thị thông báo lỗi
+        LoginFrame-->>User: Hiển thị thông báo lỗi
     end
 ```
 
@@ -377,26 +374,23 @@ sequenceDiagram
     participant BP as BookingPanel
     participant Dialog as AddBookingDialog
     participant BM as BookingManager
-    participant RM as RoomManager
     participant DS as DataStorage
 
     LT->>BP: 1: Chọn "Thêm đặt phòng"
-    BP->>Dialog: 2: Mở form đặt phòng
-    Dialog->>Dialog: 3: Nhập ngày check-in/out
-    Dialog->>BM: 4: getAvailableRooms(checkIn, checkOut)
-    BM->>RM: 5: Lấy danh sách phòng
-    RM-->>BM: 6: Trả về danh sách phòng
-    BM->>BM: 7: Lọc phòng trống
-    BM-->>Dialog: 8: Danh sách phòng trống
-    Dialog-->>LT: 9: Hiển thị phòng trống
-    LT->>Dialog: 10: Chọn phòng và khách hàng
-    LT->>Dialog: 11: Xác nhận đặt phòng
-    Dialog->>BM: 12: add(Booking)
-    BM->>BM: 13: Tính giá (calculateTotalPrice)
-    BM->>DS: 14: saveBookings()
-    DS-->>BM: 15: Lưu thành công
-    BM-->>Dialog: 16: Đặt phòng thành công
-    Dialog-->>LT: 17: Thông báo thành công
+    BP->>Dialog: 2: openAddDialog()
+    LT->>Dialog: 3: Nhập ngày check-in/out
+    Dialog->>Dialog: 4: refreshAvailableRooms()
+    Dialog->>BM: 4.1: bookingManager.isRoomAvailable(room, checkIn, checkOut)
+    BM-->>Dialog: 4.2: Trả về danh sách phòng AVAILABLE
+    Dialog-->>LT: 5: Hiển thị phòng trong roomCombo
+    LT->>Dialog: 6: Chọn phòng và khách hàng
+    LT->>Dialog: 7: Nhấn "Lưu"
+    Dialog->>Dialog: 8: saveBooking()
+    Dialog->>BM: 9: bookingManager.add(booking)
+    BM->>DS: 9.1: DataStorage.saveAllData()
+    DS-->>BM: 9.2: Lưu thành công
+    BM-->>Dialog: 10: Booking đã tạo
+    Dialog-->>LT: 11: Thông báo thành công
 ```
 
 **Hình 2.2: Biểu đồ tuần tự Usecase "Đặt phòng"**
@@ -408,25 +402,24 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     participant LT as Lễ tân
-    participant BP as BookingPanel
+    participant IP as InvoicePanel
     participant BM as BookingManager
     participant IM as InvoiceManager
     participant DS as DataStorage
 
-    LT->>BP: 1: Chọn booking cần check-out
-    BP->>BM: 2: getById(bookingId)
-    BM-->>BP: 3: Trả về Booking
-    BP-->>LT: 4: Hiển thị thông tin booking
-    LT->>BP: 5: Xác nhận check-out
-    BP->>IM: 6: createInvoiceFromBooking(booking, invoiceId)
-    IM->>IM: 7: Tính subtotal, tax, total
-    IM-->>BP: 8: Trả về Invoice
-    BP->>BM: 9: Cập nhật status = COMPLETED
-    BM->>DS: 10: saveBookings()
-    BP->>IM: 11: markInvoiceAsPaid(invoiceId)
-    IM->>DS: 12: saveInvoices()
-    DS-->>BP: 13: Lưu thành công
-    BP-->>LT: 14: Hiển thị hóa đơn hoàn tất
+    LT->>IP: 1: Chọn booking cần tạo hóa đơn
+    IP->>BM: 2: getById(bookingId)
+    BM-->>IP: 3: Trả về Booking
+    IP-->>LT: 4: Hiển thị thông tin booking
+    LT->>IP: 5: Xác nhận tạo hóa đơn
+    IP->>IM: 6: invoiceManager.createInvoiceFromBooking(booking, invoiceId)
+    IM->>IM: 6.1: new Invoice(invoiceId, booking, ...)
+    IM-->>IP: 7: Trả về Invoice
+    IM->>DS: 7.1: dataStorage.saveAllData()
+    DS-->>IM: 7.2: Lưu thành công
+    IP->>IM: 8: markAsPaid()
+    IM-->>IP: 9: Invoice đã cập nhật
+    IP-->>LT: 10: Hiển thị hóa đơn hoàn tất
 ```
 
 **Hình 2.3: Biểu đồ tuần tự Usecase "Check-out và Tạo hóa đơn"**

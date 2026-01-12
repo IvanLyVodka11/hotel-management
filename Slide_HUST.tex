@@ -22,10 +22,10 @@
 \renewcommand{\hustInstAlign}{\alignLeft}
 
 % Thông tin đồ án
-\title{HỆ THỐNG QUẢN LÝ KHÁCH SẠN\\(Hotel Management System)}
+\title{HỆ THỐNG QUẢN LÝ KHÁCH SẠN}
 \subtitle{Đồ án Lập trình Hướng đối tượng - Nhóm 204}
 \author{\texorpdfstring{Trần Đình Khánh - 20237449 \\ Nguyễn Hữu Linh - 20237455}{Trần Đình Khánh - 20237449, Nguyễn Hữu Linh - 20237455}} 
-\institute{Trường Công nghệ Thông tin và Truyền thông - HUST}
+
 
 \begin{document}
 
@@ -92,7 +92,7 @@
 		\begin{column}{0.55\textwidth}
 			\begin{figure}
 				\centering
-				\includegraphics[width=\textwidth]{PhamViHeThong.drawio.png}
+				\includegraphics[width=0.95\textwidth, height=0.6\textheight, keepaspectratio]{PhamViHeThong.drawio.png}
 				\caption{Sơ đồ phạm vi hệ thống}
 			\end{figure}
 		\end{column}
@@ -132,70 +132,267 @@
 \begin{frame}{2.2 Use Case tổng quan}
 	\begin{figure}
 		\centering
-		\includegraphics[width=0.75\textwidth]{TongQuan.drawio.png}
+		\includegraphics[width=0.7\textwidth, height=0.7\textheight, keepaspectratio]{TongQuan.drawio.png}
 		\caption{Use Case Diagram tổng quan - 3 Actor nghiệp vụ}
 	\end{figure}
 \end{frame}
 
-\begin{frame}{2.3 Use Case chi tiết - Lễ tân \& Quản lý}
+\begin{frame}{2.3 Use Case chi tiết - Lễ tân (Staff)}
 	\begin{columns}[T]
 		\begin{column}{0.5\textwidth}
 			\begin{figure}
 				\centering
-				\includegraphics[width=\textwidth]{LeTan.drawio.png}
-				\caption{Use Case Lễ tân với \texttt{<<include>>}}
+				\includegraphics[width=0.95\textwidth, height=0.55\textheight, keepaspectratio]{LeTan.drawio.png}
+				\caption{Use Case Lễ tân}
 			\end{figure}
 		\end{column}
 		
 		\begin{column}{0.5\textwidth}
+			\textbf{6 Use Case chính:}
+			\begin{enumerate}
+				\item \textbf{Đăng nhập}: Xác thực qua AuthService
+				\item \textbf{Tìm phòng trống}: Lọc theo ngày
+				\item \textbf{Đặt phòng mới}: Tạo Booking
+				\item \textbf{Check-in}: Đổi status CHECKED\_IN
+				\item \textbf{Check-out}: Đổi status COMPLETED
+				\item \textbf{Tạo hóa đơn}: Sinh Invoice
+			\end{enumerate}
+			
+			\vspace{0.5em}
+			\textbf{Quan hệ \texttt{<<include>>}:}
+			\begin{itemize}
+				\item ``Đặt phòng'' $\rightarrow$ ``Tìm phòng trống''
+				\item ``Check-out'' $\rightarrow$ ``Tạo hóa đơn''
+			\end{itemize}
+			\small\textit{Include = bắt buộc phải thực hiện}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{2.4 Use Case chi tiết - Quản lý (Manager)}
+	\begin{columns}[T]
+		\begin{column}{0.5\textwidth}
 			\begin{figure}
 				\centering
-				\includegraphics[width=\textwidth]{QuanLy.drawio.png}
+				\includegraphics[width=0.95\textwidth, height=0.55\textheight, keepaspectratio]{QuanLy.drawio.png}
 				\caption{Use Case Quản lý}
 			\end{figure}
 		\end{column}
+		
+		\begin{column}{0.5\textwidth}
+			\textbf{6 Use Case chính:}
+			\begin{enumerate}
+				\item \textbf{Đăng nhập}: Xác thực quyền MANAGER
+				\item \textbf{Thêm/Sửa/Xóa phòng}: CRUD Room
+				\item \textbf{Xem báo cáo doanh thu}: Dashboard
+				\item \textbf{Xem thống kê phòng}: Biểu đồ
+			\end{enumerate}
+			
+			\vspace{0.5em}
+			\textbf{Quyền đặc biệt (PermissionManager):}
+			\begin{itemize}
+				\item \texttt{MANAGE\_ROOMS} - CRUD phòng
+				\item \texttt{VIEW\_REPORTS} - Xem báo cáo
+				\item \texttt{EXPORT\_REPORTS} - Xuất báo cáo
+				\item \texttt{MANAGE\_SERVICES} - Quản lý DV
+			\end{itemize}
+			
+			\vspace{0.5em}
+			\small\textit{Manager có gần như full quyền, chỉ thiếu MANAGE\_ACCOUNTS}
+		\end{column}
 	\end{columns}
-	
-	\vspace{0.5em}
-	\small
-	\textbf{Quan hệ \texttt{<<include>>}:} ``Đặt phòng'' bắt buộc ``Tìm phòng trống''; ``Check-out'' bắt buộc ``Tạo hóa đơn''
 \end{frame}
 
-\begin{frame}{2.4 Đặc tả Use Case ``Đặt phòng''}
-	\begin{block}{Use Case quan trọng nhất - Nghiệp vụ cốt lõi của hệ thống}
-		\begin{tabular}{|l|p{9cm}|}
+\begin{frame}{2.5 Use Case chi tiết - Bộ phận Dịch vụ (Service)}
+	\begin{columns}[T]
+		\begin{column}{0.5\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=0.95\textwidth, height=0.55\textheight, keepaspectratio]{DichVu.drawio.png}
+				\caption{Use Case Bộ phận Dịch vụ}
+			\end{figure}
+		\end{column}
+		
+		\begin{column}{0.5\textwidth}
+			\textbf{4 Use Case chính:}
+			\begin{enumerate}
+				\item \textbf{Đăng nhập}: Xác thực quyền SERVICE
+				\item \textbf{Xem phòng}: Kiểm tra trạng thái
+				\item \textbf{Xem dịch vụ}: Danh sách dịch vụ
+				\item \textbf{Cung cấp dịch vụ}: Phục vụ khách
+			\end{enumerate}
+			
+			\vspace{0.5em}
+			\textbf{Quyền hạn (PermissionManager):}
+			\begin{itemize}
+				\item \texttt{VIEW\_ROOMS} - Chỉ xem
+				\item \texttt{VIEW\_SERVICES} - Xem dịch vụ
+				\item \texttt{PROVIDE\_SERVICES} - Cung cấp DV
+				\item \texttt{VIEW\_DASHBOARD} - Xem tổng quan
+			\end{itemize}
+			
+			\vspace{0.5em}
+			\small\textit{Service không có quyền thêm/sửa/xóa, chỉ phục vụ khách}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% ===== ĐẶC TẢ VÀ SEQUENCE: ĐĂNG NHẬP =====
+\begin{frame}{2.6 Đặc tả Use Case ``Đăng nhập''}
+	\begin{block}{Use Case chung cho tất cả Actor}
+		\begin{tabular}{|l|p{8.5cm}|}
 			\hline
-			\textbf{Tác nhân} & Lễ tân (Staff) \\
+			\textbf{Tác nhân} & Tất cả (Manager, Staff, Service) \\
 			\hline
-			\textbf{Mô tả} & Tạo booking mới cho khách hàng \\
+			\textbf{Mô tả} & Xác thực người dùng để vào hệ thống \\
 			\hline
-			\textbf{Tiền điều kiện} & Đã đăng nhập, có phòng trống \\
+			\textbf{Tiền điều kiện} & Có tài khoản trong hệ thống \\
 			\hline
-			\textbf{Luồng chính} & 1. Chọn ngày check-in/out \\
-			& 2. Hệ thống hiển thị phòng trống \\
-			& 3. Chọn khách hàng và phòng \\
-			& 4. Hệ thống tính giá, tạo booking PENDING \\
+			\textbf{Luồng chính} & 1. Mở LoginFrame \\
+			& 2. Nhập username và password \\
+			& 3. AuthService kiểm tra thông tin \\
+			& 4. Lưu User vào UserSession (Singleton) \\
+			& 5. Chuyển sang MainFrame \\
 			\hline
-			\textbf{Luồng phụ} & Không có phòng → Đề xuất ngày khác \\
+			\textbf{Luồng phụ} & Sai thông tin $\rightarrow$ Hiển thị lỗi, cho nhập lại \\
+			\hline
+			\textbf{Hậu điều kiện} & UserSession chứa User đang đăng nhập \\
 			\hline
 		\end{tabular}
 	\end{block}
 \end{frame}
 
-\begin{frame}{2.5 Sequence Diagram - Đăng nhập}
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.8\textwidth]{DangNhap.drawio.png}
-		\caption{Biểu đồ tuần tự Use Case ``Đăng nhập''}
-	\end{figure}
+\begin{frame}{2.7 Sequence Diagram - Đăng nhập}
+	\begin{columns}[T]
+		\begin{column}{0.6\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=\textwidth, height=0.6\textheight, keepaspectratio]{DangNhap.drawio.png}
+				\caption{Biểu đồ tuần tự ``Đăng nhập''}
+			\end{figure}
+		\end{column}
+		
+		\begin{column}{0.4\textwidth}
+			\textbf{Các bước thực hiện:}
+			\begin{enumerate}
+				\item User nhập username/password
+				\item Nhấn nút Đăng nhập
+				\item LoginFrame.performLogin()
+				\item authenticate() kiểm tra credentials
+				\item UserSession.login() lưu thông tin
+				\item Mở MainFrame
+			\end{enumerate}
+			
+			\vspace{0.5em}
+			\textbf{Class liên quan:}
+			\begin{itemize}
+				\item \texttt{LoginFrame}
+				\item \texttt{UserSession} (Singleton)
+				\item \texttt{MainFrame}
+			\end{itemize}
+		\end{column}
+	\end{columns}
 \end{frame}
 
-\begin{frame}{2.6 Sequence Diagram - Đặt phòng}
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.85\textwidth]{DatPhong.drawio.png}
-		\caption{Biểu đồ tuần tự Use Case ``Đặt phòng''}
-	\end{figure}
+% ===== ĐẶC TẢ VÀ SEQUENCE: ĐẶT PHÒNG =====
+\begin{frame}{2.8 Đặc tả Use Case ``Đặt phòng''}
+	\begin{block}{Use Case quan trọng nhất - Nghiệp vụ cốt lõi của hệ thống}
+		\begin{tabular}{|l|p{8.5cm}|}
+			\hline
+			\textbf{Tác nhân} & Lễ tân (Staff) \\
+			\hline
+			\textbf{Mô tả} & Tạo booking mới cho khách hàng, hệ thống tự động tính giá \\
+			\hline
+			\textbf{Tiền điều kiện} & Đã đăng nhập với quyền CREATE\_BOOKING \\
+			\hline
+			\textbf{Luồng chính} & 1. Lễ tân mở AddBookingDialog \\
+			& 2. Chọn ngày check-in/check-out \\
+			& 3. Hệ thống gọi \texttt{getAvailableRooms()} \\
+			& 4. Chọn khách hàng từ CustomerManager \\
+			& 5. Chọn phòng và xác nhận \\
+			& 6. Hệ thống tạo Booking với status PENDING \\
+			\hline
+			\textbf{Luồng phụ} & Không có phòng trống $\rightarrow$ Thông báo lỗi \\
+			\hline
+			\textbf{Hậu điều kiện} & Booking được lưu, Room status = OCCUPIED \\
+			\hline
+		\end{tabular}
+	\end{block}
+\end{frame}
+
+\begin{frame}{2.9 Sequence Diagram - Đặt phòng}
+	\begin{columns}[T]
+		\begin{column}{0.6\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=\textwidth, height=0.6\textheight, keepaspectratio]{DatPhong.drawio.png}
+				\caption{Biểu đồ tuần tự ``Đặt phòng''}
+			\end{figure}
+		\end{column}
+		
+		\begin{column}{0.4\textwidth}
+			\textbf{Luồng xử lý:}
+			\begin{enumerate}
+				\item Lễ tân chọn ``Thêm đặt phòng''
+				\item openAddDialog() mở form
+				\item Nhập ngày, refreshAvailableRooms()
+				\item bookingManager.isRoomAvailable()
+				\item Chọn Customer + Room
+				\item saveBooking() $\rightarrow$ add(booking)
+				\item DataStorage.saveAllData()
+			\end{enumerate}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% ===== ĐẶC TẢ VÀ SEQUENCE: CHECK-OUT =====
+\begin{frame}{2.10 Đặc tả Use Case ``Check-out và Tạo hóa đơn''}
+	\begin{block}{Use Case kết hợp Check-out và Tạo hóa đơn}
+		\begin{tabular}{|l|p{8.5cm}|}
+			\hline
+			\textbf{Tác nhân} & Lễ tân (Staff) \\
+			\hline
+			\textbf{Mô tả} & Hoàn tất booking và tạo hóa đơn thanh toán \\
+			\hline
+			\textbf{Tiền điều kiện} & Đã đăng nhập, Booking có status CHECKED\_IN \\
+			\hline
+			\textbf{Luồng chính} & 1. Lễ tân chọn booking cần check-out \\
+			& 2. Xác nhận check-out \\
+			& 3. Hệ thống đổi status = COMPLETED \\
+			& 4. \texttt{<<include>>} Tạo hóa đơn tự động \\
+			& 5. Tính tiền phòng + thuế \\
+			& 6. Hiển thị Invoice \\
+			\hline
+			\textbf{Luồng phụ} & Booking không hợp lệ $\rightarrow$ Thông báo lỗi \\
+			\hline
+			\textbf{Hậu điều kiện} & Booking = COMPLETED, Invoice được tạo \\
+			\hline
+		\end{tabular}
+	\end{block}
+\end{frame}
+
+\begin{frame}{2.11 Sequence Diagram - Check-out và Tạo hóa đơn}
+	\begin{columns}[T]
+		\begin{column}{0.6\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=\textwidth, height=0.6\textheight, keepaspectratio]{Check-outvaTaoHoaDon.drawio.png}
+				\caption{Biểu đồ tuần tự ``Check-out và Tạo hóa đơn''}
+			\end{figure}
+		\end{column}
+		
+		\begin{column}{0.4\textwidth}
+			\textbf{Luồng xử lý:}
+			\begin{enumerate}
+				\item Lễ tân chọn booking từ InvoicePanel
+				\item getById() lấy thông tin booking
+				\item Xác nhận tạo hóa đơn
+				\item createInvoiceFromBooking()
+				\item markAsPaid()
+				\item saveAllData() lưu dữ liệu
+			\end{enumerate}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 % =================================================================
@@ -252,25 +449,25 @@
 		\begin{column}{0.4\textwidth}
 			\textbf{Tại sao dùng Interface?}
 			\begin{itemize}
-				\item \texttt{IManageable<T>}: Định nghĩa CRUD chung
-				\item \texttt{ISearchable<T>}: Khả năng tìm kiếm
-				\item \texttt{IStorable}: Lưu/tải dữ liệu
+				\item \texttt{IManageable<T>}: CRUD chung
+				\item \texttt{ISearchable<T>}: Tìm kiếm
+				\item \texttt{IStorable<T>}: Lưu/tải
 			\end{itemize}
 			
-			\vspace{1em}
+			\vspace{0.5em}
 			
-			\textbf{Lợi ích:}
+			\textbf{Lợi ích (Abstraction):}
 			\begin{itemize}
-				\item Định nghĩa \textbf{hợp đồng} cho các Manager
-				\item Dễ \textbf{mở rộng} thêm Manager mới
-				\item Hỗ trợ \textbf{Dependency Injection}
+				\item Định nghĩa ``hợp đồng''
+				\item Dễ mở rộng Manager mới
+				\item Hỗ trợ Dependency Injection
 			\end{itemize}
 		\end{column}
 		
 		\begin{column}{0.6\textwidth}
 			\begin{figure}
 				\centering
-				\includegraphics[width=\textwidth]{Interfaces.drawio.png}
+				\includegraphics[width=0.95\textwidth, height=0.6\textheight, keepaspectratio]{Interfaces.drawio.png}
 				\caption{Class Diagram - Interfaces}
 			\end{figure}
 		\end{column}
@@ -280,28 +477,28 @@
 \begin{frame}{3.3 Class Diagram - Room (Inheritance)}
 	\begin{columns}[T]
 		\begin{column}{0.4\textwidth}
-			\textbf{Tại sao dùng kế thừa cho Room?}
+			\textbf{OOP - Inheritance:}
 			\begin{itemize}
-				\item \textbf{Tính đa hình}: Mỗi loại phòng có cách tính giá khác nhau
-				\item \textbf{Tái sử dụng}: Thuộc tính chung định nghĩa 1 lần
-				\item \textbf{Mở rộng}: Thêm loại phòng mới chỉ cần extends
+				\item \texttt{Room} là abstract class
+				\item 3 subclass: Standard, VIP, Deluxe
 			\end{itemize}
 			
-			\vspace{1em}
+			\vspace{0.5em}
 			
-			\textbf{Công thức tính giá:}
+			\textbf{OOP - Polymorphism:}
 			\begin{itemize}
-				\item Standard: \texttt{base × days × 1.0}
-				\item VIP: \texttt{base × days × 1.2}
-				\item Deluxe: \texttt{base × days × 1.5}
+				\item Override \texttt{calculatePrice()}
+				\item Standard: $\times 1.0$
+				\item VIP: $\times 1.2$
+				\item Deluxe: $\times 1.5$
 			\end{itemize}
 		\end{column}
 		
 		\begin{column}{0.6\textwidth}
 			\begin{figure}
 				\centering
-				\includegraphics[width=\textwidth]{RoomClass.drawio.png}
-				\caption{Abstract class Room và 3 subclass}
+				\includegraphics[width=\textwidth, height=0.65\textheight, keepaspectratio]{RoomClass.drawio.png}
+				\caption{Abstract Room và 3 subclass}
 			\end{figure}
 		\end{column}
 	\end{columns}
@@ -312,26 +509,25 @@
 		\begin{column}{0.4\textwidth}
 			\textbf{Quan hệ Composition:}
 			\begin{itemize}
-				\item Booking \textbf{chứa} Customer và Room
-				\item Invoice \textbf{chứa} Booking
-				\item Khi xóa Booking → Invoice cũng bị ảnh hưởng
+				\item Booking chứa Customer + Room
+				\item Invoice chứa Booking
+				\item Khi xóa Booking → Invoice bị ảnh hưởng
 			\end{itemize}
 			
-			\vspace{1em}
+			\vspace{0.5em}
 			
-			\textbf{Chuỗi liên kết:}
-			\begin{center}
-				Customer → Booking → Room \\
-				$\downarrow$ \\
-				Invoice
-			\end{center}
+			\textbf{OOP - Encapsulation:}
+			\begin{itemize}
+				\item Thuộc tính \texttt{private}
+				\item Truy cập qua getter/setter
+			\end{itemize}
 		\end{column}
 		
 		\begin{column}{0.6\textwidth}
 			\begin{figure}
 				\centering
-				\includegraphics[width=\textwidth]{Entity.drawio.png}
-				\caption{Quan hệ Composition giữa các Entity}
+				\includegraphics[width=\textwidth, height=0.65\textheight, keepaspectratio]{Entity.drawio.png}
+				\caption{Quan hệ Composition giữa Entity}
 			\end{figure}
 		\end{column}
 	\end{columns}
@@ -340,7 +536,7 @@
 \begin{frame}{3.5 Class Diagram - Tổng thể}
 	\begin{figure}
 		\centering
-		\includegraphics[width=0.9\textwidth]{ClassTongQuan.drawio.png}
+		\includegraphics[width=0.9\textwidth, height=0.75\textheight, keepaspectratio]{ClassTongQuan.drawio.png}
 		\caption{Class Diagram tổng thể hệ thống}
 	\end{figure}
 \end{frame}
@@ -381,10 +577,10 @@
 		\end{column}
 	\end{columns}
 	
-	\vspace{1em}
+	\vspace{0.5em}
 	
 	\centering
-	\textbf{Tại sao dùng Design Patterns?} → Giải quyết vấn đề phổ biến, code dễ đọc và bảo trì
+	\textbf{Tại sao dùng Design Patterns?} $\rightarrow$ Code dễ đọc và bảo trì
 \end{frame}
 
 % =================================================================

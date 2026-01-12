@@ -1,0 +1,5 @@
+\beamer@sectionintoc {1}{Giới thiệu bài toán}{5}{0}{1}
+\beamer@sectionintoc {2}{Phân tích yêu cầu}{7}{0}{2}
+\beamer@sectionintoc {3}{Thiết kế hệ thống}{18}{0}{3}
+\beamer@sectionintoc {4}{Triển khai}{24}{0}{4}
+\beamer@sectionintoc {5}{Kết luận}{26}{0}{5}
