@@ -78,28 +78,21 @@ Trong ngành dịch vụ khách sạn hiện đại, việc quản lý thông ti
 
 ### 2.1.1 Danh sách Actor
 
-Hệ thống sử dụng 4 Role độc lập được định nghĩa trong `PermissionManager.Role`:
+Hệ thống sử dụng 3 Role nghiệp vụ chính được định nghĩa trong `PermissionManager.Role`:
 
 | Actor | Role trong code | Mô tả | Chức năng chính |
 |-------|-----------------|-------|-----------------|
-| **Quản trị viên (Admin)** | `ADMIN` | Quản trị hệ thống, full quyền | Tất cả quyền, quản lý tài khoản |
 | **Quản lý (Manager)** | `MANAGER` | Quản lý khách sạn | Quản lý phòng, xem báo cáo doanh thu |
 | **Lễ tân (Staff)** | `STAFF` | Nhân viên tiếp tân | Đặt phòng, check-in, check-out, quản lý khách hàng |
 | **Bộ phận Dịch vụ (Service)** | `SERVICE` | Nhân viên dịch vụ | Cung cấp dịch vụ, hỗ trợ khách hàng |
 
-> **Lưu ý:** Hệ thống **không sử dụng phân cấp kế thừa Actor**. Mỗi Role là độc lập và có tập Permission riêng được định nghĩa trong `PermissionManager.java`.
+> **Lưu ý:** Role `ADMIN` (Quản trị viên) có full quyền nhưng không được thể hiện trong sơ đồ Use Case vì không phải Actor nghiệp vụ điển hình.
 
 ### 2.1.2 Mô tả chi tiết Actor
-
-**Quản trị viên (Admin):**
-- Có quyền cao nhất trong hệ thống (full quyền)
-- Quản lý tài khoản người dùng
-- Thực hiện được tất cả chức năng của các Role khác
 
 **Quản lý (Manager):**
 - Quản lý thêm/sửa/xóa phòng
 - Xem báo cáo doanh thu, thống kê
-- Không có quyền quản lý tài khoản
 
 **Lễ tân (Staff):**
 - Là actor chính sử dụng hệ thống nhiều nhất
@@ -126,25 +119,17 @@ flowchart TB
         UC7((Quản lý Hóa đơn))
         UC8((Xem Báo cáo))
         UC9((Cung cấp Dịch vụ))
-        UC10((Quản lý Tài khoản))
     end
     
-    %% 4 Actor độc lập (theo PermissionManager.Role)
-    AD[/"Quản trị viên<br/>(Admin)"/]
+    %% 3 Actor nghiệp vụ chính (không có Admin)
     QL[/"Quản lý<br/>(Manager)"/]
     LT[/"Lễ tân<br/>(Staff)"/]
     DV[/"Bộ phận Dịch vụ<br/>(Service)"/]
     
-    %% Tất cả Actor đều nối với Đăng nhập (không có Actor cha)
-    AD --- UC1
+    %% Tất cả Actor nối trực tiếp với Đăng nhập
     QL --- UC1
     LT --- UC1
     DV --- UC1
-    
-    %% Admin - full quyền
-    AD --- UC2
-    AD --- UC8
-    AD --- UC10
     
     %% Manager - quản lý phòng và báo cáo
     QL --- UC2
@@ -163,8 +148,8 @@ flowchart TB
 
 > **Giải thích:**
 > - `---` : Liên kết (Association) giữa Actor và Use Case
-> - Hệ thống sử dụng 4 Role độc lập theo `PermissionManager.Role` enum
-> - Mỗi Actor nối trực tiếp tới "Đăng nhập" (không có Actor cha)
+> - Sơ đồ thể hiện 3 Actor nghiệp vụ chính theo `PermissionManager.Role`
+> - Mỗi Actor nối trực tiếp tới "Đăng nhập"
 
 ### 2.2.2 Usecase dành cho tác nhân "Lễ tân" (Staff)
 
