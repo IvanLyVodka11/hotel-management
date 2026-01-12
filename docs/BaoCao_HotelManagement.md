@@ -78,53 +78,37 @@ Trong ngành dịch vụ khách sạn hiện đại, việc quản lý thông ti
 
 ### 2.1.1 Danh sách Actor
 
-| Actor | Mô tả | Chức năng chính |
-|-------|-------|-----------------|
-| **Nhân viên (Employee)** | Actor cha - tất cả nhân viên khách sạn | Đăng nhập, xem thông tin cá nhân |
-| **Lễ tân (Receptionist)** | Nhân viên tiếp tân tại quầy lễ tân | Đặt phòng, check-in, check-out, quản lý khách hàng |
-| **Quản lý (Manager)** | Người quản lý khách sạn | Quản lý phòng, xem báo cáo doanh thu, quản lý người dùng |
-| **Nhân viên Dịch vụ (Service Staff)** | Nhân viên phục vụ khách hàng | Cung cấp dịch vụ, tiếp nhận yêu cầu khách hàng |
+Hệ thống sử dụng 4 Role độc lập được định nghĩa trong `PermissionManager.Role`:
 
-### 2.1.2 Phân cấp Actor (Generalization)
+| Actor | Role trong code | Mô tả | Chức năng chính |
+|-------|-----------------|-------|-----------------|
+| **Quản trị viên (Admin)** | `ADMIN` | Quản trị hệ thống, full quyền | Tất cả quyền, quản lý tài khoản |
+| **Quản lý (Manager)** | `MANAGER` | Quản lý khách sạn | Quản lý phòng, xem báo cáo doanh thu |
+| **Lễ tân (Staff)** | `STAFF` | Nhân viên tiếp tân | Đặt phòng, check-in, check-out, quản lý khách hàng |
+| **Bộ phận Dịch vụ (Service)** | `SERVICE` | Nhân viên dịch vụ | Cung cấp dịch vụ, hỗ trợ khách hàng |
 
-```
-                    ┌─────────────┐
-                    │  Nhân viên  │  (Actor cha)
-                    │ (Employee)  │
-                    └──────┬──────┘
-                           │
-           ┌───────────────┼───────────────┐
-           │               │               │
-           ▽               ▽               ▽
-    ┌─────────────┐ ┌─────────────┐ ┌─────────────────┐
-    │   Lễ tân    │ │   Quản lý   │ │ Nhân viên Dịch  │
-    │(Receptionist│ │  (Manager)  │ │  vụ (Service    │
-    │             │ │             │ │     Staff)      │
-    └─────────────┘ └─────────────┘ └─────────────────┘
-```
+> **Lưu ý:** Hệ thống **không sử dụng phân cấp kế thừa Actor**. Mỗi Role là độc lập và có tập Permission riêng được định nghĩa trong `PermissionManager.java`.
 
-> **Lưu ý về Generalization:** Các Actor con (Lễ tân, Quản lý, Nhân viên Dịch vụ) kế thừa tất cả chức năng của Actor cha (Nhân viên). Do đó, tất cả đều có thể thực hiện "Đăng nhập" mà không cần nối từng Actor vào Use Case "Đăng nhập".
+### 2.1.2 Mô tả chi tiết Actor
 
-### 2.1.3 Mô tả chi tiết Actor
+**Quản trị viên (Admin):**
+- Có quyền cao nhất trong hệ thống (full quyền)
+- Quản lý tài khoản người dùng
+- Thực hiện được tất cả chức năng của các Role khác
 
-**Nhân viên (Actor cha):**
-- Đây là actor tổng quát đại diện cho tất cả nhân viên
-- Chức năng chung: Đăng nhập, xem thông tin cá nhân
-- Các actor con sẽ kế thừa chức năng này
-
-**Lễ tân:**
-- Là actor chính sử dụng hệ thống nhiều nhất
-- Thực hiện các nghiệp vụ: đặt phòng, nhận phòng, trả phòng, tạo hóa đơn
-- Cần truy cập nhanh thông tin phòng trống và khách hàng
-
-**Quản lý:**
-- Có quyền cao nhất trong hệ thống
+**Quản lý (Manager):**
 - Quản lý thêm/sửa/xóa phòng
 - Xem báo cáo doanh thu, thống kê
+- Không có quyền quản lý tài khoản
 
-**Nhân viên Dịch vụ:**
-- Tiếp nhận yêu cầu dịch vụ từ khách
-- Hỗ trợ khách hàng trong quá trình lưu trú
+**Lễ tân (Staff):**
+- Là actor chính sử dụng hệ thống nhiều nhất
+- Thực hiện các nghiệp vụ: đặt phòng, nhận phòng, trả phòng, tạo hóa đơn
+- Xem thông tin phòng và khách hàng
+
+**Bộ phận Dịch vụ (Service):**
+- Cung cấp dịch vụ cho khách hàng
+- Xem thông tin phòng và dịch vụ
 
 ## 2.2 Use Case tổng quan hệ thống
 
@@ -142,46 +126,47 @@ flowchart TB
         UC7((Quản lý Hóa đơn))
         UC8((Xem Báo cáo))
         UC9((Cung cấp Dịch vụ))
+        UC10((Quản lý Tài khoản))
     end
     
-    %% Actor cha
-    NV[/"Nhân viên<br/>(Employee)"/]
-    
-    %% Actor con (kế thừa từ Nhân viên)
-    LT[/"Lễ tân<br/>(Receptionist)"/]
+    %% 4 Actor độc lập (theo PermissionManager.Role)
+    AD[/"Quản trị viên<br/>(Admin)"/]
     QL[/"Quản lý<br/>(Manager)"/]
-    NVDV[/"Nhân viên Dịch vụ<br/>(Service Staff)"/]
+    LT[/"Lễ tân<br/>(Staff)"/]
+    DV[/"Bộ phận Dịch vụ<br/>(Service)"/]
     
-    %% Generalization (Actor con kế thừa Actor cha)
-    LT -.->|▷| NV
-    QL -.->|▷| NV
-    NVDV -.->|▷| NV
+    %% Tất cả Actor đều nối với Đăng nhập (không có Actor cha)
+    AD --- UC1
+    QL --- UC1
+    LT --- UC1
+    DV --- UC1
     
-    %% Actor cha nối với Use Case chung
-    NV --- UC1
+    %% Admin - full quyền
+    AD --- UC2
+    AD --- UC8
+    AD --- UC10
     
-    %% Actor Lễ tân nối trực tiếp với các Use Case riêng (KHÔNG có flow)
+    %% Manager - quản lý phòng và báo cáo
+    QL --- UC2
+    QL --- UC8
+    
+    %% Staff (Lễ tân) - nghiệp vụ đặt phòng
     LT --- UC3
     LT --- UC4
     LT --- UC5
     LT --- UC6
     LT --- UC7
     
-    %% Actor Quản lý nối trực tiếp với các Use Case riêng
-    QL --- UC2
-    QL --- UC8
-    
-    %% Actor Nhân viên Dịch vụ nối trực tiếp với các Use Case riêng
-    NVDV --- UC9
+    %% Service - dịch vụ
+    DV --- UC9
 ```
 
-> **Giải thích ký pháp UML:**
+> **Giải thích:**
 > - `---` : Liên kết (Association) giữa Actor và Use Case
-> - `-.->|▷|` : Generalization (Actor con kế thừa Actor cha) - mũi tên tam giác rỗng
-> - Các Use Case **KHÔNG có mũi tên nối với nhau** (Use Case Diagram không thể hiện flow/trình tự)
-> - "Nhân viên" là Actor cha, nối với "Đăng nhập" → tất cả Actor con đều được thừa hưởng chức năng này
+> - Hệ thống sử dụng 4 Role độc lập theo `PermissionManager.Role` enum
+> - Mỗi Actor nối trực tiếp tới "Đăng nhập" (không có Actor cha)
 
-### 2.2.2 Usecase dành cho tác nhân "Lễ tân"
+### 2.2.2 Usecase dành cho tác nhân "Lễ tân" (Staff)
 
 ```mermaid
 flowchart TB
@@ -195,17 +180,11 @@ flowchart TB
         UC7((Quản lý Khách hàng))
     end
     
-    %% Actor cha và con
-    NV[/"Nhân viên"/]
-    LT[/"Lễ tân<br/>(Receptionist)"/]
+    %% Actor Lễ tân (Role: STAFF)
+    LT[/"Lễ tân<br/>(Staff)"/]
     
-    %% Generalization
-    LT -.->|▷| NV
-    
-    %% Actor cha nối với Use Case chung
-    NV --- UC1
-    
-    %% Actor Lễ tân nối TRỰC TIẾP với từng Use Case (không có flow)
+    %% Lễ tân nối TRỰC TIẾP với tất cả Use Case
+    LT --- UC1
     LT --- UC2
     LT --- UC3
     LT --- UC4
@@ -222,9 +201,8 @@ flowchart TB
 > **Giải thích quan hệ <<include>>:**
 > - "Đặt phòng mới" **bắt buộc phải** "Tìm phòng trống" trước → dùng `<<include>>`
 > - "Check-out" **bắt buộc phải** "Tạo hóa đơn" → dùng `<<include>>`
-> - Mũi tên nét đứt từ Use Case gốc hướng về Use Case được include
 
-### 2.2.3 Usecase dành cho tác nhân "Quản lý"
+### 2.2.3 Usecase dành cho tác nhân "Quản lý" (Manager)
 
 ```mermaid
 flowchart TB
@@ -237,17 +215,11 @@ flowchart TB
         UC6((Xem thống kê phòng))
     end
     
-    %% Actor cha và con
-    NV[/"Nhân viên"/]
+    %% Actor Quản lý (Role: MANAGER)
     QL[/"Quản lý<br/>(Manager)"/]
     
-    %% Generalization
-    QL -.->|▷| NV
-    
-    %% Actor cha nối với Use Case chung
-    NV --- UC1
-    
-    %% Actor Quản lý nối TRỰC TIẾP với từng Use Case
+    %% Quản lý nối TRỰC TIẾP với tất cả Use Case
+    QL --- UC1
     QL --- UC2
     QL --- UC3
     QL --- UC4
@@ -255,7 +227,7 @@ flowchart TB
     QL --- UC6
 ```
 
-### 2.2.4 Usecase dành cho tác nhân "Nhân viên Dịch vụ"
+### 2.2.4 Usecase dành cho tác nhân "Bộ phận Dịch vụ" (Service)
 
 ```mermaid
 flowchart TB
@@ -266,30 +238,23 @@ flowchart TB
         UC4((Hỗ trợ khách hàng))
     end
     
-    %% Actor cha và con
-    NV[/"Nhân viên"/]
-    NVDV[/"Nhân viên Dịch vụ<br/>(Service Staff)"/]
+    %% Actor Bộ phận Dịch vụ (Role: SERVICE)
+    DV[/"Bộ phận Dịch vụ<br/>(Service)"/]
     
-    %% Generalization
-    NVDV -.->|▷| NV
-    
-    %% Actor cha nối với Use Case chung
-    NV --- UC1
-    
-    %% Actor Nhân viên Dịch vụ nối TRỰC TIẾP với từng Use Case
-    NVDV --- UC2
-    NVDV --- UC3
-    NVDV --- UC4
+    %% Bộ phận Dịch vụ nối TRỰC TIẾP với tất cả Use Case
+    DV --- UC1
+    DV --- UC2
+    DV --- UC3
+    DV --- UC4
     
     %% Quan hệ Include
     UC2 -.->|<<include>>| UC3
 ```
 
 > **Lưu ý quan trọng về Use Case Diagram:**
-> 1. **Không dùng flow arrows** - Use Case Diagram chỉ trả lời "Hệ thống làm được gì?", không trả lời "Làm xong này thì đến việc gì?"
-> 2. **Quan hệ <<include>>** - Dùng mũi tên nét đứt, khi Use Case A **bắt buộc** phải thực hiện Use Case B
-> 3. **Quan hệ <<extend>>** - Dùng khi Use Case B là **tùy chọn** mở rộng của Use Case A
-> 4. **Generalization** - Actor con kế thừa tất cả quyền của Actor cha
+> 1. **Không sử dụng kế thừa Actor** - Hệ thống dùng Role enum độc lập
+> 2. **Quan hệ <<include>>** - Use Case A **bắt buộc** phải thực hiện Use Case B
+> 3. **Quan hệ <<extend>>** - Use Case B là **tùy chọn** mở rộng của Use Case A
 
 
 ## 2.3 Đặc tả các Usecase và hiện thực hoá
