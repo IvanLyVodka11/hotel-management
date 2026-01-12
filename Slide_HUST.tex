@@ -1,0 +1,559 @@
+\documentclass[t, aspectratio=169]{beamer}
+\usepackage[utf8]{vietnam}
+\usepackage{amsthm,amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+% --- CẤU HÌNH LỀ ---
+\def\slideContentLeftMargin{0.5cm}
+\def\slideContentRightMargin{1cm}
+\def\hustHeaderHeight{1cm}
+\def\slideContentBotMargin{3.5cm}
+
+\usepackage[blue, 169]{beamerthemeHUST} 
+
+% Căn lề title page
+\renewcommand{\titlePageTitleX}{-0.5cm}
+\renewcommand{\titlePageTitleY}{-0.5cm}
+\renewcommand{\hustTitleAlign}{\alignLeft} 
+\renewcommand{\hustSubtitleAlign}{\alignLeft}
+\renewcommand{\hustAuthorAlign}{\alignLeft}
+\renewcommand{\hustInstAlign}{\alignLeft}
+
+% Thông tin đồ án
+\title{HỆ THỐNG QUẢN LÝ KHÁCH SẠN\\(Hotel Management System)}
+\subtitle{Đồ án Lập trình Hướng đối tượng - Nhóm 204}
+\author{\texorpdfstring{Trần Đình Khánh - 20237449 \\ Nguyễn Hữu Linh - 20237455}{Trần Đình Khánh - 20237449, Nguyễn Hữu Linh - 20237455}} 
+\institute{Trường Công nghệ Thông tin và Truyền thông - HUST}
+
+\begin{document}
+
+\hustintropage{}
+\hustsectionpage{}
+
+% Trang bìa
+\husttitlepage
+
+\begin{frame}{Nội dung trình bày}
+	\tableofcontents[hideallsubsections]
+\end{frame}
+
+\resetPageCount
+\showPageNumber
+\useStyleHustFull
+\useThinBar 
+
+% =================================================================
+% PHẦN 1: GIỚI THIỆU
+% =================================================================
+\section{Giới thiệu bài toán}
+
+\begin{frame}{1.1 Bối cảnh và bài toán}
+	\textbf{Bối cảnh thực tế:}
+	\begin{itemize}
+		\item Ngành khách sạn cần hệ thống phần mềm quản lý \textbf{chuyên nghiệp}
+		\item Quản lý thủ công gây \textbf{sai sót}, \textbf{chậm trễ} và khó mở rộng
+		\item Yêu cầu: Đặt phòng, Check-in/out, Hóa đơn, Báo cáo doanh thu
+	\end{itemize}
+	
+	\vspace{0.5em}
+	
+	\textbf{Mục tiêu dự án:}
+	\begin{itemize}
+		\item Xây dựng hệ thống \textbf{CRUD} hoàn chỉnh cho Room, Booking, Customer, Invoice
+		\item Áp dụng \textbf{4 tính chất OOP}: Encapsulation, Inheritance, Polymorphism, Abstraction
+		\item Công nghệ: \textbf{Java 21}, Swing + FlatLaf, JSON Storage, Maven
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{1.2 Phạm vi hệ thống}
+	\begin{columns}[T]
+		\begin{column}{0.45\textwidth}
+			\textbf{6 Module chức năng:}
+			\begin{enumerate}
+				\item Quản lý Phòng
+				\item Quản lý Đặt phòng
+				\item Quản lý Khách hàng
+				\item Quản lý Hóa đơn
+				\item Đăng nhập/Phân quyền
+				\item Báo cáo Thống kê
+			\end{enumerate}
+			
+			\vspace{1em}
+			\textbf{Công nghệ:}
+			\begin{itemize}
+				\item Java 21, Swing + FlatLaf
+				\item JSON Storage (Gson)
+				\item Maven Build
+			\end{itemize}
+		\end{column}
+		
+		\begin{column}{0.55\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=\textwidth]{PhamViHeThong.drawio.png}
+				\caption{Sơ đồ phạm vi hệ thống}
+			\end{figure}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% =================================================================
+% PHẦN 2: PHÂN TÍCH YÊU CẦU
+% =================================================================
+\section{Phân tích yêu cầu}
+
+\begin{frame}{2.1 Đặc tả Actor - 3 Role nghiệp vụ}
+	\begin{block}{Hệ thống sử dụng 3 Role nghiệp vụ độc lập (không có kế thừa Actor)}
+		\begin{tabular}{|l|l|l|}
+			\hline
+			\textbf{Actor} & \textbf{Role trong code} & \textbf{Chức năng chính} \\
+			\hline
+			Quản lý (Manager) & \texttt{MANAGER} & Quản lý phòng, xem báo cáo \\
+			\hline
+			Lễ tân (Staff) & \texttt{STAFF} & Đặt phòng, check-in/out, hóa đơn \\
+			\hline
+			Bộ phận Dịch vụ (Service) & \texttt{SERVICE} & Cung cấp dịch vụ khách hàng \\
+			\hline
+		\end{tabular}
+	\end{block}
+	
+	\vspace{0.5em}
+	
+	\textbf{Tại sao không dùng kế thừa Actor?}
+	\begin{itemize}
+		\item Hệ thống dùng \textbf{Permission-based Access Control}
+		\item Mỗi Role có tập quyền riêng biệt trong \texttt{PermissionManager.java}
+		\item Linh hoạt hơn: Dễ thêm/bớt quyền mà không cần sửa cấu trúc
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{2.2 Use Case tổng quan}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.75\textwidth]{TongQuan.drawio.png}
+		\caption{Use Case Diagram tổng quan - 3 Actor nghiệp vụ}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{2.3 Use Case chi tiết - Lễ tân \& Quản lý}
+	\begin{columns}[T]
+		\begin{column}{0.5\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=\textwidth]{LeTan.drawio.png}
+				\caption{Use Case Lễ tân với \texttt{<<include>>}}
+			\end{figure}
+		\end{column}
+		
+		\begin{column}{0.5\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=\textwidth]{QuanLy.drawio.png}
+				\caption{Use Case Quản lý}
+			\end{figure}
+		\end{column}
+	\end{columns}
+	
+	\vspace{0.5em}
+	\small
+	\textbf{Quan hệ \texttt{<<include>>}:} ``Đặt phòng'' bắt buộc ``Tìm phòng trống''; ``Check-out'' bắt buộc ``Tạo hóa đơn''
+\end{frame}
+
+\begin{frame}{2.4 Đặc tả Use Case ``Đặt phòng''}
+	\begin{block}{Use Case quan trọng nhất - Nghiệp vụ cốt lõi của hệ thống}
+		\begin{tabular}{|l|p{9cm}|}
+			\hline
+			\textbf{Tác nhân} & Lễ tân (Staff) \\
+			\hline
+			\textbf{Mô tả} & Tạo booking mới cho khách hàng \\
+			\hline
+			\textbf{Tiền điều kiện} & Đã đăng nhập, có phòng trống \\
+			\hline
+			\textbf{Luồng chính} & 1. Chọn ngày check-in/out \\
+			& 2. Hệ thống hiển thị phòng trống \\
+			& 3. Chọn khách hàng và phòng \\
+			& 4. Hệ thống tính giá, tạo booking PENDING \\
+			\hline
+			\textbf{Luồng phụ} & Không có phòng → Đề xuất ngày khác \\
+			\hline
+		\end{tabular}
+	\end{block}
+\end{frame}
+
+\begin{frame}{2.5 Sequence Diagram - Đăng nhập}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.8\textwidth]{DangNhap.drawio.png}
+		\caption{Biểu đồ tuần tự Use Case ``Đăng nhập''}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{2.6 Sequence Diagram - Đặt phòng}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.85\textwidth]{DatPhong.drawio.png}
+		\caption{Biểu đồ tuần tự Use Case ``Đặt phòng''}
+	\end{figure}
+\end{frame}
+
+% =================================================================
+% PHẦN 3: THIẾT KẾ HỆ THỐNG
+% =================================================================
+\section{Thiết kế hệ thống}
+
+\useStyleLogoOnly
+\useThickBar
+
+\begin{frame}{3.1 Kiến trúc MVC - 4 tầng}
+	\begin{columns}[T]
+		\begin{column}{0.5\textwidth}
+			\begin{block}{Tại sao dùng kiến trúc MVC?}
+				\begin{itemize}
+					\item \textbf{Tách biệt} View - Controller - Model
+					\item \textbf{Dễ bảo trì}: Sửa UI không ảnh hưởng logic
+					\item \textbf{Dễ test}: Mock Storage để test Manager
+				\end{itemize}
+			\end{block}
+			
+			\vspace{0.5em}
+			
+			\textbf{4 Layer:}
+			\begin{enumerate}
+				\item \textbf{UI Layer} (Swing Panels)
+				\item \textbf{Service Layer} (Managers)
+				\item \textbf{Model Layer} (Entities)
+				\item \textbf{Storage Layer} (JSON)
+			\end{enumerate}
+		\end{column}
+		
+		\begin{column}{0.5\textwidth}
+			\begin{alertblock}{Luồng dữ liệu}
+				\centering
+				\texttt{UI Panel} \\
+				$\downarrow$ \\
+				\texttt{Manager (Business Logic)} \\
+				$\downarrow$ \\
+				\texttt{Storage (Serialize/Deserialize)} \\
+				$\downarrow$ \\
+				\texttt{JSON Files}
+			\end{alertblock}
+			
+			\vspace{0.5em}
+			\small
+			\textit{Manager không biết dữ liệu lưu ở đâu → Có thể đổi sang Database sau!}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{3.2 Class Diagram - Interfaces}
+	\begin{columns}[T]
+		\begin{column}{0.4\textwidth}
+			\textbf{Tại sao dùng Interface?}
+			\begin{itemize}
+				\item \texttt{IManageable<T>}: Định nghĩa CRUD chung
+				\item \texttt{ISearchable<T>}: Khả năng tìm kiếm
+				\item \texttt{IStorable}: Lưu/tải dữ liệu
+			\end{itemize}
+			
+			\vspace{1em}
+			
+			\textbf{Lợi ích:}
+			\begin{itemize}
+				\item Định nghĩa \textbf{hợp đồng} cho các Manager
+				\item Dễ \textbf{mở rộng} thêm Manager mới
+				\item Hỗ trợ \textbf{Dependency Injection}
+			\end{itemize}
+		\end{column}
+		
+		\begin{column}{0.6\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=\textwidth]{Interfaces.drawio.png}
+				\caption{Class Diagram - Interfaces}
+			\end{figure}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{3.3 Class Diagram - Room (Inheritance)}
+	\begin{columns}[T]
+		\begin{column}{0.4\textwidth}
+			\textbf{Tại sao dùng kế thừa cho Room?}
+			\begin{itemize}
+				\item \textbf{Tính đa hình}: Mỗi loại phòng có cách tính giá khác nhau
+				\item \textbf{Tái sử dụng}: Thuộc tính chung định nghĩa 1 lần
+				\item \textbf{Mở rộng}: Thêm loại phòng mới chỉ cần extends
+			\end{itemize}
+			
+			\vspace{1em}
+			
+			\textbf{Công thức tính giá:}
+			\begin{itemize}
+				\item Standard: \texttt{base × days × 1.0}
+				\item VIP: \texttt{base × days × 1.2}
+				\item Deluxe: \texttt{base × days × 1.5}
+			\end{itemize}
+		\end{column}
+		
+		\begin{column}{0.6\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=\textwidth]{RoomClass.drawio.png}
+				\caption{Abstract class Room và 3 subclass}
+			\end{figure}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{3.4 Class Diagram - Entity (Composition)}
+	\begin{columns}[T]
+		\begin{column}{0.4\textwidth}
+			\textbf{Quan hệ Composition:}
+			\begin{itemize}
+				\item Booking \textbf{chứa} Customer và Room
+				\item Invoice \textbf{chứa} Booking
+				\item Khi xóa Booking → Invoice cũng bị ảnh hưởng
+			\end{itemize}
+			
+			\vspace{1em}
+			
+			\textbf{Chuỗi liên kết:}
+			\begin{center}
+				Customer → Booking → Room \\
+				$\downarrow$ \\
+				Invoice
+			\end{center}
+		\end{column}
+		
+		\begin{column}{0.6\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[width=\textwidth]{Entity.drawio.png}
+				\caption{Quan hệ Composition giữa các Entity}
+			\end{figure}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{3.5 Class Diagram - Tổng thể}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.9\textwidth]{ClassTongQuan.drawio.png}
+		\caption{Class Diagram tổng thể hệ thống}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{3.6 Design Patterns sử dụng}
+	\begin{columns}[T]
+		\begin{column}{0.33\textwidth}
+			\begin{block}{Factory Pattern}
+				\texttt{RoomFactory}
+				\begin{itemize}
+					\item Tạo Room theo type
+					\item Ẩn logic khởi tạo
+					\item Dễ thêm loại mới
+				\end{itemize}
+			\end{block}
+		\end{column}
+		
+		\begin{column}{0.33\textwidth}
+			\begin{block}{Singleton Pattern}
+				\texttt{UserSession}
+				\begin{itemize}
+					\item 1 instance duy nhất
+					\item Lưu thông tin login
+					\item Truy cập toàn cục
+				\end{itemize}
+			\end{block}
+		\end{column}
+		
+		\begin{column}{0.33\textwidth}
+			\begin{block}{MVC Pattern}
+				Toàn bộ kiến trúc
+				\begin{itemize}
+					\item View: UI Panels
+					\item Controller: Managers
+					\item Model: Entities
+				\end{itemize}
+			\end{block}
+		\end{column}
+	\end{columns}
+	
+	\vspace{1em}
+	
+	\centering
+	\textbf{Tại sao dùng Design Patterns?} → Giải quyết vấn đề phổ biến, code dễ đọc và bảo trì
+\end{frame}
+
+% =================================================================
+% PHẦN 4: TRIỂN KHAI
+% =================================================================
+\section{Triển khai}
+
+\useStyleHustFull
+\useThinBar
+
+\begin{frame}{4.1 Tổ chức mã nguồn}
+	\begin{columns}[T]
+		\begin{column}{0.5\textwidth}
+			\textbf{Cấu trúc thư mục:}
+			\begin{itemize}
+				\item \texttt{src/com/hotel/}
+				\begin{itemize}
+					\item \texttt{model/} - 11 files
+					\item \texttt{service/} - 7 files
+					\item \texttt{storage/} - 2 files
+					\item \texttt{ui/} - 17 files
+					\item \texttt{auth/} - 2 files
+					\item \texttt{util/} - 2 files
+				\end{itemize}
+			\end{itemize}
+			
+			\vspace{0.5em}
+			
+			\textbf{Tổng cộng:} $\sim$41 files, $\sim$4500 LOC
+		\end{column}
+		
+		\begin{column}{0.5\textwidth}
+			\begin{block}{Data Files (JSON)}
+				\begin{itemize}
+					\item \texttt{rooms.json} - Danh sách phòng
+					\item \texttt{customers.json} - Khách hàng
+					\item \texttt{bookings.json} - Đặt phòng
+					\item \texttt{invoices.json} - Hóa đơn
+					\item \texttt{users.json} - Tài khoản
+				\end{itemize}
+			\end{block}
+			
+			\vspace{0.5em}
+			
+			\textbf{Tại sao dùng JSON?}
+			\begin{itemize}
+				\item Đơn giản, không cần DB server
+				\item Human-readable, dễ debug
+				\item Portable, đi kèm project
+			\end{itemize}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{4.2 Bốn nguyên lý OOP áp dụng}
+	\begin{columns}[T]
+		\begin{column}{0.5\textwidth}
+			\begin{block}{1. Encapsulation (Đóng gói)}
+				\begin{itemize}
+					\item Thuộc tính \texttt{private}
+					\item Truy cập qua getter/setter
+					\item Ví dụ: \texttt{Room.basePrice}
+				\end{itemize}
+			\end{block}
+			
+			\vspace{0.5em}
+			
+			\begin{block}{2. Inheritance (Kế thừa)}
+				\begin{itemize}
+					\item \texttt{Room} → \texttt{StandardRoom}
+					\item \texttt{Room} → \texttt{VIPRoom}
+					\item \texttt{Room} → \texttt{DeluxeRoom}
+				\end{itemize}
+			\end{block}
+		\end{column}
+		
+		\begin{column}{0.5\textwidth}
+			\begin{block}{3. Polymorphism (Đa hình)}
+				\begin{itemize}
+					\item \texttt{calculatePrice()} trả về giá khác nhau
+					\item VIPRoom: $\times 1.2$
+					\item DeluxeRoom: $\times 1.5$
+				\end{itemize}
+			\end{block}
+			
+			\vspace{0.5em}
+			
+			\begin{block}{4. Abstraction (Trừu tượng)}
+				\begin{itemize}
+					\item Abstract class: \texttt{Room}
+					\item Interface: \texttt{IManageable<T>}
+					\item Interface: \texttt{ISearchable<T>}
+				\end{itemize}
+			\end{block}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% =================================================================
+% PHẦN 5: KẾT LUẬN
+% =================================================================
+\section{Kết luận}
+
+\begin{frame}{5.1 Tổng kết}
+	\begin{columns}[T]
+		\begin{column}{0.5\textwidth}
+			\textbf{Đã hoàn thành:}
+			\begin{itemize}
+				\item[$\checkmark$] Hệ thống CRUD hoàn chỉnh
+				\item[$\checkmark$] 4 tính chất OOP
+				\item[$\checkmark$] 3 Design Patterns
+				\item[$\checkmark$] Kiến trúc MVC 4 tầng
+				\item[$\checkmark$] Phân quyền Permission-based
+				\item[$\checkmark$] UI hiện đại (FlatLaf)
+			\end{itemize}
+		\end{column}
+		
+		\begin{column}{0.5\textwidth}
+			\textbf{Hướng phát triển:}
+			\begin{itemize}
+				\item Chuyển sang Database thực
+				\item Thêm module Dịch vụ phòng
+				\item Tích hợp thanh toán online
+				\item Responsive Web UI
+			\end{itemize}
+			
+			\vspace{1em}
+			
+			\begin{alertblock}{Demo}
+				\centering
+				\textbf{DEMO ỨNG DỤNG}
+			\end{alertblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% =================================================================
+% LIÊN HỆ & CẢM ƠN
+% =================================================================
+
+\hustcontactpage{\hfill THÔNG TIN LIÊN HỆ \hfill }{
+	\textbf{Nhóm 204:} \\
+	- Trần Đình Khánh - 20237449 \\
+	- Nguyễn Hữu Linh - 20237455 \\
+	\vspace{0.5cm}
+	
+	\begin{itemize}
+		\item \textbf{GitHub:} \url{https://github.com/IvanLyVodka11/hotel-management}
+	\end{itemize}
+	
+	\vspace{1cm}
+	\textit{Xin chân thành cảm ơn Thầy/Cô và các bạn đã lắng nghe!}
+}
+
+% Trang Q&A
+\useStyleLogoOnly
+\setbeamertemplate{bibliography item}[text]
+
+\begin{frame}{Q\&A}
+	\centering
+	\vspace{2cm}
+	
+	{\Huge \textbf{CẢM ƠN QUÝ THẦY CÔ!}}
+	
+	\vspace{2cm}
+	
+	{\Large Mời Thầy/Cô đặt câu hỏi}
+\end{frame}
+
+\hustthankyou
+
+\end{document}
