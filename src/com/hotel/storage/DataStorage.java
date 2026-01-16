@@ -1,6 +1,7 @@
 package com.hotel.storage;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import com.hotel.model.booking.Booking;
 import com.hotel.model.customer.Customer;
 import com.hotel.model.enums.BookingStatus;
@@ -11,35 +12,96 @@ import com.hotel.service.BookingManager;
 import com.hotel.service.CustomerManager;
 import com.hotel.service.InvoiceManager;
 import com.hotel.service.RoomManager;
+import com.hotel.util.AppLogger;
 
 import java.io.*;
-import java.time.LocalDate;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Lớp quản lý lưu trữ dữ liệu cho Booking, Customer, và Invoice
  * Handles JSON serialization/deserialization for all managers
+ * Sử dụng thư viện Gson để serialize/deserialize
+ * 
+ * @author Member2
+ * @version 2.0
  */
 public class DataStorage {
+    
+    // ==================== CONSTANTS ====================
+    
     private static final String DEFAULT_DATA_DIR = getDefaultDataDir();
-    private static final String CUSTOMERS_FILE = Paths.get(DEFAULT_DATA_DIR, "customers.json").toString();
-    private static final String BOOKINGS_FILE = Paths.get(DEFAULT_DATA_DIR, "bookings.json").toString();
-    private static final String INVOICES_FILE = Paths.get(DEFAULT_DATA_DIR, "invoices.json").toString();
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final String CUSTOMERS_FILE = "customers.json";
+    private static final String BOOKINGS_FILE = "bookings.json";
+    private static final String INVOICES_FILE = "invoices.json";
+    
+    // ==================== ATTRIBUTES ====================
+    
+    private final String dataDirectory;
+    private final Gson gson;
 
     private CustomerManager customerManager;
     private BookingManager bookingManager;
     private InvoiceManager invoiceManager;
     private RoomManager roomManager;
 
+    // ==================== CONSTRUCTOR ====================
+
     public DataStorage(CustomerManager customerManager, BookingManager bookingManager, 
                        InvoiceManager invoiceManager, RoomManager roomManager) {
+        this(DEFAULT_DATA_DIR, customerManager, bookingManager, invoiceManager, roomManager);
+    }
+
+    public DataStorage(String dataDirectory, CustomerManager customerManager, BookingManager bookingManager, 
+                       InvoiceManager invoiceManager, RoomManager roomManager) {
+        this.dataDirectory = dataDirectory;
+        this.gson = createGson();
         this.customerManager = customerManager;
         this.bookingManager = bookingManager;
         this.invoiceManager = invoiceManager;
         this.roomManager = roomManager;
+        ensureDataDirectoryExists();
+    }
+
+    /**
+     * Tạo Gson instance với custom adapters cho LocalDate
+     */
+    private Gson createGson() {
+        return new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .create();
+    }
+
+    private void ensureDataDirectoryExists() {
+        Path path = Paths.get(dataDirectory);
+        if (!Files.exists(path)) {
+            try {
+                Files.createDirectories(path);
+                AppLogger.info("Đã tạo thư mục dữ liệu: %s", dataDirectory);
+            } catch (IOException e) {
+                AppLogger.error("Không thể tạo thư mục dữ liệu: " + dataDirectory, e);
+            }
+        }
+    }
+
+    // ==================== HELPER METHODS ====================
+
+    private String getCustomersFilePath() {
+        return Paths.get(dataDirectory, CUSTOMERS_FILE).toString();
+    }
+
+    private String getBookingsFilePath() {
+        return Paths.get(dataDirectory, BOOKINGS_FILE).toString();
+    }
+
+    private String getInvoicesFilePath() {
+        return Paths.get(dataDirectory, INVOICES_FILE).toString();
     }
 
     private static String getDefaultDataDir() {
@@ -51,6 +113,8 @@ public class DataStorage {
         return "data";
     }
 
+    // ==================== LOAD/SAVE ALL ====================
+
     /**
      * Tải tất cả dữ liệu từ file JSON
      */
@@ -58,6 +122,7 @@ public class DataStorage {
         loadCustomers();
         loadBookings();
         loadInvoices();
+        AppLogger.info("Đã tải tất cả dữ liệu từ thư mục: %s", dataDirectory);
     }
 
     /**
@@ -67,6 +132,7 @@ public class DataStorage {
         saveCustomers();
         saveBookings();
         saveInvoices();
+        AppLogger.info("Đã lưu tất cả dữ liệu vào thư mục: %s", dataDirectory);
     }
 
     // ==================== CUSTOMERS ====================
@@ -75,26 +141,32 @@ public class DataStorage {
      * Tải danh sách khách hàng từ file JSON
      */
     public void loadCustomers() {
-        try {
-            File file = new File(CUSTOMERS_FILE);
-            if (!file.exists()) {
-                return;
-            }
+        Path filePath = Paths.get(getCustomersFilePath());
+        if (!Files.exists(filePath)) {
+            AppLogger.info("File khách hàng không tồn tại: %s", filePath);
+            return;
+        }
 
-            String content = readFile(CUSTOMERS_FILE);
-            if (content.isEmpty()) {
+        try {
+            String content = Files.readString(filePath, StandardCharsets.UTF_8);
+            if (content.isEmpty() || content.isBlank()) {
                 return;
             }
 
             JsonArray jsonArray = JsonParser.parseString(content).getAsJsonArray();
+            int count = 0;
             for (JsonElement element : jsonArray) {
                 Customer customer = parseCustomer(element.getAsJsonObject());
                 if (customer != null) {
                     customerManager.add(customer);
+                    count++;
                 }
             }
-        } catch (Exception e) {
-            System.err.println("Lỗi khi tải khách hàng: " + e.getMessage());
+            AppLogger.info("Đã tải %d khách hàng từ %s", count, filePath);
+        } catch (IOException e) {
+            AppLogger.error("Lỗi khi tải khách hàng từ file: " + filePath, e);
+        } catch (JsonSyntaxException e) {
+            AppLogger.error("Lỗi cú pháp JSON khi tải khách hàng: " + filePath, e);
         }
     }
 
@@ -107,9 +179,11 @@ public class DataStorage {
             for (Customer customer : customerManager.getAll()) {
                 jsonArray.add(customerToJson(customer));
             }
-            writeFile(CUSTOMERS_FILE, gson.toJson(jsonArray));
-        } catch (Exception e) {
-            System.err.println("Lỗi khi lưu khách hàng: " + e.getMessage());
+            String json = gson.toJson(jsonArray);
+            Files.writeString(Paths.get(getCustomersFilePath()), json, StandardCharsets.UTF_8);
+            AppLogger.info("Đã lưu %d khách hàng vào %s", customerManager.getAll().size(), getCustomersFilePath());
+        } catch (IOException e) {
+            AppLogger.error("Lỗi khi lưu khách hàng vào file: " + getCustomersFilePath(), e);
         }
     }
 
@@ -119,26 +193,32 @@ public class DataStorage {
      * Tải danh sách đặt phòng từ file JSON
      */
     public void loadBookings() {
-        try {
-            File file = new File(BOOKINGS_FILE);
-            if (!file.exists()) {
-                return;
-            }
+        Path filePath = Paths.get(getBookingsFilePath());
+        if (!Files.exists(filePath)) {
+            AppLogger.info("File đặt phòng không tồn tại: %s", filePath);
+            return;
+        }
 
-            String content = readFile(BOOKINGS_FILE);
-            if (content.isEmpty()) {
+        try {
+            String content = Files.readString(filePath, StandardCharsets.UTF_8);
+            if (content.isEmpty() || content.isBlank()) {
                 return;
             }
 
             JsonArray jsonArray = JsonParser.parseString(content).getAsJsonArray();
+            int count = 0;
             for (JsonElement element : jsonArray) {
                 Booking booking = parseBooking(element.getAsJsonObject());
                 if (booking != null) {
                     bookingManager.add(booking);
+                    count++;
                 }
             }
-        } catch (Exception e) {
-            System.err.println("Lỗi khi tải đặt phòng: " + e.getMessage());
+            AppLogger.info("Đã tải %d đặt phòng từ %s", count, filePath);
+        } catch (IOException e) {
+            AppLogger.error("Lỗi khi tải đặt phòng từ file: " + filePath, e);
+        } catch (JsonSyntaxException e) {
+            AppLogger.error("Lỗi cú pháp JSON khi tải đặt phòng: " + filePath, e);
         }
     }
 
@@ -151,9 +231,11 @@ public class DataStorage {
             for (Booking booking : bookingManager.getAll()) {
                 jsonArray.add(bookingToJson(booking));
             }
-            writeFile(BOOKINGS_FILE, gson.toJson(jsonArray));
-        } catch (Exception e) {
-            System.err.println("Lỗi khi lưu đặt phòng: " + e.getMessage());
+            String json = gson.toJson(jsonArray);
+            Files.writeString(Paths.get(getBookingsFilePath()), json, StandardCharsets.UTF_8);
+            AppLogger.info("Đã lưu %d đặt phòng vào %s", bookingManager.getAll().size(), getBookingsFilePath());
+        } catch (IOException e) {
+            AppLogger.error("Lỗi khi lưu đặt phòng vào file: " + getBookingsFilePath(), e);
         }
     }
 
@@ -163,26 +245,32 @@ public class DataStorage {
      * Tải danh sách hóa đơn từ file JSON
      */
     public void loadInvoices() {
-        try {
-            File file = new File(INVOICES_FILE);
-            if (!file.exists()) {
-                return;
-            }
+        Path filePath = Paths.get(getInvoicesFilePath());
+        if (!Files.exists(filePath)) {
+            AppLogger.info("File hóa đơn không tồn tại: %s", filePath);
+            return;
+        }
 
-            String content = readFile(INVOICES_FILE);
-            if (content.isEmpty()) {
+        try {
+            String content = Files.readString(filePath, StandardCharsets.UTF_8);
+            if (content.isEmpty() || content.isBlank()) {
                 return;
             }
 
             JsonArray jsonArray = JsonParser.parseString(content).getAsJsonArray();
+            int count = 0;
             for (JsonElement element : jsonArray) {
                 Invoice invoice = parseInvoice(element.getAsJsonObject());
                 if (invoice != null) {
                     invoiceManager.add(invoice);
+                    count++;
                 }
             }
-        } catch (Exception e) {
-            System.err.println("Lỗi khi tải hóa đơn: " + e.getMessage());
+            AppLogger.info("Đã tải %d hóa đơn từ %s", count, filePath);
+        } catch (IOException e) {
+            AppLogger.error("Lỗi khi tải hóa đơn từ file: " + filePath, e);
+        } catch (JsonSyntaxException e) {
+            AppLogger.error("Lỗi cú pháp JSON khi tải hóa đơn: " + filePath, e);
         }
     }
 
@@ -195,9 +283,11 @@ public class DataStorage {
             for (Invoice invoice : invoiceManager.getAll()) {
                 jsonArray.add(invoiceToJson(invoice));
             }
-            writeFile(INVOICES_FILE, gson.toJson(jsonArray));
-        } catch (Exception e) {
-            System.err.println("Lỗi khi lưu hóa đơn: " + e.getMessage());
+            String json = gson.toJson(jsonArray);
+            Files.writeString(Paths.get(getInvoicesFilePath()), json, StandardCharsets.UTF_8);
+            AppLogger.info("Đã lưu %d hóa đơn vào %s", invoiceManager.getAll().size(), getInvoicesFilePath());
+        } catch (IOException e) {
+            AppLogger.error("Lỗi khi lưu hóa đơn vào file: " + getInvoicesFilePath(), e);
         }
     }
 
@@ -221,7 +311,7 @@ public class DataStorage {
             }
             return customer;
         } catch (Exception e) {
-            System.err.println("Lỗi parse Customer: " + e.getMessage());
+            AppLogger.error("Lỗi parse Customer: " + e.getMessage(), e);
             return null;
         }
     }
@@ -244,9 +334,11 @@ public class DataStorage {
                     booking.setNotes(json.get("notes").getAsString());
                 }
                 return booking;
+            } else {
+                AppLogger.warn("Không tìm thấy Customer hoặc Room cho Booking: %s", bookingId);
             }
         } catch (Exception e) {
-            System.err.println("Lỗi parse Booking: " + e.getMessage());
+            AppLogger.error("Lỗi parse Booking: " + e.getMessage(), e);
         }
         return null;
     }
@@ -268,9 +360,11 @@ public class DataStorage {
                     invoice.setNotes(json.get("notes").getAsString());
                 }
                 return invoice;
+            } else {
+                AppLogger.warn("Không tìm thấy Booking cho Invoice: %s", invoiceId);
             }
         } catch (Exception e) {
-            System.err.println("Lỗi parse Invoice: " + e.getMessage());
+            AppLogger.error("Lỗi parse Invoice: " + e.getMessage(), e);
         }
         return null;
     }
@@ -318,24 +412,23 @@ public class DataStorage {
         return json;
     }
 
-    // ==================== FILE I/O ====================
+    // ==================== LOCAL DATE ADAPTER ====================
 
-    private String readFile(String filePath) throws IOException {
-        StringBuilder content = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                content.append(line).append("\n");
-            }
+    /**
+     * Custom Gson adapter cho LocalDate serialization/deserialization
+     */
+    private static class LocalDateAdapter implements JsonSerializer<LocalDate>, JsonDeserializer<LocalDate> {
+        private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+
+        @Override
+        public JsonElement serialize(LocalDate date, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(date.format(formatter));
         }
-        return content.toString();
-    }
 
-    private void writeFile(String filePath, String content) throws IOException {
-        File file = new File(filePath);
-        file.getParentFile().mkdirs();
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write(content);
+        @Override
+        public LocalDate deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) 
+                throws JsonParseException {
+            return LocalDate.parse(json.getAsString(), formatter);
         }
     }
 }
