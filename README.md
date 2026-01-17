@@ -180,10 +180,17 @@ cd OOPproject
 mvn clean install
 
 # Chạy ứng dụng
-mvn exec:java -Dexec.mainClass="com.hotel.Main"
+mvn compile exec:java -Dexec.mainClass=com.hotel.Main
 ```
 
-Hoặc chạy trực tiếp từ IDE (IntelliJ IDEA, VS Code, Eclipse).
+**Lưu ý cho Windows PowerShell:**
+```powershell
+# Nếu gặp lỗi với Maven, chạy compile riêng:
+mvn compile
+java -cp "target/classes;%USERPROFILE%\.m2\repository\com\google\code\gson\gson\2.10.1\gson-2.10.1.jar;%USERPROFILE%\.m2\repository\com\formdev\flatlaf\3.2.1\flatlaf-3.2.1.jar" com.hotel.Main
+```
+
+**Hoặc chạy trực tiếp từ IDE** (IntelliJ IDEA, VS Code, Eclipse) - đơn giản nhất.
 
 ### Chạy tests
 
