@@ -5,9 +5,14 @@ import com.google.gson.reflect.TypeToken;
 import com.hotel.model.booking.Booking;
 import com.hotel.model.customer.Customer;
 import com.hotel.model.enums.BookingStatus;
+import com.hotel.model.enums.RoomStatus;
+import com.hotel.model.enums.RoomType;
 import com.hotel.model.invoice.Invoice;
 import com.hotel.model.invoice.Invoice.InvoiceStatus;
+import com.hotel.model.room.DeluxeRoom;
 import com.hotel.model.room.Room;
+import com.hotel.model.room.StandardRoom;
+import com.hotel.model.room.VIPRoom;
 import com.hotel.service.BookingManager;
 import com.hotel.service.CustomerManager;
 import com.hotel.service.InvoiceManager;
@@ -22,6 +27,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Lớp quản lý lưu trữ dữ liệu cho Booking, Customer, và Invoice
@@ -36,6 +43,7 @@ public class DataStorage {
     // ==================== CONSTANTS ====================
     
     private static final String DEFAULT_DATA_DIR = getDefaultDataDir();
+    private static final String ROOMS_FILE = "rooms.json";
     private static final String CUSTOMERS_FILE = "customers.json";
     private static final String BOOKINGS_FILE = "bookings.json";
     private static final String INVOICES_FILE = "invoices.json";
@@ -69,12 +77,13 @@ public class DataStorage {
     }
 
     /**
-     * Tạo Gson instance với custom adapters cho LocalDate
+     * Tạo Gson instance với custom adapters cho LocalDate và Room polymorphism
      */
     private Gson createGson() {
         return new GsonBuilder()
                 .setPrettyPrinting()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .registerTypeAdapter(Room.class, new RoomTypeAdapter())
                 .create();
     }
 
@@ -91,6 +100,10 @@ public class DataStorage {
     }
 
     // ==================== HELPER METHODS ====================
+
+    private String getRoomsFilePath() {
+        return Paths.get(dataDirectory, ROOMS_FILE).toString();
+    }
 
     private String getCustomersFilePath() {
         return Paths.get(dataDirectory, CUSTOMERS_FILE).toString();
@@ -119,6 +132,7 @@ public class DataStorage {
      * Tải tất cả dữ liệu từ file JSON
      */
     public void loadAllData() {
+        loadRooms();  // Load rooms first (needed for bookings)
         loadCustomers();
         loadBookings();
         loadInvoices();
@@ -129,10 +143,99 @@ public class DataStorage {
      * Lưu tất cả dữ liệu vào file JSON
      */
     public void saveAllData() {
+        saveRooms();
         saveCustomers();
         saveBookings();
         saveInvoices();
         AppLogger.info("Đã lưu tất cả dữ liệu vào thư mục: %s", dataDirectory);
+    }
+
+    // ==================== ROOMS ====================
+
+    /**
+     * Wrapper class cho JSON structure của Room
+     */
+    private static class RoomDataWrapper {
+        List<Room> rooms;
+
+        RoomDataWrapper(List<Room> rooms) {
+            this.rooms = rooms;
+        }
+    }
+
+    /**
+     * Tải danh sách phòng từ file JSON
+     */
+    public void loadRooms() {
+        Path filePath = Paths.get(getRoomsFilePath());
+        if (!Files.exists(filePath)) {
+            AppLogger.info("File phòng không tồn tại: %s", filePath);
+            return;
+        }
+
+        try {
+            String json = Files.readString(filePath, StandardCharsets.UTF_8);
+            RoomDataWrapper wrapper = gson.fromJson(json, RoomDataWrapper.class);
+            if (wrapper != null && wrapper.rooms != null) {
+                roomManager.loadRooms(wrapper.rooms);
+                AppLogger.info("Đã tải %d phòng từ %s", wrapper.rooms.size(), filePath);
+            }
+        } catch (IOException | JsonSyntaxException e) {
+            AppLogger.error("Lỗi khi tải phòng từ file: " + filePath, e);
+        }
+    }
+
+    /**
+     * Lưu danh sách phòng vào file JSON
+     */
+    public void saveRooms() {
+        try {
+            RoomDataWrapper wrapper = new RoomDataWrapper(roomManager.getAll());
+            String json = gson.toJson(wrapper);
+            Files.writeString(Paths.get(getRoomsFilePath()), json, StandardCharsets.UTF_8);
+            AppLogger.info("Đã lưu %d phòng vào %s", roomManager.getAll().size(), getRoomsFilePath());
+        } catch (IOException e) {
+            AppLogger.error("Lỗi khi lưu phòng vào file: " + getRoomsFilePath(), e);
+        }
+    }
+
+    /**
+     * Lưu danh sách phòng (public method cho RoomPanel)
+     */
+    public boolean saveRooms(List<Room> rooms) {
+        if (rooms == null) return false;
+        try {
+            RoomDataWrapper wrapper = new RoomDataWrapper(rooms);
+            String json = gson.toJson(wrapper);
+            Files.writeString(Paths.get(getRoomsFilePath()), json, StandardCharsets.UTF_8);
+            AppLogger.info("Đã lưu %d phòng vào %s", rooms.size(), getRoomsFilePath());
+            return true;
+        } catch (IOException e) {
+            AppLogger.error("Lỗi khi lưu phòng vào file: " + getRoomsFilePath(), e);
+            return false;
+        }
+    }
+
+    /**
+     * Đọc danh sách phòng từ file JSON (public method cho RoomPanel)
+     */
+    public List<Room> loadRoomsList() {
+        Path filePath = Paths.get(getRoomsFilePath());
+        if (!Files.exists(filePath)) {
+            AppLogger.debug("File phòng không tồn tại: %s", filePath);
+            return new ArrayList<>();
+        }
+
+        try {
+            String json = Files.readString(filePath, StandardCharsets.UTF_8);
+            RoomDataWrapper wrapper = gson.fromJson(json, RoomDataWrapper.class);
+            List<Room> result = wrapper != null && wrapper.rooms != null ? wrapper.rooms : new ArrayList<>();
+            AppLogger.info("Đã tải %d phòng từ %s", result.size(), filePath);
+            return result;
+        } catch (IOException | JsonSyntaxException e) {
+            AppLogger.error("Lỗi khi tải phòng từ file: " + filePath, e);
+            return new ArrayList<>();
+        }
     }
 
     // ==================== CUSTOMERS ====================
@@ -429,6 +532,109 @@ public class DataStorage {
         public LocalDate deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) 
                 throws JsonParseException {
             return LocalDate.parse(json.getAsString(), formatter);
+        }
+    }
+
+    // ==================== ROOM TYPE ADAPTER ====================
+
+    /**
+     * Custom TypeAdapter để xử lý polymorphism của Room
+     * Gson cần biết cách serialize/deserialize các subclass của Room
+     */
+    private static class RoomTypeAdapter implements JsonSerializer<Room>, JsonDeserializer<Room> {
+
+        @Override
+        public JsonElement serialize(Room room, Type typeOfSrc, JsonSerializationContext context) {
+            JsonObject json = new JsonObject();
+
+            // Lưu loại phòng để biết deserialize thành class nào
+            json.addProperty("roomType", room.getRoomType().name());
+
+            // Thuộc tính chung
+            json.addProperty("roomId", room.getRoomId());
+            json.addProperty("floor", room.getFloor());
+            json.addProperty("basePrice", room.getBasePrice());
+            json.addProperty("status", room.getStatus().name());
+            json.addProperty("description", room.getDescription());
+            json.addProperty("bedCount", room.getBedCount());
+            json.addProperty("area", room.getArea());
+
+            // Thuộc tính riêng của từng loại phòng
+            if (room instanceof VIPRoom) {
+                VIPRoom vip = (VIPRoom) room;
+                json.addProperty("hasView", vip.hasView());
+                json.addProperty("hasPrivateBathroom", vip.hasPrivateBathroom());
+            } else if (room instanceof DeluxeRoom) {
+                DeluxeRoom deluxe = (DeluxeRoom) room;
+                json.addProperty("hasView", deluxe.hasView());
+                json.addProperty("hasPrivateBathroom", deluxe.hasPrivateBathroom());
+                json.addProperty("hasJacuzzi", deluxe.hasJacuzzi());
+                json.addProperty("hasMinibar", deluxe.hasMinibar());
+                json.addProperty("hasLivingRoom", deluxe.hasLivingRoom());
+            }
+
+            return json;
+        }
+
+        @Override
+        public Room deserialize(JsonElement jsonElement, Type typeOfT,
+                JsonDeserializationContext context) throws JsonParseException {
+            JsonObject json = jsonElement.getAsJsonObject();
+
+            // Đọc loại phòng
+            RoomType roomType = RoomType.valueOf(json.get("roomType").getAsString());
+
+            // Đọc thuộc tính chung
+            String roomId = json.get("roomId").getAsString();
+            int floor = json.get("floor").getAsInt();
+            double basePrice = json.get("basePrice").getAsDouble();
+            RoomStatus status = RoomStatus.valueOf(json.get("status").getAsString());
+            String description = getStringOrDefault(json, "description", "");
+            int bedCount = getIntOrDefault(json, "bedCount", 1);
+            double area = getDoubleOrDefault(json, "area", 20.0);
+
+            // Tạo đối tượng theo loại phòng
+            Room room;
+            switch (roomType) {
+                case VIP:
+                    VIPRoom vip = new VIPRoom(roomId, floor, basePrice, description, bedCount, area);
+                    vip.setHasView(getBooleanOrDefault(json, "hasView", true));
+                    vip.setHasPrivateBathroom(getBooleanOrDefault(json, "hasPrivateBathroom", true));
+                    room = vip;
+                    break;
+                case DELUXE:
+                    DeluxeRoom deluxe = new DeluxeRoom(roomId, floor, basePrice, description, bedCount, area);
+                    deluxe.setHasView(getBooleanOrDefault(json, "hasView", true));
+                    deluxe.setHasPrivateBathroom(getBooleanOrDefault(json, "hasPrivateBathroom", true));
+                    deluxe.setHasJacuzzi(getBooleanOrDefault(json, "hasJacuzzi", true));
+                    deluxe.setHasMinibar(getBooleanOrDefault(json, "hasMinibar", true));
+                    deluxe.setHasLivingRoom(getBooleanOrDefault(json, "hasLivingRoom", true));
+                    room = deluxe;
+                    break;
+                default:
+                    room = new StandardRoom(roomId, floor, basePrice, description, bedCount, area);
+                    break;
+            }
+
+            room.setStatus(status);
+            return room;
+        }
+
+        // Helper methods để xử lý null-safe
+        private String getStringOrDefault(JsonObject json, String key, String defaultValue) {
+            return json.has(key) && !json.get(key).isJsonNull() ? json.get(key).getAsString() : defaultValue;
+        }
+
+        private int getIntOrDefault(JsonObject json, String key, int defaultValue) {
+            return json.has(key) && !json.get(key).isJsonNull() ? json.get(key).getAsInt() : defaultValue;
+        }
+
+        private double getDoubleOrDefault(JsonObject json, String key, double defaultValue) {
+            return json.has(key) && !json.get(key).isJsonNull() ? json.get(key).getAsDouble() : defaultValue;
+        }
+
+        private boolean getBooleanOrDefault(JsonObject json, String key, boolean defaultValue) {
+            return json.has(key) && !json.get(key).isJsonNull() ? json.get(key).getAsBoolean() : defaultValue;
         }
     }
 }

@@ -1,88 +1,167 @@
 # 🏨 Hệ thống Quản lý Khách sạn (Hotel Management System)
 
 ## 📋 Mô tả
-Đồ án môn học **Lập trình Hướng đối tượng** - Hệ thống quản lý khách sạn với đầy đủ các chức năng quản lý phòng, đặt phòng, khách hàng và báo cáo.
+Đồ án môn học **Lập trình Hướng đối tượng (OOP)** - Hệ thống quản lý khách sạn với đầy đủ các chức năng quản lý phòng, đặt phòng, khách hàng, hóa đơn và báo cáo.
 
 ## 👥 Thành viên nhóm
 | Thành viên | Nhiệm vụ | Trạng thái |
 |------------|----------|------------|
-| Thành viên 1 | Quản lý Phòng, Menu, Storage, Login | ✅ Hoàn thành |
-| Thành viên 2 | Quản lý Đặt phòng, Khách hàng, Hóa đơn | ✅ Hoàn thành |
+| Thành viên 1 | Quản lý Phòng (Room), Interfaces, Storage | ✅ Hoàn thành |
+| Thành viên 2 | Quản lý Đặt phòng, Khách hàng, Hóa đơn, UI | ✅ Hoàn thành |
+
+---
+
+## 🏗️ Kiến trúc hệ thống
+
+### BCE Pattern (Boundary-Control-Entity)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  PRESENTATION LAYER (Boundary) - Java Swing                     │
+│  LoginFrame, MainFrame, BookingPanel, CustomerPanel, RoomPanel  │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│  BUSINESS LOGIC LAYER (Control) - Manager Classes               │
+│  BookingManager, CustomerManager, RoomManager, InvoiceManager   │
+│  + Interfaces: IManageable<T>, ISearchable<T>                   │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│  DATA ACCESS LAYER (Entity + Storage)                           │
+│  Customer, Room (abstract), Booking, Invoice                    │
+│  DataStorage (JSON với Gson + TypeAdapter)                      │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+![System Architecture](docs/diagrams/System.drawio.png)
+
+---
 
 ## 🛠️ Công nghệ sử dụng
-- **Ngôn ngữ**: Java 21
-- **UI Framework**: Java Swing + FlatLaf
-- **Storage**: JSON (Gson)
-- **Build Tool**: Maven
-- **Testing**: JUnit 5
+
+| Công nghệ | Phiên bản | Mục đích |
+|-----------|-----------|----------|
+| Java | 21+ | Ngôn ngữ lập trình |
+| Java Swing | - | UI Framework |
+| FlatLaf | 3.x | Modern Look & Feel |
+| Gson | 2.10+ | JSON Serialization |
+| Maven | 3.6+ | Build Tool |
+| JUnit | 5 | Unit Testing |
+
+---
 
 ## 📐 Cấu trúc dự án
+
 ```
-hotel-management/
-├── src/
-│   └── com/hotel/
-│       ├── Main.java              # Entry point
-│       ├── model/                 # Data models
-│       │   ├── room/              # Room classes (Thành viên 1)
-│       │   │   ├── Room.java
-│       │   │   ├── StandardRoom.java
-│       │   │   ├── VIPRoom.java
-│       │   │   ├── DeluxeRoom.java
-│       │   │   └── RoomFactory.java
-│       │   ├── customer/          # Customer classes (Thành viên 2)
-│       │   │   └── Customer.java
-│       │   ├── booking/           # Booking classes (Thành viên 2)
-│       │   │   └── Booking.java
-│       │   ├── invoice/           # Invoice classes (Thành viên 2)
-│       │   │   └── Invoice.java
-│       │   └── enums/             # Enums
-│       │       ├── RoomType.java
-│       │       ├── RoomStatus.java
-│       │       └── BookingStatus.java
-│       ├── service/               # Business logic
-│       │   ├── RoomManager.java
-│       │   ├── CustomerManager.java
-│       │   ├── BookingManager.java
-│       │   ├── InvoiceManager.java
-│       │   └── interfaces/
-│       │       ├── IManageable.java
-│       │       ├── ISearchable.java
-│       │       └── IStorable.java
-│       ├── storage/               # Data persistence
-│       │   ├── RoomStorage.java
-│       │   └── DataStorage.java
-│       └── ui/                    # User interface
-│           ├── LoginFrame.java
-│           ├── MainFrame.java
-│           ├── RoomPanel.java
-│           ├── RoomDialog.java
-│           ├── BookingPanel.java
-│           ├── CustomerPanel.java
-│           └── InvoicePanel.java
-├── test/                          # Unit tests
-│   └── SimpleRoomTest.java
-├── data/                          # Data files
+OOPproject/
+├── src/com/hotel/
+│   ├── Main.java                    # Entry point
+│   ├── auth/                        # Authentication & Authorization
+│   │   ├── PermissionManager.java   # Phân quyền (MANAGER, STAFF, SERVICE)
+│   │   └── UserSession.java         # Quản lý phiên đăng nhập
+│   ├── model/                       # Entity Layer
+│   │   ├── room/                    # Phòng (Inheritance + Polymorphism)
+│   │   │   ├── Room.java            # Abstract class
+│   │   │   ├── StandardRoom.java    # Phòng tiêu chuẩn
+│   │   │   ├── VIPRoom.java         # Phòng VIP
+│   │   │   └── DeluxeRoom.java      # Phòng Deluxe
+│   │   ├── customer/Customer.java   # Khách hàng
+│   │   ├── booking/Booking.java     # Đặt phòng (Information Expert)
+│   │   ├── invoice/Invoice.java     # Hóa đơn (Self-calculating)
+│   │   └── enums/                   # Enums
+│   │       ├── RoomType.java
+│   │       ├── RoomStatus.java
+│   │       └── BookingStatus.java
+│   ├── service/                     # Control Layer
+│   │   ├── RoomManager.java         # Singleton Pattern
+│   │   ├── CustomerManager.java
+│   │   ├── BookingManager.java
+│   │   ├── InvoiceManager.java
+│   │   └── interfaces/              # Abstraction
+│   │       ├── IManageable.java     # Generic CRUD interface
+│   │       ├── ISearchable.java     # Search & Filter interface
+│   │       └── IStorable.java       # Storage interface
+│   ├── storage/
+│   │   └── DataStorage.java         # JSON persistence (Gson + TypeAdapter)
+│   ├── ui/                          # Boundary Layer
+│   │   ├── LoginFrame.java
+│   │   ├── MainFrame.java
+│   │   ├── DashboardPanel.java
+│   │   ├── RoomPanel.java
+│   │   ├── BookingPanel.java
+│   │   ├── CustomerPanel.java
+│   │   ├── InvoicePanel.java
+│   │   ├── base/                    # Base UI classes
+│   │   ├── theme/                   # Theme management
+│   │   └── util/                    # UI utilities
+│   └── util/
+│       ├── AppLogger.java           # Logging
+│       └── Result.java              # Error handling
+├── data/                            # JSON data files
 │   ├── rooms.json
-│   ├── users.json
 │   ├── customers.json
 │   ├── bookings.json
-│   └── invoices.json
-├── docs/                          # Documentation
-│   ├── 01_TECHNICAL_DESIGN.md
-│   ├── 02_BACKLOG_MEMBER1.md
-│   ├── 03_BACKLOG_MEMBER2.md
-│   ├── 04_MEMBER2_SUMMARY.md
-│   ├── 05_CLASS_DIAGRAM_MEMBER2.md
-│   └── 06_USER_GUIDE_MEMBER2.md
-└── pom.xml                        # Maven config
+│   ├── invoices.json
+│   └── users.json
+├── docs/                            # Documentation
+│   └── diagrams/                    # UML Diagrams (draw.io)
+├── test/                            # Unit tests
+└── pom.xml                          # Maven configuration
 ```
 
-## 📄 Tài liệu dự án
+---
 
-> **📘 Tài liệu đầy đủ:** [BaoCao_HotelManagement.md](docs/BaoCao_HotelManagement.md)
->
-> Báo cáo tổng hợp bao gồm: Use Case Diagram, Đặc tả Use Case, Sequence Diagram, Class Diagram, và hướng dẫn chi tiết.
+## 🎯 Các nguyên lý OOP được áp dụng
 
+### 4 Tính chất OOP
+
+| Tính chất | Minh chứng |
+|-----------|------------|
+| **Encapsulation** | Thuộc tính `private`, getter/setter với validation |
+| **Inheritance** | `Room` (abstract) → `StandardRoom`, `VIPRoom`, `DeluxeRoom` |
+| **Polymorphism** | `room.calculatePrice()` override khác nhau mỗi lớp con |
+| **Abstraction** | Abstract class `Room`, interfaces `IManageable<T>`, `ISearchable<T>` |
+
+### GRASP Principles
+
+| Nguyên lý | Áp dụng |
+|-----------|---------|
+| **Information Expert** | `Booking.calculateTotalPrice()`, `Invoice.calculateAmounts()` |
+| **Creator** | `BookingManager` tạo `Booking`, `InvoiceManager` tạo `Invoice` |
+| **Controller** | Các Manager classes điều phối nghiệp vụ |
+| **Low Coupling** | Sử dụng interfaces (`IManageable`, `ISearchable`) |
+| **High Cohesion** | Mỗi class có trách nhiệm rõ ràng |
+
+### Design Patterns
+
+| Pattern | Vị trí |
+|---------|--------|
+| **Singleton** | `RoomManager.getInstance()` |
+| **Factory** | `RoomTypeAdapter` trong DataStorage |
+| **Template Method** | Abstract `Room.calculatePrice()` |
+
+---
+
+## 👥 Hệ thống phân quyền (3 Actors)
+
+| Vai trò | Mã | Quyền hạn |
+|---------|-----|-----------|
+| **Quản lý** | MANAGER | Quản lý phòng (CRUD), xem báo cáo doanh thu |
+| **Lễ tân** | STAFF | Đặt phòng, Check-in/out, Quản lý khách hàng, Lập hóa đơn |
+| **Dịch vụ** | SERVICE | Xem trạng thái phòng, Hỗ trợ khách hàng |
+
+---
+
+## 📊 Loại phòng
+
+| Loại | Giá cơ bản | Hệ số nhân | Tiện nghi đặc biệt |
+|------|-----------|------------|-------------------|
+| **Standard** | 500,000 VND | x1.0 | Cơ bản |
+| **VIP** | 1,000,000 VND | x1.2 | View, Phòng tắm riêng |
+| **Deluxe** | 1,500,000 VND | x1.5 | Jacuzzi, Minibar, Phòng khách |
+
+---
 
 ## 🚀 Hướng dẫn chạy
 
@@ -90,188 +169,107 @@ hotel-management/
 - Java JDK 21+
 - Maven 3.6+
 
-### Cài đặt dependencies
-```bash
-mvn clean install
-```
+### Cài đặt và chạy
 
-### Chạy ứng dụng
 ```bash
+# Clone repository
+git clone <repository-url>
+cd OOPproject
+
+# Cài đặt dependencies
+mvn clean install
+
+# Chạy ứng dụng
 mvn exec:java -Dexec.mainClass="com.hotel.Main"
 ```
 
-Hoặc chạy trực tiếp từ IDE.
+Hoặc chạy trực tiếp từ IDE (IntelliJ IDEA, VS Code, Eclipse).
 
 ### Chạy tests
+
 ```bash
 mvn test
 ```
 
-### Đăng nhập
-- **Username**: `admin`
-- **Password**: `admin123`
+### Tài khoản đăng nhập mẫu
 
-## ✅ Tính năng đã hoàn thành (Thành viên 1)
+| Username | Password | Vai trò |
+|----------|----------|---------|
+| admin | admin123 | MANAGER |
+| staff | staff123 | STAFF |
+| service | service123 | SERVICE |
 
-### 1. Quản lý Phòng
-- [x] Thêm phòng mới
-- [x] Sửa thông tin phòng
-- [x] Xóa phòng
-- [x] Xem danh sách phòng
-- [x] Tìm kiếm phòng (theo ID, loại, tầng)
-- [x] Lọc phòng (theo loại, trạng thái)
-- [x] Sắp xếp phòng
-- [x] Thống kê phòng
+---
 
-### 2. Hệ thống
-- [x] Đăng nhập
-- [x] Menu chính
-- [x] Lưu/Load dữ liệu JSON
+## 📚 Tài liệu
 
-### 3. OOP Concepts
-- [x] **Abstraction**: Abstract class `Room`, `Person`
-- [x] **Encapsulation**: Private fields, public getters/setters
-- [x] **Inheritance**: StandardRoom, VIPRoom, DeluxeRoom extends Room
-- [x] **Polymorphism**: calculatePrice(), getRoomType()
-- [x] **Interfaces**: IManageable, ISearchable, IStorable
-- [x] **Design Patterns**: Singleton (RoomManager), Factory (RoomFactory)
+### Báo cáo LaTeX
+- `Chương 1_ Khảo sát hệ thống.tex`
+- `Chương 2_ Đặc tả yêu cầu.tex`
+- `Chương 3_ Thiết kế hệ thống.tex`
+- `Chương 4_ Thiết kế giao diện.tex`
+- `Chương 5_ Kiểm thử.tex`
+- `Chương 6_ Bảo trì phần mềm.tex`
 
-## ✅ Tính năng đã hoàn thành (Thành viên 2)
+### UML Diagrams (`docs/diagrams/`)
+- **Use Case:** UseCaseTongQuan, QuanLy, LeTan, DichVu
+- **Sequence:** DangNhap, DatPhong, CheckIn, CheckOut, ThemPhong, SuaPhong, XoaPhong, XemPhong, ThemKhachHang, SuaKhachHang, XoaKhachHang
+- **Class:** ClassTongQuan, EntityClass, RoomClass, InterfacesClass
 
-Ghi chú: Đã tích hợp UI vào MainFrame (tab Đặt phòng/Khách hàng/Báo cáo) và hoàn thiện luồng tạo/sửa đặt phòng.
+---
 
-### 1. Quản lý Khách hàng
-- [x] Model Customer class
-  - [x] Attributes: customerId, fullName, email, phoneNumber, idCard, address, registrationDate, isVIP, loyaltyPoints
-  - [x] Getters/Setters
-  - [x] Loyalty points system
-- [x] CustomerManager (CRUD + Search)
-  - [x] add(), update(), delete(), getById(), getAll()
-  - [x] search() - tìm theo tên, email, phone
-  - [x] filter() - lọc theo VIP status, loyalty points
-  - [x] getTotalCustomers(), getVIPCustomers()
+## ✅ Tính năng
 
-### 2. Quản lý Đặt phòng
-- [x] Model Booking class
-  - [x] References to Customer và Room
-  - [x] Attributes: bookingId, checkInDate, checkOutDate, status, totalPrice, notes
-  - [x] calculateTotalPrice() - tính dựa trên số ngày
-  - [x] getNumberOfDays() method
-  - [x] isValid() - kiểm tra tính hợp lệ
-- [x] BookingManager (CRUD + Search)
-  - [x] add(), update(), delete(), getById(), getAll()
-  - [x] search() - tìm theo booking ID, customer name, room ID
-  - [x] filter() - lọc theo status, customer, room
-  - [x] isRoomAvailable() - kiểm tra phòng trống
-  - [x] getAvailableRooms() - lấy danh sách phòng còn trống
-  - [x] getBookingsByStatus(), getCustomerBookings()
-  - [x] getTotalRevenue(), getMonthlyRevenue()
+### Quản lý Phòng (MANAGER)
+- [x] Thêm/Sửa/Xóa phòng (3 loại: Standard, VIP, Deluxe)
+- [x] Xem danh sách phòng với Polymorphism (`calculatePrice()`)
+- [x] Lọc theo loại phòng, trạng thái
+- [x] Thống kê công suất
 
-### 3. Quản lý Hóa đơn
-- [x] Model Invoice class
-  - [x] References to Booking
-  - [x] Attributes: invoiceId, invoiceDate, subtotal, taxRate, taxAmount, totalAmount, status, notes
-  - [x] Automatic amount calculation
-  - [x] markAsPaid(), markAsIssued(), cancel() methods
-- [x] InvoiceManager (CRUD)
-  - [x] add(), update(), delete(), getById(), getAll()
-  - [x] createInvoiceFromBooking()
-  - [x] getInvoiceByBooking(), getInvoicesByCustomer()
-  - [x] getInvoicesByStatus(), getInvoicesByDateRange()
-  - [x] getTotalRevenue(), getTotalTax(), getUnpaidRevenue()
-  - [x] markInvoiceAsPaid(), cancelInvoice()
-  - [x] getMonthlyRevenue()
-  - [x] getPaidInvoices(), getUnpaidInvoices()
+### Quản lý Đặt phòng (STAFF)
+- [x] Tạo đặt phòng mới (tự động tính giá)
+- [x] Check-in / Check-out
+- [x] Sửa/Hủy đặt phòng
+- [x] Kiểm tra phòng trống theo ngày
 
-### 4. Storage & Persistence
-- [x] DataStorage class
-  - [x] Load/Save Customers to JSON
-  - [x] Load/Save Bookings to JSON
-  - [x] Load/Save Invoices to JSON
-  - [x] Proper serialization/deserialization
-  - [x] Handle relationships between entities
+### Quản lý Khách hàng (STAFF)
+- [x] Thêm/Sửa/Xóa khách hàng
+- [x] Tìm kiếm theo tên, email, SĐT
+- [x] Hệ thống khách VIP và điểm tích lũy
 
-### 5. Design Patterns & OOP Concepts (Thành viên 2)
-- [x] **Encapsulation**: Private fields với public getters/setters
-- [x] **Inheritance**: Proper class hierarchy
-- [x] **Interfaces**: IManageable, ISearchable implementation
-- [x] **Composition**: Booking contains Customer và Room, Invoice contains Booking
-- [x] **JSON Serialization**: Custom JSON parsing and conversion
+### Quản lý Hóa đơn (STAFF)
+- [x] Tạo hóa đơn từ Booking (tự động tính thuế 10%)
+- [x] Thanh toán hóa đơn
+- [x] Báo cáo doanh thu
 
-## ✅ Tích hợp UI (Thành viên 2)
-- [x] UI Integration: gắn BookingPanel/CustomerPanel/InvoicePanel vào MainFrame
-- [x] Menu Integration: bật menu Đặt phòng, Danh sách đặt phòng, Báo cáo doanh thu
-- [x] AddBookingDialog: nạp danh sách phòng trống theo ngày + tạo Booking thật
-- [x] EditBookingDialog: hiển thị ngày hiện tại + cập nhật ngày/trạng thái
+### Dashboard & Báo cáo (MANAGER)
+- [x] Tổng quan: Số phòng, Booking, Doanh thu
+- [x] Báo cáo doanh thu theo tháng
 
-## 📋 Báo cáo Compilation (Thành viên 2)
-- [COMPILATION_REPORT.md](COMPILATION_REPORT.md) - **Báo cáo đầy đủ về việc fix tất cả 40+ lỗi compilation**
-  - ✅ 0 errors, 5 warnings (unused imports)
-  - ✅ Tất cả interface contracts đã tuân thủ
-  - ✅ Type mismatches đã được khắc phục
-  - ✅ 8 files compiled successfully
+---
 
-## 📚 Tài liệu chi tiết
+## 🔗 Quick APIs
 
-📘 **[Báo cáo đầy đủ - BaoCao_HotelManagement.md](docs/BaoCao_HotelManagement.md)** - Tài liệu tổng hợp bao gồm:
-- Chương 1: Giới thiệu bối cảnh và bài toán
-- Chương 2: Phân tích yêu cầu (Use Case, Sequence Diagram, Đặc tả chi tiết)
-- Chương 3: Thiết kế hệ thống (Kiến trúc MVC, Class Diagram)
-- Chương 4: Thiết kế chi tiết các lớp
-- Chương 5: Tổ chức mã nguồn
-- Chương 6: Hướng dẫn sử dụng
-
-<details>
-<summary>📁 Các file tài liệu gốc (đã tổng hợp)</summary>
-
-| File | Mô tả |
-|------|-------|
-| [01_TECHNICAL_DESIGN.md](docs/01_TECHNICAL_DESIGN.md) | Thiết kế kỹ thuật |
-| [02_BACKLOG_MEMBER1.md](docs/02_BACKLOG_MEMBER1.md) | Backlog thành viên 1 |
-| [03_BACKLOG_MEMBER2.md](docs/03_BACKLOG_MEMBER2.md) | Backlog thành viên 2 |
-| [04_MEMBER2_SUMMARY.md](docs/04_MEMBER2_SUMMARY.md) | Tổng kết thành viên 2 |
-| [05_CLASS_DIAGRAM_MEMBER2.md](docs/05_CLASS_DIAGRAM_MEMBER2.md) | Class diagram |
-| [06_USER_GUIDE_MEMBER2.md](docs/06_USER_GUIDE_MEMBER2.md) | Hướng dẫn sử dụng API |
-
-</details>
-
-## 📊 Loại phòng
-
-| Loại | Giá cơ bản | Hệ số | Sức chứa |
-|------|-----------|-------|----------|
-| Standard | 500,000 VND | x1.0 | 2 người |
-| VIP | 1,000,000 VND | x1.2 | 3 người |
-| Deluxe | 1,500,000 VND | x1.5 | 4 người |
-
-## 🔗 Quick Links
-
-### APIs (Thành viên 2)
 ```java
-// Customer Management
-CustomerManager.add(Customer)
-CustomerManager.search(keyword)
-CustomerManager.filter(criteria, value)
+// Room Management (Singleton + Polymorphism)
+RoomManager.getInstance().add(new VIPRoom(...));
+room.calculatePrice(days);  // Đa hình
 
-// Booking Management
-BookingManager.add(Booking)
-BookingManager.isRoomAvailable(room, checkIn, checkOut)
-BookingManager.getAvailableRooms(checkIn, checkOut)
-BookingManager.getMonthlyRevenue(month, year)
+// Booking Management (Information Expert)
+BookingManager.add(booking);
+booking.calculateTotalPrice();  // Entity tự tính
 
-// Invoice Management
-InvoiceManager.createInvoiceFromBooking(booking, invoiceId)
-InvoiceManager.markInvoiceAsPaid(invoiceId)
-InvoiceManager.getTotalRevenue()
+// Invoice Management (Self-calculating)
+InvoiceManager.createFromBooking(booking, taxRate);
+invoice.calculateAmounts();  // Tự tính thuế
 
-// Data Persistence
-DataStorage.loadAllData()
-DataStorage.saveAllData()
+// Data Persistence (JSON + Gson TypeAdapter)
+DataStorage.loadAllData();
+DataStorage.saveAllData();
 ```
 
-## 📞 Hỗ trợ & Liên hệ
-
-- **Thành viên 1** (Room Management): [Backlog](docs/02_BACKLOG_MEMBER1.md)
-- **Thành viên 2** (Booking, Customer, Invoice): [Summary](docs/04_MEMBER2_SUMMARY.md)
+---
 
 ## 📝 License
+
 MIT License - OOP Project 2025

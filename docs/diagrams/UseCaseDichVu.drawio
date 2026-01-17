@@ -1,45 +1,189 @@
-<mxfile host="app.diagrams.net" modified="2026-01-12" agent="Claude" version="22.1.0">
-  <diagram name="Use Case Dịch vụ" id="ucdv">
-    <mxGraphModel dx="900" dy="650" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="500" background="#ffffff">
+<mxfile host="app.diagrams.net" modified="2026-01-16" agent="Claude" version="22.1.0">
+  <diagram name="Use Case Dịch vụ (SERVICE)" id="ucdv">
+    <mxGraphModel dx="1000" dy="650" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="650" background="#ffffff">
       <root>
         <mxCell id="0"/>
         <mxCell id="1" parent="0"/>
         
-        <mxCell id="sys" value="Hệ thống Quản lý Khách sạn" style="swimlane;whiteSpace=wrap;html=1;startSize=35;fillColor=none;strokeColor=#2c3e50;strokeWidth=2;fontSize=16;fontStyle=1;rounded=1;" parent="1" vertex="1">
-          <mxGeometry x="220" y="20" width="400" height="380" as="geometry"/>
+        <!-- Title -->
+        <mxCell id="title" value="Biểu đồ Use Case - Bộ phận Dịch vụ (SERVICE)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="300" y="10" width="400" height="30" as="geometry"/>
         </mxCell>
         
-        <mxCell id="uc1" value="Đăng nhập" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8eef5;strokeColor=#5a7a9a;strokeWidth=2;fontSize=12;" parent="sys" vertex="1">
-          <mxGeometry x="140" y="60" width="130" height="50" as="geometry"/>
-        </mxCell>
-        <mxCell id="uc2" value="Xem phòng" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8eef5;strokeColor=#5a7a9a;strokeWidth=2;fontSize=12;" parent="sys" vertex="1">
-          <mxGeometry x="140" y="140" width="130" height="50" as="geometry"/>
-        </mxCell>
-        <mxCell id="uc3" value="Xem dịch vụ" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e8eef5;strokeColor=#5a7a9a;strokeWidth=2;fontSize=12;" parent="sys" vertex="1">
-          <mxGeometry x="140" y="220" width="130" height="50" as="geometry"/>
-        </mxCell>
-        <mxCell id="uc4" value="Cung cấp dịch vụ" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#f9a825;strokeWidth=2;fontSize=12;" parent="sys" vertex="1">
-          <mxGeometry x="140" y="300" width="130" height="50" as="geometry"/>
+        <!-- System Boundary -->
+        <mxCell id="sys" value="Hệ thống Quản lý Khách sạn" style="swimlane;whiteSpace=wrap;html=1;startSize=35;fillColor=none;strokeColor=#2c3e50;strokeWidth=3;fontSize=16;fontStyle=1;rounded=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="50" width="600" height="550" as="geometry"/>
         </mxCell>
         
-        <!-- Actor Bộ phận Dịch vụ (Role: SERVICE) -->
-        <mxCell id="a1" value="Bộ phận Dịch vụ&#xa;(Service)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=11;fontStyle=1;" parent="1" vertex="1">
-          <mxGeometry x="70" y="200" width="50" height="90" as="geometry"/>
+        <!-- ========== USE CASES ========== -->
+        
+        <!-- UC Đăng nhập -->
+        <mxCell id="uc_login" value="UC01: Đăng nhập" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=2;fontSize=12;" parent="sys" vertex="1">
+          <mxGeometry x="220" y="50" width="140" height="50" as="geometry"/>
         </mxCell>
         
-        <!-- Associations -->
-        <mxCell id="assoc1" style="endArrow=none;html=1;strokeWidth=1.5;" parent="1" source="a1" target="uc1" edge="1">
+        <!-- ========== XEM THÔNG TIN ========== -->
+        <mxCell id="uc_view_room" value="Xem trạng thái&#xa;phòng" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;fontSize=12;" parent="sys" vertex="1">
+          <mxGeometry x="50" y="140" width="150" height="55" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="uc_view_occupied" value="Xem phòng&#xa;đang sử dụng" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;fontSize=10;" parent="sys" vertex="1">
+          <mxGeometry x="280" y="120" width="120" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_view_available" value="Xem phòng&#xa;trống" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;fontSize=10;" parent="sys" vertex="1">
+          <mxGeometry x="280" y="170" width="120" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_view_maintenance" value="Xem phòng&#xa;bảo trì" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;fontSize=10;" parent="sys" vertex="1">
+          <mxGeometry x="430" y="140" width="120" height="40" as="geometry"/>
+        </mxCell>
+        
+        <!-- ========== XEM DỊCH VỤ ========== -->
+        <mxCell id="uc_view_service" value="Xem thông tin&#xa;dịch vụ" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;fontSize=12;" parent="sys" vertex="1">
+          <mxGeometry x="50" y="250" width="150" height="55" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="uc_service_price" value="Xem bảng giá&#xa;dịch vụ" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;fontSize=10;" parent="sys" vertex="1">
+          <mxGeometry x="280" y="240" width="120" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_service_detail" value="Xem chi tiết&#xa;dịch vụ" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;fontSize=10;" parent="sys" vertex="1">
+          <mxGeometry x="280" y="290" width="120" height="40" as="geometry"/>
+        </mxCell>
+        
+        <!-- ========== HỖ TRỢ KHÁCH HÀNG ========== -->
+        <mxCell id="uc_support" value="Hỗ trợ&#xa;khách hàng" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;fontSize=12;" parent="sys" vertex="1">
+          <mxGeometry x="50" y="360" width="150" height="55" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="uc_guest_info" value="Xem thông tin&#xa;khách ở phòng" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;fontSize=10;" parent="sys" vertex="1">
+          <mxGeometry x="280" y="350" width="130" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="uc_check_booking" value="Tra cứu&#xa;booking" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;fontSize=10;" parent="sys" vertex="1">
+          <mxGeometry x="280" y="400" width="120" height="40" as="geometry"/>
+        </mxCell>
+        
+        <!-- ========== CUNG CẤP DỊCH VỤ ========== -->
+        <mxCell id="uc_provide_service" value="Cung cấp dịch vụ&#xa;cho khách" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;fontSize=12;" parent="sys" vertex="1">
+          <mxGeometry x="50" y="470" width="150" height="55" as="geometry"/>
+        </mxCell>
+        
+        <!-- ========== GỬI YÊU CẦU/THÔNG BÁO - UC RIÊNG ========== -->
+        <mxCell id="uc_notify" value="Gửi yêu cầu/&#xa;thông báo" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;fontSize=12;" parent="sys" vertex="1">
+          <mxGeometry x="350" y="470" width="150" height="55" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="uc_notify_staff" value="Thông báo&#xa;cho lễ tân" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;fontSize=10;" parent="sys" vertex="1">
+          <mxGeometry x="440" y="400" width="110" height="40" as="geometry"/>
+        </mxCell>
+        
+        <!-- ========== RELATIONSHIPS - EXTEND ========== -->
+        
+        <!-- Xem phòng extends -->
+        <mxCell id="ext1" value="«extend»" style="endArrow=open;endSize=10;dashed=1;html=1;strokeWidth=1.5;labelBackgroundColor=#ffffff;fontSize=10;fontStyle=2;strokeColor=#6c8ebf;" parent="sys" source="uc_view_occupied" target="uc_view_room" edge="1">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
-        <mxCell id="assoc2" style="endArrow=none;html=1;strokeWidth=1.5;" parent="1" source="a1" target="uc2" edge="1">
+        <mxCell id="ext2" value="«extend»" style="endArrow=open;endSize=10;dashed=1;html=1;strokeWidth=1.5;labelBackgroundColor=#ffffff;fontSize=10;fontStyle=2;strokeColor=#6c8ebf;" parent="sys" source="uc_view_available" target="uc_view_room" edge="1">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
-        <mxCell id="assoc3" style="endArrow=none;html=1;strokeWidth=1.5;" parent="1" source="a1" target="uc3" edge="1">
+        <mxCell id="ext3" value="«extend»" style="endArrow=open;endSize=10;dashed=1;html=1;strokeWidth=1.5;labelBackgroundColor=#ffffff;fontSize=10;fontStyle=2;strokeColor=#6c8ebf;" parent="sys" source="uc_view_maintenance" target="uc_view_room" edge="1">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
-        <mxCell id="assoc4" style="endArrow=none;html=1;strokeWidth=1.5;" parent="1" source="a1" target="uc4" edge="1">
+        
+        <!-- Xem dịch vụ extends -->
+        <mxCell id="ext4" value="«extend»" style="endArrow=open;endSize=10;dashed=1;html=1;strokeWidth=1.5;labelBackgroundColor=#ffffff;fontSize=10;fontStyle=2;strokeColor=#6c8ebf;" parent="sys" source="uc_service_price" target="uc_view_service" edge="1">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
+        <mxCell id="ext5" value="«extend»" style="endArrow=open;endSize=10;dashed=1;html=1;strokeWidth=1.5;labelBackgroundColor=#ffffff;fontSize=10;fontStyle=2;strokeColor=#6c8ebf;" parent="sys" source="uc_service_detail" target="uc_view_service" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <!-- ========== RELATIONSHIPS - INCLUDE ========== -->
+        
+        <!-- Hỗ trợ KH includes -->
+        <mxCell id="inc1" value="«include»" style="endArrow=open;endSize=10;dashed=1;html=1;strokeWidth=1.5;labelBackgroundColor=#ffffff;fontSize=10;fontStyle=2;" parent="sys" source="uc_support" target="uc_guest_info" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="inc2" value="«include»" style="endArrow=open;endSize=10;dashed=1;html=1;strokeWidth=1.5;labelBackgroundColor=#ffffff;fontSize=10;fontStyle=2;" parent="sys" source="uc_support" target="uc_check_booking" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <!-- Cung cấp dịch vụ includes ghi nhận dịch vụ -->
+        <mxCell id="uc_record_service" value="Ghi nhận&#xa;dịch vụ sử dụng" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;fontSize=10;" parent="sys" vertex="1">
+          <mxGeometry x="280" y="470" width="130" height="40" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="inc3" value="«include»" style="endArrow=open;endSize=10;dashed=1;html=1;strokeWidth=1.5;labelBackgroundColor=#ffffff;fontSize=10;fontStyle=2;" parent="sys" source="uc_provide_service" target="uc_record_service" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <!-- Gửi yêu cầu/thông báo extend thông báo lễ tân -->
+        <mxCell id="ext6" value="«extend»" style="endArrow=open;endSize=10;dashed=1;html=1;strokeWidth=1.5;labelBackgroundColor=#ffffff;fontSize=9;fontStyle=2;strokeColor=#6c8ebf;" parent="sys" source="uc_notify_staff" target="uc_notify" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <!-- ========== ACTOR ========== -->
+        <mxCell id="actor_svc" value="Bộ phận Dịch vụ&#xa;(SERVICE)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=12;fontStyle=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+          <mxGeometry x="50" y="280" width="60" height="100" as="geometry"/>
+        </mxCell>
+        
+        <!-- ========== ACTOR ASSOCIATIONS ========== -->
+        <mxCell id="assoc1" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#9673a6;" parent="1" source="actor_svc" target="uc_login" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="assoc2" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#9673a6;" parent="1" source="actor_svc" target="uc_view_room" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="assoc3" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#9673a6;" parent="1" source="actor_svc" target="uc_view_service" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="assoc4" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#9673a6;" parent="1" source="actor_svc" target="uc_support" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="assoc5" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#9673a6;" parent="1" source="actor_svc" target="uc_provide_service" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <!-- Actor nối với UC Gửi yêu cầu/thông báo -->
+        <mxCell id="assoc6" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#9673a6;" parent="1" source="actor_svc" target="uc_notify" edge="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        
+        <!-- ========== LEGEND ========== -->
+        <mxCell id="legend_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="670" y="450" width="180" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="legend_title" value="Chú thích" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="720" y="455" width="80" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg1" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="680" y="480" width="30" height="15" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg1_txt" value="Use Case chính" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="720" y="475" width="100" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg2" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="680" y="505" width="30" height="15" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg2_txt" value="Extend (tùy chọn)" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="720" y="500" width="110" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg3" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="680" y="530" width="30" height="15" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg3_txt" value="Include (bắt buộc)" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="720" y="525" width="110" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg4" value="---→" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="680" y="555" width="30" height="15" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg4_txt" value="«include»: luôn thực hiện" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=9;" parent="1" vertex="1">
+          <mxGeometry x="715" y="550" width="130" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg5" value="---→" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="680" y="580" width="30" height="15" as="geometry"/>
+        </mxCell>
+        <mxCell id="leg5_txt" value="«extend»: có điều kiện" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=9;" parent="1" vertex="1">
+          <mxGeometry x="715" y="575" width="130" height="20" as="geometry"/>
+        </mxCell>
+        
       </root>
     </mxGraphModel>
   </diagram>

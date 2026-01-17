@@ -4,6 +4,7 @@ import com.hotel.model.booking.Booking;
 import com.hotel.model.customer.Customer;
 import com.hotel.model.enums.BookingStatus;
 import com.hotel.model.enums.RoomStatus;
+import com.hotel.model.enums.RoomType;
 import com.hotel.model.room.Room;
 import com.hotel.service.BookingManager;
 import com.hotel.service.CustomerManager;
@@ -22,6 +23,7 @@ import java.util.List;
  */
 public class AddBookingDialog extends JDialog {
     private JComboBox<String> customerCombo, roomCombo;
+    private JComboBox<RoomType> roomTypeCombo;
     private JSpinner checkInSpinner, checkOutSpinner;
     private final BookingPanel parentPanel;
     private final BookingManager bookingManager;
@@ -45,7 +47,7 @@ public class AddBookingDialog extends JDialog {
 
     private void initializeUI() {
         JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(5, 2, 10, 10));
+        mainPanel.setLayout(new GridLayout(6, 2, 10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
         // Customer
@@ -74,6 +76,12 @@ public class AddBookingDialog extends JDialog {
         checkOutSpinner = new JSpinner(checkOutModel);
         checkOutSpinner.setEditor(new JSpinner.DateEditor(checkOutSpinner, "dd/MM/yyyy"));
         mainPanel.add(checkOutSpinner);
+
+        // Room Type (chọn loại phòng trước)
+        mainPanel.add(new JLabel("Loại phòng:"));
+        roomTypeCombo = new JComboBox<>(RoomType.values());
+        roomTypeCombo.addActionListener(e -> refreshAvailableRooms());
+        mainPanel.add(roomTypeCombo);
 
         // Room (tạo sau spinners)
         mainPanel.add(new JLabel("Phòng:"));
@@ -118,9 +126,19 @@ public class AddBookingDialog extends JDialog {
             return;
         }
 
-        List<Room> rooms = roomManager.getAll().stream()
+        // Lấy loại phòng đã chọn
+        RoomType selectedType = (RoomType) roomTypeCombo.getSelectedItem();
+        if (selectedType == null) {
+            if (saveBtn != null)
+                saveBtn.setEnabled(false);
+            return;
+        }
+
+        // Sử dụng method mới: getAvailableRoomsByType
+        // Logic đúng: Khách chọn ngày + loại phòng -> Hệ thống trả về danh sách phòng
+        // thỏa mãn
+        List<Room> rooms = bookingManager.getAvailableRoomsByType(checkIn, checkOut, selectedType).stream()
                 .filter(r -> r.getStatus() != null && r.getStatus().canBook())
-                .filter(r -> bookingManager.isRoomAvailable(r, checkIn, checkOut))
                 .toList();
 
         for (Room room : rooms) {

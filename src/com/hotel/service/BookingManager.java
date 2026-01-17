@@ -3,6 +3,7 @@ package com.hotel.service;
 import com.hotel.model.booking.Booking;
 
 import com.hotel.model.enums.BookingStatus;
+import com.hotel.model.enums.RoomType;
 import com.hotel.model.room.Room;
 import com.hotel.service.interfaces.IManageable;
 import com.hotel.service.interfaces.ISearchable;
@@ -86,48 +87,49 @@ public class BookingManager implements IManageable<Booking>, ISearchable<Booking
     @Override
     public List<Booking> filter(Map<String, Object> criteria) {
         List<Booking> result = new ArrayList<>(bookings);
-        
+
         if (criteria.containsKey("status")) {
             BookingStatus status = (BookingStatus) criteria.get("status");
             result = result.stream()
                     .filter(b -> b.getStatus() == status)
                     .collect(Collectors.toList());
         }
-        
+
         if (criteria.containsKey("customerId")) {
             String customerId = (String) criteria.get("customerId");
             result = result.stream()
                     .filter(b -> b.getCustomer().getCustomerId().equals(customerId))
                     .collect(Collectors.toList());
         }
-        
+
         if (criteria.containsKey("roomId")) {
             String roomId = (String) criteria.get("roomId");
             result = result.stream()
                     .filter(b -> b.getRoom().getRoomId().equals(roomId))
                     .collect(Collectors.toList());
         }
-        
+
         return result;
     }
-    
+
     @Override
     public int count() {
         return bookings.size();
     }
-    
+
     @Override
     public boolean isEmpty() {
         return bookings.isEmpty();
     }
-    
+
     @Override
     public void clear() {
         bookings.clear();
     }
 
     /**
-     * Kiểm tra xem phòng có sẵn cho khoảng thời gian không
+     * Kiểm tra xem 1 phòng cụ thể mà khách hàng mong muốn có sẵn trong khoảng thời
+     * gian không
      */
     public boolean isRoomAvailable(Room room, LocalDate checkInDate, LocalDate checkOutDate) {
         return bookings.stream()
@@ -144,9 +146,25 @@ public class BookingManager implements IManageable<Booking>, ISearchable<Booking
      * Lấy danh sách các phòng còn trống trong khoảng thời gian
      */
     public List<Room> getAvailableRooms(LocalDate checkInDate, LocalDate checkOutDate) {
-        if (roomManager == null) return new ArrayList<>();
-        
+        if (roomManager == null)
+            return new ArrayList<>();
+
         return roomManager.getAll().stream()
+                .filter(room -> isRoomAvailable(room, checkInDate, checkOutDate))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Lấy danh sách các phòng còn trống theo loại phòng trong khoảng thời gian
+     * Logic đúng: Khách chọn ngày + loại phòng -> Hệ thống trả về danh sách phòng
+     * thỏa mãn
+     */
+    public List<Room> getAvailableRoomsByType(LocalDate checkInDate, LocalDate checkOutDate, RoomType roomType) {
+        if (roomManager == null)
+            return new ArrayList<>();
+
+        return roomManager.getAll().stream()
+                .filter(room -> room.getRoomType() == roomType)
                 .filter(room -> isRoomAvailable(room, checkInDate, checkOutDate))
                 .collect(Collectors.toList());
     }

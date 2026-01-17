@@ -1,0 +1,143 @@
+<mxfile host="app.diagrams.net" modified="2026-01-16" agent="Claude" version="22.1.0">
+  <diagram name="Sequence - Xem danh sách khách hàng (BCE)" id="seqviewcust">
+    <mxGraphModel dx="950" dy="650" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="950" pageHeight="650" background="#ffffff">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        
+        <!-- Title -->
+        <mxCell id="title" value="Biểu đồ tuần tự: UC05d - Xem danh sách khách hàng (BCE Pattern)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="10" width="520" height="30" as="geometry"/>
+        </mxCell>
+        
+        <!-- BCE Legend -->
+        <mxCell id="legend" value="BCE Pattern:&#xa;• Boundary → Control (✓)&#xa;• Control → Entity (✓)" style="text;html=1;strokeColor=#b85450;fillColor=#f8cecc;align=left;verticalAlign=top;rounded=1;fontSize=10;spacingLeft=5;" parent="1" vertex="1">
+          <mxGeometry x="40" y="50" width="150" height="55" as="geometry"/>
+        </mxCell>
+        
+        <!-- Actor -->
+        <mxCell id="actor" value="Lễ tân" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=11;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="50" y="120" width="40" height="70" as="geometry"/>
+        </mxCell>
+        
+        <!-- BOUNDARY: CustomerPanel -->
+        <mxCell id="cp_head" value="«boundary»&#xa;:CustomerPanel" style="shape=umlBoundary;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="160" y="120" width="100" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- CONTROL: CustomerManager -->
+        <mxCell id="cm_head" value="«control»&#xa;:CustomerManager" style="shape=umlControl;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="350" y="120" width="110" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- ENTITY: DataStorage -->
+        <mxCell id="ds_head" value="«entity»&#xa;:DataStorage" style="shape=umlEntity;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="560" y="120" width="100" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- Lifelines -->
+        <mxCell id="ll_actor" style="endArrow=none;dashed=1;html=1;strokeWidth=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="200" as="sourcePoint"/>
+            <mxPoint x="70" y="520" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_cp" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#6c8ebf;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="210" y="180" as="sourcePoint"/>
+            <mxPoint x="210" y="520" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_cm" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#d79b00;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="405" y="180" as="sourcePoint"/>
+            <mxPoint x="405" y="520" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_ds" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="610" y="180" as="sourcePoint"/>
+            <mxPoint x="610" y="520" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Activation boxes -->
+        <mxCell id="act_cp" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="203" y="230" width="14" height="260" as="geometry"/>
+        </mxCell>
+        <mxCell id="act_cm" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="398" y="280" width="14" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="act_ds" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="603" y="320" width="14" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- Messages -->
+        <!-- 1. Actor mở CustomerPanel -->
+        <mxCell id="m1" value="1: click('Quản lý khách hàng')" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="240" as="sourcePoint"/>
+            <mxPoint x="203" y="240" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 2. Boundary -> Control: lấy danh sách -->
+        <mxCell id="m2" value="2: getAllCustomers()" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;fontStyle=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="217" y="290" as="sourcePoint"/>
+            <mxPoint x="398" y="290" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Note: Boundary → Control -->
+        <mxCell id="note1" value="✓ Boundary → Control" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;" parent="1" vertex="1">
+          <mxGeometry x="230" y="295" width="110" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- 3. Control -> Entity: load data -->
+        <mxCell id="m3" value="3: loadCustomers()" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="412" y="330" as="sourcePoint"/>
+            <mxPoint x="603" y="330" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 3.1 Return customers -->
+        <mxCell id="m3_1" value="3.1: List&lt;Customer&gt;" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="603" y="360" as="sourcePoint"/>
+            <mxPoint x="412" y="360" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 4. Control -> Boundary: trả danh sách -->
+        <mxCell id="m4" value="4: List&lt;Customer&gt;" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="398" y="400" as="sourcePoint"/>
+            <mxPoint x="217" y="400" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 5. Boundary hiển thị -->
+        <mxCell id="m5" value="5: displayCustomers(customers)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;fontStyle=2;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="217" y="440" as="sourcePoint"/>
+            <mxPoint x="257" y="440" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="237" y="460"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 6. Hiển thị cho actor -->
+        <mxCell id="m6" value="6: Hiển thị bảng danh sách khách hàng" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="203" y="480" as="sourcePoint"/>
+            <mxPoint x="70" y="480" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

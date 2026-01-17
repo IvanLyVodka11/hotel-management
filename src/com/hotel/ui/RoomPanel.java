@@ -4,7 +4,7 @@ import com.hotel.auth.PermissionManager.Permission;
 import com.hotel.auth.UserSession;
 import com.hotel.model.room.Room;
 import com.hotel.service.RoomManager;
-import com.hotel.storage.RoomStorage;
+import com.hotel.storage.DataStorage;
 import com.hotel.ui.theme.AppTheme;
 import com.hotel.ui.theme.UIConstants;
 
@@ -37,13 +37,13 @@ public class RoomPanel extends JPanel {
     // ==================== SERVICES ====================
 
     private final RoomManager roomManager;
-    private final RoomStorage roomStorage;
+    private final DataStorage dataStorage;
 
     // ==================== CONSTRUCTOR ====================
 
     public RoomPanel() {
         this.roomManager = RoomManager.getInstance();
-        this.roomStorage = new RoomStorage();
+        this.dataStorage = new DataStorage(null, null, null, roomManager);
 
         initializeUI();
         loadData();
@@ -271,14 +271,14 @@ public class RoomPanel extends JPanel {
     // ==================== DATA OPERATIONS ====================
 
     private void loadData() {
-        List<Room> rooms = roomStorage.loadRooms();
+        List<Room> rooms = dataStorage.loadRoomsList();
         roomManager.loadRooms(rooms);
         refreshTable();
     }
 
     private void saveData() {
         List<Room> rooms = roomManager.getAll();
-        if (roomStorage.saveRooms(rooms)) {
+        if (dataStorage.saveRooms(rooms)) {
             JOptionPane.showMessageDialog(this,
                     UIConstants.Messages.SAVE_SUCCESS,
                     "Thông báo",
@@ -293,7 +293,7 @@ public class RoomPanel extends JPanel {
 
     public void saveRoomsData() {
         List<Room> rooms = roomManager.getAll();
-        roomStorage.saveRooms(rooms);
+        dataStorage.saveRooms(rooms);
     }
 
     public void refreshTable() {

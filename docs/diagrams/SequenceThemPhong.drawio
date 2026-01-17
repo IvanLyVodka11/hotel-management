@@ -1,0 +1,320 @@
+<mxfile host="app.diagrams.net" modified="2026-01-16" agent="Claude" version="22.1.0">
+  <diagram name="Sequence - Thêm phòng (BCE + Polymorphism)" id="seqroom">
+    <mxGraphModel dx="1400" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" background="#ffffff">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        
+        <!-- Title -->
+        <mxCell id="title" value="Biểu đồ tuần tự: UC06 - Thêm phòng (BCE + Polymorphism)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="350" y="10" width="550" height="30" as="geometry"/>
+        </mxCell>
+        
+        <!-- BCE Legend -->
+        <mxCell id="legend" value="BCE + Polymorphism:&#xa;• Boundary → Control (✓)&#xa;• Control → Entity (✓)&#xa;• RoomFactory: Factory Pattern&#xa;• Room: Abstract class" style="text;html=1;strokeColor=#b85450;fillColor=#f8cecc;align=left;verticalAlign=top;rounded=1;fontSize=10;spacingLeft=5;" parent="1" vertex="1">
+          <mxGeometry x="40" y="50" width="150" height="80" as="geometry"/>
+        </mxCell>
+        
+        <!-- Actor -->
+        <mxCell id="actor" value="Quản lý" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=11;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="50" y="160" width="40" height="70" as="geometry"/>
+        </mxCell>
+        
+        <!-- BOUNDARY: RoomPanel -->
+        <mxCell id="rp_head" value="«boundary»&#xa;:RoomPanel" style="shape=umlBoundary;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="150" y="160" width="100" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- BOUNDARY: RoomDialog -->
+        <mxCell id="rd_head" value="«boundary»&#xa;:RoomDialog" style="shape=umlBoundary;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="310" y="160" width="100" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- CONTROL: RoomManager -->
+        <mxCell id="rm_head" value="«control»&#xa;:RoomManager" style="shape=umlControl;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="480" y="160" width="100" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- CONTROL: RoomFactory -->
+        <mxCell id="rf_head" value="«control»&#xa;:RoomFactory" style="shape=umlControl;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="650" y="160" width="100" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- ENTITY: Room (Abstract) -->
+        <mxCell id="room_head" value="«entity»&#xa;:Room (abstract)" style="shape=umlEntity;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=3;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="820" y="160" width="100" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- ENTITY: StandardRoom -->
+        <mxCell id="std_head" value="«entity»&#xa;:StandardRoom" style="shape=umlEntity;whiteSpace=wrap;html=1;fillColor=#e1f5d4;strokeColor=#82b366;fontStyle=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="990" y="140" width="90" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- ENTITY: VIPRoom -->
+        <mxCell id="vip_head" value="«entity»&#xa;:VIPRoom" style="shape=umlEntity;whiteSpace=wrap;html=1;fillColor=#e1f5d4;strokeColor=#82b366;fontStyle=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="990" y="195" width="90" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- ENTITY: DeluxeRoom -->
+        <mxCell id="deluxe_head" value="«entity»&#xa;:DeluxeRoom" style="shape=umlEntity;whiteSpace=wrap;html=1;fillColor=#e1f5d4;strokeColor=#82b366;fontStyle=1;fontSize=10;" parent="1" vertex="1">
+          <mxGeometry x="990" y="250" width="90" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- ENTITY: DataStorage -->
+        <mxCell id="ds_head" value="«entity»&#xa;:DataStorage" style="shape=umlEntity;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="1150" y="160" width="100" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- Inheritance arrows -->
+        <mxCell id="inh1" value="" style="endArrow=block;endFill=0;html=1;strokeWidth=1.5;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="990" y="165" as="sourcePoint"/>
+            <mxPoint x="920" y="190" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="inh2" value="" style="endArrow=block;endFill=0;html=1;strokeWidth=1.5;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="990" y="220" as="sourcePoint"/>
+            <mxPoint x="920" y="195" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="inh3" value="" style="endArrow=block;endFill=0;html=1;strokeWidth=1.5;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="990" y="275" as="sourcePoint"/>
+            <mxPoint x="920" y="200" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Lifelines -->
+        <mxCell id="ll_actor" style="endArrow=none;dashed=1;html=1;strokeWidth=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="250" as="sourcePoint"/>
+            <mxPoint x="70" y="950" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_rp" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#6c8ebf;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="200" y="220" as="sourcePoint"/>
+            <mxPoint x="200" y="950" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_rd" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#6c8ebf;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="360" y="220" as="sourcePoint"/>
+            <mxPoint x="360" y="950" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_rm" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#d79b00;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="530" y="220" as="sourcePoint"/>
+            <mxPoint x="530" y="950" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_rf" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#d79b00;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="700" y="220" as="sourcePoint"/>
+            <mxPoint x="700" y="950" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_room" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="870" y="220" as="sourcePoint"/>
+            <mxPoint x="870" y="950" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_ds" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1200" y="220" as="sourcePoint"/>
+            <mxPoint x="1200" y="950" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- ========== ACTIVATION BOXES ========== -->
+        <!-- RoomPanel activation -->
+        <mxCell id="act_rp" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="193" y="280" width="14" height="640" as="geometry"/>
+        </mxCell>
+        
+        <!-- RoomDialog activation -->
+        <mxCell id="act_rd" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="353" y="340" width="14" height="500" as="geometry"/>
+        </mxCell>
+        
+        <!-- RoomManager activation -->
+        <mxCell id="act_rm" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="523" y="420" width="14" height="350" as="geometry"/>
+        </mxCell>
+        
+        <!-- RoomFactory activation -->
+        <mxCell id="act_rf" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="693" y="470" width="14" height="130" as="geometry"/>
+        </mxCell>
+        
+        <!-- Room activation (polymorphic call) -->
+        <mxCell id="act_room" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="863" y="510" width="14" height="70" as="geometry"/>
+        </mxCell>
+        
+        <!-- DataStorage activation -->
+        <mxCell id="act_ds" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="1193" y="670" width="14" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- ========== MESSAGES ========== -->
+        
+        <!-- 1. Actor click thêm phòng -->
+        <mxCell id="m1" value="1: click('Thêm phòng')" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="290" as="sourcePoint"/>
+            <mxPoint x="193" y="290" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 2. Mở dialog -->
+        <mxCell id="m2" value="2: showRoomDialog()" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="207" y="350" as="sourcePoint"/>
+            <mxPoint x="353" y="350" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 3. Actor nhập thông tin -->
+        <mxCell id="m3" value="3: nhập thông tin phòng&#xa;(số phòng, loại: Standard/Deluxe/VIP, giá)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="400" as="sourcePoint"/>
+            <mxPoint x="353" y="400" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 4. Boundary -> Control: tạo phòng -->
+        <mxCell id="m4" value="4: createRoom(roomDTO)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;fontStyle=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="367" y="430" as="sourcePoint"/>
+            <mxPoint x="523" y="430" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Note: Boundary -> Control -->
+        <mxCell id="note1" value="✓ Boundary → Control" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;align=left;spacingLeft=5;" parent="1" vertex="1">
+          <mxGeometry x="380" y="435" width="110" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- 5. Control -> Control: Factory Method -->
+        <mxCell id="m5" value="5: RoomFactory.createRoom(type, params)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;fontStyle=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="537" y="480" as="sourcePoint"/>
+            <mxPoint x="693" y="480" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Note: Factory Pattern -->
+        <mxCell id="note2" value="✓ Factory Pattern&#xa;Tạo đúng loại phòng" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=left;spacingLeft=5;" parent="1" vertex="1">
+          <mxGeometry x="560" y="490" width="110" height="30" as="geometry"/>
+        </mxCell>
+        
+        <!-- 6. Factory -> Entity: tạo phòng cụ thể -->
+        <mxCell id="m6" value="6: new Standard/Deluxe/VIPRoom()" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;strokeColor=#82b366;fontStyle=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="707" y="520" as="sourcePoint"/>
+            <mxPoint x="863" y="520" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Note: Polymorphism -->
+        <mxCell id="note3" value="✓ Polymorphism&#xa;Standard/Deluxe/VIPRoom&#xa;tùy theo type" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left;spacingLeft=5;" parent="1" vertex="1">
+          <mxGeometry x="875" y="490" width="130" height="45" as="geometry"/>
+        </mxCell>
+        
+        <!-- 7. Entity setup -->
+        <mxCell id="m7" value="7: room.setAmenities(type)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;strokeColor=#82b366;fontStyle=2;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="877" y="555" as="sourcePoint"/>
+            <mxPoint x="917" y="555" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="897" y="575"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 6.1 Trả về room -->
+        <mxCell id="m6_1" value="6.1: room: Room" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="863" y="590" as="sourcePoint"/>
+            <mxPoint x="707" y="590" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 5.1 Trả về room -->
+        <mxCell id="m5_1" value="5.1: room: Room" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="693" y="620" as="sourcePoint"/>
+            <mxPoint x="537" y="620" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 8. Control -> Entity: lưu -->
+        <mxCell id="m8" value="8: saveRoom(room)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="537" y="680" as="sourcePoint"/>
+            <mxPoint x="1193" y="680" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 8.1 Trả về -->
+        <mxCell id="m8_1" value="8.1: Result.success()" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1193" y="710" as="sourcePoint"/>
+            <mxPoint x="537" y="710" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 9. Control -> Boundary: trả kết quả -->
+        <mxCell id="m9" value="9: Result.success(room)" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="523" y="760" as="sourcePoint"/>
+            <mxPoint x="367" y="760" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 10. Boundary hiển thị thông báo -->
+        <mxCell id="m10" value="10: showMessage('Thêm phòng thành công')" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;fontStyle=2;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="367" y="790" as="sourcePoint"/>
+            <mxPoint x="407" y="790" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="387" y="810"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 11. Đóng dialog -->
+        <mxCell id="m11" value="11: dispose()" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="353" y="830" as="sourcePoint"/>
+            <mxPoint x="207" y="830" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 12. Refresh table -->
+        <mxCell id="m12" value="12: refreshTable()" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;fontStyle=2;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="207" y="860" as="sourcePoint"/>
+            <mxPoint x="247" y="860" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="227" y="880"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 13. Hiển thị cho actor -->
+        <mxCell id="m13" value="13: Hiển thị danh sách phòng" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="193" y="910" as="sourcePoint"/>
+            <mxPoint x="70" y="910" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

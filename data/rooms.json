@@ -16,11 +16,26 @@
       "hasLivingRoom": true
     },
     {
+      "roomType": "DELUXE",
+      "roomId": "R304",
+      "floor": 3,
+      "basePrice": 1500000.0,
+      "status": "AVAILABLE",
+      "description": "",
+      "bedCount": 2,
+      "area": 50.0,
+      "hasView": true,
+      "hasPrivateBathroom": true,
+      "hasJacuzzi": true,
+      "hasMinibar": true,
+      "hasLivingRoom": true
+    },
+    {
       "roomType": "STANDARD",
       "roomId": "R103",
       "floor": 1,
       "basePrice": 550000.0,
-      "status": "AVAILABLE",
+      "status": "RESERVED",
       "description": "Phòng tiêu chuẩn tầng 1, có ban công",
       "bedCount": 2,
       "area": 25.0

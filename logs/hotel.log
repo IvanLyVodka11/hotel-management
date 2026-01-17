@@ -63,3 +63,95 @@
 [2026-01-12 23:55:11] [INFO ] Loaded 9 rooms from C:\Users\dxpro\OOPproject\data\rooms.json
 [2026-01-12 23:55:11] [INFO ] Loaded 9 rooms from C:\Users\dxpro\OOPproject\data\rooms.json
 [2026-01-12 23:55:50] [INFO ] Saved 9 rooms to C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-15 22:09:09] [INFO ] Loaded 9 rooms from C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-15 22:09:10] [INFO ] Loaded 9 rooms from C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-15 22:09:52] [INFO ] Saved 9 rooms to C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-16 14:44:11] [INFO ] Đã tải 5 khách hàng từ C:\Users\dxpro\OOPproject\data\customers.json
+[2026-01-16 14:44:11] [WARN ] Không tìm thấy Customer hoặc Room cho Booking: BK001
+[2026-01-16 14:44:11] [WARN ] Không tìm thấy Customer hoặc Room cho Booking: BK002
+[2026-01-16 14:44:11] [WARN ] Không tìm thấy Customer hoặc Room cho Booking: BK003
+[2026-01-16 14:44:11] [INFO ] Đã tải 0 đặt phòng từ C:\Users\dxpro\OOPproject\data\bookings.json
+[2026-01-16 14:44:11] [WARN ] Không tìm thấy Booking cho Invoice: INV001
+[2026-01-16 14:44:11] [WARN ] Không tìm thấy Booking cho Invoice: INV-1766146086426
+[2026-01-16 14:44:11] [WARN ] Không tìm thấy Booking cho Invoice: INV-1766146091198
+[2026-01-16 14:44:11] [WARN ] Không tìm thấy Booking cho Invoice: INV-1766146101653
+[2026-01-16 14:44:11] [INFO ] Đã tải 0 hóa đơn từ C:\Users\dxpro\OOPproject\data\invoices.json
+[2026-01-16 14:44:11] [INFO ] Đã tải tất cả dữ liệu từ thư mục: C:\Users\dxpro\OOPproject\data
+[2026-01-16 14:44:11] [INFO ] Loaded 9 rooms from C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-16 14:44:11] [INFO ] Đã tải 5 khách hàng từ C:\Users\dxpro\OOPproject\data\customers.json
+[2026-01-16 14:44:11] [INFO ] Đã tải 3 đặt phòng từ C:\Users\dxpro\OOPproject\data\bookings.json
+[2026-01-16 14:44:11] [INFO ] Đã tải 4 hóa đơn từ C:\Users\dxpro\OOPproject\data\invoices.json
+[2026-01-16 14:44:11] [INFO ] Đã tải tất cả dữ liệu từ thư mục: C:\Users\dxpro\OOPproject\data
+[2026-01-16 14:44:11] [INFO ] Loaded 9 rooms from C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-16 14:45:03] [INFO ] Saved 10 rooms to C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-16 14:45:03] [INFO ] Đã lưu 5 khách hàng vào C:\Users\dxpro\OOPproject\data\customers.json
+[2026-01-16 14:45:03] [INFO ] Đã lưu 3 đặt phòng vào C:\Users\dxpro\OOPproject\data\bookings.json
+[2026-01-16 14:45:03] [INFO ] Đã lưu 4 hóa đơn vào C:\Users\dxpro\OOPproject\data\invoices.json
+[2026-01-16 14:45:03] [INFO ] Đã lưu tất cả dữ liệu vào thư mục: C:\Users\dxpro\OOPproject\data
+[2026-01-16 14:45:09] [INFO ] Saved 10 rooms to C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-16 14:45:09] [INFO ] Đã lưu 5 khách hàng vào C:\Users\dxpro\OOPproject\data\customers.json
+[2026-01-16 14:45:09] [INFO ] Đã lưu 3 đặt phòng vào C:\Users\dxpro\OOPproject\data\bookings.json
+[2026-01-16 14:45:09] [INFO ] Đã lưu 4 hóa đơn vào C:\Users\dxpro\OOPproject\data\invoices.json
+[2026-01-16 14:45:09] [INFO ] Đã lưu tất cả dữ liệu vào thư mục: C:\Users\dxpro\OOPproject\data
+[2026-01-16 14:45:17] [INFO ] Đã tải 5 khách hàng từ C:\Users\dxpro\OOPproject\data\customers.json
+[2026-01-16 14:45:17] [WARN ] Không tìm thấy Customer hoặc Room cho Booking: BK001
+[2026-01-16 14:45:17] [WARN ] Không tìm thấy Customer hoặc Room cho Booking: BK002
+[2026-01-16 14:45:17] [WARN ] Không tìm thấy Customer hoặc Room cho Booking: BK003
+[2026-01-16 14:45:17] [INFO ] Đã tải 0 đặt phòng từ C:\Users\dxpro\OOPproject\data\bookings.json
+[2026-01-16 14:45:17] [WARN ] Không tìm thấy Booking cho Invoice: INV001
+[2026-01-16 14:45:17] [WARN ] Không tìm thấy Booking cho Invoice: INV-1766146086426
+[2026-01-16 14:45:17] [WARN ] Không tìm thấy Booking cho Invoice: INV-1766146091198
+[2026-01-16 14:45:17] [WARN ] Không tìm thấy Booking cho Invoice: INV-1766146101653
+[2026-01-16 14:45:17] [INFO ] Đã tải 0 hóa đơn từ C:\Users\dxpro\OOPproject\data\invoices.json
+[2026-01-16 14:45:17] [INFO ] Đã tải tất cả dữ liệu từ thư mục: C:\Users\dxpro\OOPproject\data
+[2026-01-16 14:45:17] [INFO ] Loaded 10 rooms from C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-16 14:45:18] [INFO ] Đã tải 5 khách hàng từ C:\Users\dxpro\OOPproject\data\customers.json
+[2026-01-16 14:45:18] [INFO ] Đã tải 3 đặt phòng từ C:\Users\dxpro\OOPproject\data\bookings.json
+[2026-01-16 14:45:18] [INFO ] Đã tải 4 hóa đơn từ C:\Users\dxpro\OOPproject\data\invoices.json
+[2026-01-16 14:45:18] [INFO ] Đã tải tất cả dữ liệu từ thư mục: C:\Users\dxpro\OOPproject\data
+[2026-01-16 14:45:18] [INFO ] Loaded 10 rooms from C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-16 14:45:22] [INFO ] Saved 10 rooms to C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-16 14:45:22] [INFO ] Đã lưu 5 khách hàng vào C:\Users\dxpro\OOPproject\data\customers.json
+[2026-01-16 14:45:22] [INFO ] Đã lưu 3 đặt phòng vào C:\Users\dxpro\OOPproject\data\bookings.json
+[2026-01-16 14:45:22] [INFO ] Đã lưu 4 hóa đơn vào C:\Users\dxpro\OOPproject\data\invoices.json
+[2026-01-16 14:45:22] [INFO ] Đã lưu tất cả dữ liệu vào thư mục: C:\Users\dxpro\OOPproject\data
+[2026-01-16 19:48:21] [INFO ] Đã tải 5 khách hàng từ C:\Users\dxpro\OOPproject\data\customers.json
+[2026-01-16 19:48:21] [WARN ] Không tìm thấy Customer hoặc Room cho Booking: BK001
+[2026-01-16 19:48:21] [WARN ] Không tìm thấy Customer hoặc Room cho Booking: BK002
+[2026-01-16 19:48:21] [WARN ] Không tìm thấy Customer hoặc Room cho Booking: BK003
+[2026-01-16 19:48:21] [INFO ] Đã tải 0 đặt phòng từ C:\Users\dxpro\OOPproject\data\bookings.json
+[2026-01-16 19:48:21] [WARN ] Không tìm thấy Booking cho Invoice: INV001
+[2026-01-16 19:48:21] [WARN ] Không tìm thấy Booking cho Invoice: INV-1766146086426
+[2026-01-16 19:48:21] [WARN ] Không tìm thấy Booking cho Invoice: INV-1766146091198
+[2026-01-16 19:48:21] [WARN ] Không tìm thấy Booking cho Invoice: INV-1766146101653
+[2026-01-16 19:48:21] [INFO ] Đã tải 0 hóa đơn từ C:\Users\dxpro\OOPproject\data\invoices.json
+[2026-01-16 19:48:21] [INFO ] Đã tải tất cả dữ liệu từ thư mục: C:\Users\dxpro\OOPproject\data
+[2026-01-16 19:48:22] [INFO ] Loaded 10 rooms from C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-16 19:48:22] [INFO ] Đã tải 5 khách hàng từ C:\Users\dxpro\OOPproject\data\customers.json
+[2026-01-16 19:48:22] [INFO ] Đã tải 3 đặt phòng từ C:\Users\dxpro\OOPproject\data\bookings.json
+[2026-01-16 19:48:22] [INFO ] Đã tải 4 hóa đơn từ C:\Users\dxpro\OOPproject\data\invoices.json
+[2026-01-16 19:48:22] [INFO ] Đã tải tất cả dữ liệu từ thư mục: C:\Users\dxpro\OOPproject\data
+[2026-01-16 19:48:22] [INFO ] Loaded 10 rooms from C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-16 19:48:38] [INFO ] Saved 10 rooms to C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-16 19:48:38] [INFO ] Đã lưu 5 khách hàng vào C:\Users\dxpro\OOPproject\data\customers.json
+[2026-01-16 19:48:38] [INFO ] Đã lưu 3 đặt phòng vào C:\Users\dxpro\OOPproject\data\bookings.json
+[2026-01-16 19:48:38] [INFO ] Đã lưu 4 hóa đơn vào C:\Users\dxpro\OOPproject\data\invoices.json
+[2026-01-16 19:48:38] [INFO ] Đã lưu tất cả dữ liệu vào thư mục: C:\Users\dxpro\OOPproject\data
+[2026-01-17 08:34:35] [INFO ] Đã tải 10 phòng từ C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-17 08:34:35] [INFO ] Đã tải 5 khách hàng từ C:\Users\dxpro\OOPproject\data\customers.json
+[2026-01-17 08:34:35] [INFO ] Đã tải 3 đặt phòng từ C:\Users\dxpro\OOPproject\data\bookings.json
+[2026-01-17 08:34:35] [INFO ] Đã tải 4 hóa đơn từ C:\Users\dxpro\OOPproject\data\invoices.json
+[2026-01-17 08:34:35] [INFO ] Đã tải tất cả dữ liệu từ thư mục: C:\Users\dxpro\OOPproject\data
+[2026-01-17 08:34:35] [INFO ] Đã tải 10 phòng từ C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-17 08:34:35] [INFO ] Đã tải 10 phòng từ C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-17 08:34:35] [INFO ] Đã tải 5 khách hàng từ C:\Users\dxpro\OOPproject\data\customers.json
+[2026-01-17 08:34:35] [INFO ] Đã tải 3 đặt phòng từ C:\Users\dxpro\OOPproject\data\bookings.json
+[2026-01-17 08:34:35] [INFO ] Đã tải 4 hóa đơn từ C:\Users\dxpro\OOPproject\data\invoices.json
+[2026-01-17 08:34:35] [INFO ] Đã tải tất cả dữ liệu từ thư mục: C:\Users\dxpro\OOPproject\data
+[2026-01-17 08:34:35] [INFO ] Đã tải 10 phòng từ C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-17 08:39:49] [INFO ] Đã lưu 10 phòng vào C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-17 08:39:49] [INFO ] Đã lưu 10 phòng vào C:\Users\dxpro\OOPproject\data\rooms.json
+[2026-01-17 08:39:49] [INFO ] Đã lưu 5 khách hàng vào C:\Users\dxpro\OOPproject\data\customers.json
+[2026-01-17 08:39:49] [INFO ] Đã lưu 4 đặt phòng vào C:\Users\dxpro\OOPproject\data\bookings.json
+[2026-01-17 08:39:49] [INFO ] Đã lưu 4 hóa đơn vào C:\Users\dxpro\OOPproject\data\invoices.json
+[2026-01-17 08:39:49] [INFO ] Đã lưu tất cả dữ liệu vào thư mục: C:\Users\dxpro\OOPproject\data

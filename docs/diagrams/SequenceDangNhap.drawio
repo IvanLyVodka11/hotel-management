@@ -1,168 +1,331 @@
-<mxfile host="app.diagrams.net" modified="2026-01-12" agent="Claude" version="22.1.0">
-  <diagram name="Sequence - Đăng nhập" id="seqlogin">
-    <mxGraphModel dx="1100" dy="750" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="750" background="#ffffff">
+<mxfile host="app.diagrams.net" modified="2026-01-16" agent="Claude" version="22.1.0">
+  <diagram name="Sequence - Đăng nhập (BCE chuẩn)" id="seqlogin">
+    <mxGraphModel dx="1400" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" background="#ffffff">
       <root>
         <mxCell id="0"/>
         <mxCell id="1" parent="0"/>
         
         <!-- Title -->
-        <mxCell id="title" value="Biểu đồ tuần tự: Đăng nhập (SD: Login)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;" parent="1" vertex="1">
-          <mxGeometry x="300" y="10" width="400" height="30" as="geometry"/>
+        <mxCell id="title" value="Biểu đồ tuần tự: UC01 - Đăng nhập (BCE Pattern chuẩn)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="400" y="10" width="500" height="30" as="geometry"/>
         </mxCell>
         
-        <!-- Actors/Objects with UML symbols -->
-        <mxCell id="user" value="Người dùng" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=11;fontStyle=1;" parent="1" vertex="1">
-          <mxGeometry x="70" y="50" width="40" height="70" as="geometry"/>
+        <!-- BCE Legend -->
+        <mxCell id="legend" value="BCE Pattern:&#xa;• Boundary → Control (✓)&#xa;• Control → Entity (✓)&#xa;• Boundary → Entity (✗)" style="text;html=1;strokeColor=#b85450;fillColor=#f8cecc;align=left;verticalAlign=top;rounded=1;fontSize=10;spacingLeft=5;" parent="1" vertex="1">
+          <mxGeometry x="40" y="50" width="150" height="70" as="geometry"/>
         </mxCell>
-        <mxCell id="login" value="LoginFrame" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=top;" parent="1" vertex="1">
-          <mxGeometry x="200" y="60" width="100" height="60" as="geometry"/>
+        
+        <!-- Actor -->
+        <mxCell id="actor" value="Người dùng" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=11;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="50" y="150" width="40" height="70" as="geometry"/>
         </mxCell>
-        <mxCell id="session" value="UserSession&#xa;(Singleton)" style="shape=umlControl;whiteSpace=wrap;html=1;verticalAlign=top;" parent="1" vertex="1">
-          <mxGeometry x="400" y="60" width="80" height="60" as="geometry"/>
+        
+        <!-- BOUNDARY: LoginFrame -->
+        <mxCell id="login_head" value="«boundary»&#xa;:LoginFrame" style="shape=umlBoundary;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="150" y="150" width="100" height="60" as="geometry"/>
         </mxCell>
-        <mxCell id="main" value="MainFrame" style="shape=umlBoundary;whiteSpace=wrap;html=1;verticalAlign=top;" parent="1" vertex="1">
-          <mxGeometry x="580" y="60" width="100" height="60" as="geometry"/>
+        
+        <!-- CONTROL: AuthManager -->
+        <mxCell id="auth_head" value="«control»&#xa;:AuthManager" style="shape=umlControl;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="320" y="150" width="100" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- ENTITY: DataStorage -->
+        <mxCell id="ds_head" value="«entity»&#xa;:DataStorage" style="shape=umlEntity;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="490" y="150" width="100" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- ENTITY: Account -->
+        <mxCell id="acc_head" value="«entity»&#xa;:Account" style="shape=umlEntity;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="660" y="150" width="90" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- CONTROL: UserSession -->
+        <mxCell id="session_head" value="«control»&#xa;:UserSession" style="shape=umlControl;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="820" y="150" width="100" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- CONTROL: PermissionManager -->
+        <mxCell id="perm_head" value="«control»&#xa;:PermissionManager" style="shape=umlControl;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="990" y="150" width="110" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- BOUNDARY: MainFrame -->
+        <mxCell id="main_head" value="«boundary»&#xa;:MainFrame" style="shape=umlBoundary;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="1170" y="150" width="100" height="60" as="geometry"/>
         </mxCell>
         
         <!-- Lifelines -->
-        <mxCell id="ll1" style="endArrow=none;dashed=1;html=1;strokeWidth=1;" parent="1" edge="1">
+        <mxCell id="ll_actor" style="endArrow=none;dashed=1;html=1;strokeWidth=1;" parent="1" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="90" y="130" as="sourcePoint"/>
-            <mxPoint x="90" y="650" as="targetPoint"/>
+            <mxPoint x="70" y="230" as="sourcePoint"/>
+            <mxPoint x="70" y="950" as="targetPoint"/>
           </mxGeometry>
         </mxCell>
-        <mxCell id="ll2" style="endArrow=none;dashed=1;html=1;strokeWidth=1;" parent="1" edge="1">
+        <mxCell id="ll_login" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#6c8ebf;" parent="1" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="250" y="120" as="sourcePoint"/>
-            <mxPoint x="250" y="650" as="targetPoint"/>
+            <mxPoint x="200" y="210" as="sourcePoint"/>
+            <mxPoint x="200" y="950" as="targetPoint"/>
           </mxGeometry>
         </mxCell>
-        <mxCell id="ll3" style="endArrow=none;dashed=1;html=1;strokeWidth=1;" parent="1" edge="1">
+        <mxCell id="ll_auth" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#d79b00;" parent="1" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="440" y="120" as="sourcePoint"/>
-            <mxPoint x="440" y="650" as="targetPoint"/>
+            <mxPoint x="370" y="210" as="sourcePoint"/>
+            <mxPoint x="370" y="950" as="targetPoint"/>
           </mxGeometry>
         </mxCell>
-        <mxCell id="ll4" style="endArrow=none;dashed=1;html=1;strokeWidth=1;" parent="1" edge="1">
+        <mxCell id="ll_ds" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#82b366;" parent="1" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="630" y="120" as="sourcePoint"/>
-            <mxPoint x="630" y="650" as="targetPoint"/>
+            <mxPoint x="540" y="210" as="sourcePoint"/>
+            <mxPoint x="540" y="950" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_acc" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="705" y="210" as="sourcePoint"/>
+            <mxPoint x="705" y="950" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_session" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#d79b00;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="870" y="210" as="sourcePoint"/>
+            <mxPoint x="870" y="950" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_perm" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#d79b00;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1045" y="210" as="sourcePoint"/>
+            <mxPoint x="1045" y="950" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_main" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#6c8ebf;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1220" y="210" as="sourcePoint"/>
+            <mxPoint x="1220" y="950" as="targetPoint"/>
           </mxGeometry>
         </mxCell>
         
-        <!-- Activation Bars -->
-        <mxCell id="act1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
-          <mxGeometry x="245" y="150" width="10" height="400" as="geometry"/>
-        </mxCell>
-        <mxCell id="act2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
-          <mxGeometry x="435" y="340" width="10" height="80" as="geometry"/>
-        </mxCell>
-        <mxCell id="act3" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
-          <mxGeometry x="625" y="480" width="10" height="70" as="geometry"/>
+        <!-- ========== ACTIVATION BOXES ========== -->
+        <!-- LoginFrame activation -->
+        <mxCell id="act_login" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="193" y="250" width="14" height="650" as="geometry"/>
         </mxCell>
         
-        <!-- Messages -->
-        <mxCell id="m1" value="1: Nhập username/password" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+        <!-- AuthManager activation -->
+        <mxCell id="act_auth" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="363" y="310" width="14" height="430" as="geometry"/>
+        </mxCell>
+        
+        <!-- DataStorage activation -->
+        <mxCell id="act_ds" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="533" y="380" width="14" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- Account activation -->
+        <mxCell id="act_acc" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="698" y="470" width="14" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- UserSession activation -->
+        <mxCell id="act_session" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="863" y="580" width="14" height="120" as="geometry"/>
+        </mxCell>
+        
+        <!-- PermissionManager activation -->
+        <mxCell id="act_perm" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="1038" y="620" width="14" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- MainFrame activation -->
+        <mxCell id="act_main" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="1213" y="820" width="14" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- ========== MESSAGES ========== -->
+        
+        <!-- 1. Actor nhập thông tin -->
+        <mxCell id="m1" value="1: nhập username, password" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="90" y="160" as="sourcePoint"/>
-            <mxPoint x="245" y="160" as="targetPoint"/>
+            <mxPoint x="70" y="260" as="sourcePoint"/>
+            <mxPoint x="193" y="260" as="targetPoint"/>
           </mxGeometry>
         </mxCell>
-        <mxCell id="m2" value="2: Nhấn nút Đăng nhập" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+        
+        <!-- 2. Actor nhấn Đăng nhập -->
+        <mxCell id="m2" value="2: click('Đăng nhập')" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="90" y="200" as="sourcePoint"/>
-            <mxPoint x="245" y="200" as="targetPoint"/>
+            <mxPoint x="70" y="290" as="sourcePoint"/>
+            <mxPoint x="193" y="290" as="targetPoint"/>
           </mxGeometry>
         </mxCell>
-        <mxCell id="m3" value="2.1: performLogin()" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;curved=1;" parent="1" edge="1">
+        
+        <!-- 3. Boundary -> Control: login -->
+        <mxCell id="m3" value="3: login(username, password)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;fontStyle=1;" parent="1" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="255" y="240" as="sourcePoint"/>
-            <mxPoint x="255" y="270" as="targetPoint"/>
+            <mxPoint x="207" y="320" as="sourcePoint"/>
+            <mxPoint x="363" y="320" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Note: Boundary chỉ chuyển lệnh -->
+        <mxCell id="note1" value="✓ Boundary → Control&#xa;UI chỉ chuyển lệnh" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;align=left;spacingLeft=5;" parent="1" vertex="1">
+          <mxGeometry x="220" y="330" width="120" height="35" as="geometry"/>
+        </mxCell>
+        
+        <!-- 4. Control -> Entity: Lấy account -->
+        <mxCell id="m4" value="4: getAccountByUsername(username)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="377" y="390" as="sourcePoint"/>
+            <mxPoint x="533" y="390" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 4.1 Trả về Account Entity -->
+        <mxCell id="m4_1" value="4.1: account: Account" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="533" y="420" as="sourcePoint"/>
+            <mxPoint x="377" y="420" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 5. Control -> Entity: Kiểm tra password -->
+        <mxCell id="m5" value="5: account.verifyPassword(password)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;strokeColor=#82b366;fontStyle=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="377" y="480" as="sourcePoint"/>
+            <mxPoint x="698" y="480" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Note: Information Expert -->
+        <mxCell id="note2" value="✓ Information Expert&#xa;Entity tự verify password" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left;spacingLeft=5;" parent="1" vertex="1">
+          <mxGeometry x="720" y="460" width="130" height="35" as="geometry"/>
+        </mxCell>
+        
+        <!-- 5.1 Trả về kết quả -->
+        <mxCell id="m5_1" value="5.1: true / false" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="698" y="510" as="sourcePoint"/>
+            <mxPoint x="377" y="510" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- ========== ALT BOX ========== -->
+        <mxCell id="alt" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#666666;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="40" y="550" width="1240" height="380" as="geometry"/>
+        </mxCell>
+        <mxCell id="altlabel" value="alt" style="text;html=1;strokeColor=none;fillColor=#f5f5f5;align=left;fontSize=11;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="45" y="555" width="30" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- NHÁNH 1: THÀNH CÔNG -->
+        <mxCell id="altcond1" value="[Thành công - verifyPassword() == true]" style="text;html=1;strokeColor=none;fillColor=#d5e8d4;align=left;fontSize=10;fontStyle=2;" parent="1" vertex="1">
+          <mxGeometry x="80" y="555" width="250" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- 6. Control -> Control: initSession -->
+        <mxCell id="m6" value="6: initSession(account)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;fontStyle=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="377" y="590" as="sourcePoint"/>
+            <mxPoint x="863" y="590" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 7. Control -> Control: loadPermissions -->
+        <mxCell id="m7" value="7: loadPermissions(account.getRole())" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="877" y="630" as="sourcePoint"/>
+            <mxPoint x="1038" y="630" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 7.1 Trả về permissions -->
+        <mxCell id="m7_1" value="7.1: Set&lt;Permission&gt;" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1038" y="660" as="sourcePoint"/>
+            <mxPoint x="877" y="660" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 8. UserSession lưu trạng thái -->
+        <mxCell id="m8" value="8: this.loggedIn = true" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;fontStyle=2;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="877" y="690" as="sourcePoint"/>
+            <mxPoint x="917" y="690" as="targetPoint"/>
             <Array as="points">
-              <mxPoint x="300" y="255"/>
+              <mxPoint x="897" y="710"/>
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="m4" value="2.2: authenticate(username, password)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;curved=1;" parent="1" edge="1">
+        
+        <!-- 9. AuthManager trả về Result -->
+        <mxCell id="m9" value="9: Result.success(account)" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="255" y="290" as="sourcePoint"/>
-            <mxPoint x="255" y="320" as="targetPoint"/>
+            <mxPoint x="363" y="760" as="sourcePoint"/>
+            <mxPoint x="207" y="760" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 10. Boundary hiển thị thông báo -->
+        <mxCell id="m10" value="10: showMessage('Thành công')" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;fontStyle=2;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="207" y="790" as="sourcePoint"/>
+            <mxPoint x="247" y="790" as="targetPoint"/>
             <Array as="points">
-              <mxPoint x="300" y="305"/>
+              <mxPoint x="227" y="810"/>
             </Array>
           </mxGeometry>
         </mxCell>
         
-        <!-- Alt box - Success -->
-        <mxCell id="alt" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#666666;strokeWidth=1;dashed=0;" parent="1" vertex="1">
-          <mxGeometry x="50" y="340" width="700" height="260" as="geometry"/>
-        </mxCell>
-        <mxCell id="altlabel" value="alt" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=3;" parent="1" vertex="1">
-          <mxGeometry x="55" y="345" width="30" height="20" as="geometry"/>
-        </mxCell>
-        <mxCell id="altcond" value="[Đăng nhập thành công]" style="text;html=1;strokeColor=none;fillColor=#d5e8d4;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=2;" parent="1" vertex="1">
-          <mxGeometry x="90" y="345" width="150" height="20" as="geometry"/>
-        </mxCell>
-        
-        <mxCell id="m5" value="3: UserSession.getInstance().login(userId, username, displayName, role)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+        <!-- 11. LoginFrame (Boundary) mở MainFrame - KHÔNG PHẢI từ AuthManager -->
+        <mxCell id="m11" value="11: new MainFrame()" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;fontStyle=1;strokeColor=#6c8ebf;" parent="1" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="255" y="370" as="sourcePoint"/>
-            <mxPoint x="435" y="370" as="targetPoint"/>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m6" value="3.1: Lưu thông tin user vào session" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;curved=1;" parent="1" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="445" y="390" as="sourcePoint"/>
-            <mxPoint x="445" y="410" as="targetPoint"/>
-            <Array as="points">
-              <mxPoint x="490" y="400"/>
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m7" value="4: true" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="435" y="430" as="sourcePoint"/>
-            <mxPoint x="255" y="430" as="targetPoint"/>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m8" value="5: new MainFrame()" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="255" y="480" as="sourcePoint"/>
-            <mxPoint x="625" y="480" as="targetPoint"/>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m9" value="5.1: setVisible(true)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;curved=1;" parent="1" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="635" y="510" as="sourcePoint"/>
-            <mxPoint x="635" y="530" as="targetPoint"/>
-            <Array as="points">
-              <mxPoint x="680" y="520"/>
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m10" value="6: Hiển thị giao diện chính" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="625" y="550" as="sourcePoint"/>
-            <mxPoint x="90" y="550" as="targetPoint"/>
+            <mxPoint x="207" y="830" as="sourcePoint"/>
+            <mxPoint x="1213" y="830" as="targetPoint"/>
           </mxGeometry>
         </mxCell>
         
-        <!-- Separator line for else -->
-        <mxCell id="sep" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#666666;" parent="1" edge="1">
+        <!-- Note: Boundary tự mở MainFrame, không phải Control -->
+        <mxCell id="note_arch" value="✓ Kiến trúc đúng:&#xa;Boundary (LoginFrame) tự&#xa;mở MainFrame sau khi nhận&#xa;Result.success từ Control" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=left;spacingLeft=5;" parent="1" vertex="1">
+          <mxGeometry x="230" y="835" width="150" height="55" as="geometry"/>
+        </mxCell>
+        
+        <!-- 12. Hiển thị cho actor -->
+        <mxCell id="m12" value="12: Hiển thị giao diện chính" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="50" y="570" as="sourcePoint"/>
-            <mxPoint x="750" y="570" as="targetPoint"/>
+            <mxPoint x="193" y="860" as="sourcePoint"/>
+            <mxPoint x="70" y="860" as="targetPoint"/>
           </mxGeometry>
         </mxCell>
-        <mxCell id="elsecond" value="[else: Đăng nhập thất bại]" style="text;html=1;strokeColor=none;fillColor=#f8cecc;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;fontStyle=2;" parent="1" vertex="1">
-          <mxGeometry x="90" y="575" width="160" height="20" as="geometry"/>
-        </mxCell>
-        <mxCell id="m11" value="Hiển thị thông báo lỗi" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;strokeColor=#b85450;" parent="1" edge="1">
+        
+        <!-- ĐƯỜNG NGĂN CÁCH -->
+        <mxCell id="altdiv" style="endArrow=none;dashed=1;html=1;strokeWidth=1.5;strokeColor=#666666;" parent="1" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="250" y="600" as="sourcePoint"/>
-            <mxPoint x="90" y="600" as="targetPoint"/>
+            <mxPoint x="40" y="890" as="sourcePoint"/>
+            <mxPoint x="1280" y="890" as="targetPoint"/>
           </mxGeometry>
         </mxCell>
+        
+        <!-- NHÁNH 2: THẤT BẠI -->
+        <mxCell id="altcond2" value="[Thất bại - account == null OR verifyPassword() == false]" style="text;html=1;strokeColor=none;fillColor=#f8cecc;align=left;fontSize=10;fontStyle=2;" parent="1" vertex="1">
+          <mxGeometry x="80" y="895" width="350" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- 13. AuthManager trả về lỗi -->
+        <mxCell id="m13" value="13: Result.error('Sai thông tin đăng nhập')" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;strokeColor=#b85450;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="363" y="920" as="sourcePoint"/>
+            <mxPoint x="207" y="920" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 14. Hiển thị lỗi -->
+        <mxCell id="m14" value="14: Hiển thị lỗi" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;strokeColor=#b85450;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="193" y="945" as="sourcePoint"/>
+            <mxPoint x="70" y="945" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
       </root>
     </mxGraphModel>
   </diagram>

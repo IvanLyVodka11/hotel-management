@@ -1,0 +1,255 @@
+<mxfile host="app.diagrams.net" modified="2026-01-16" agent="Claude" version="22.1.0">
+  <diagram name="Sequence - Báo cáo Dashboard (BCE)" id="seqreport">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="900" background="#ffffff">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        
+        <!-- Title -->
+        <mxCell id="title" value="Biểu đồ tuần tự: UC07 - Xem báo cáo Dashboard (BCE Pattern)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="300" y="10" width="500" height="30" as="geometry"/>
+        </mxCell>
+        
+        <!-- BCE Legend -->
+        <mxCell id="legend" value="BCE Pattern:&#xa;• Boundary → Control (✓)&#xa;• Control → Entity (✓)&#xa;• Boundary → Entity (✗)" style="text;html=1;strokeColor=#b85450;fillColor=#f8cecc;align=left;verticalAlign=top;rounded=1;fontSize=10;spacingLeft=5;" parent="1" vertex="1">
+          <mxGeometry x="40" y="50" width="150" height="70" as="geometry"/>
+        </mxCell>
+        
+        <!-- Actor -->
+        <mxCell id="actor" value="Quản lý" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=11;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="50" y="150" width="40" height="70" as="geometry"/>
+        </mxCell>
+        
+        <!-- BOUNDARY: DashboardPanel -->
+        <mxCell id="dp_head" value="«boundary»&#xa;:DashboardPanel" style="shape=umlBoundary;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="150" y="150" width="110" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- CONTROL: BookingManager -->
+        <mxCell id="bm_head" value="«control»&#xa;:BookingManager" style="shape=umlControl;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="330" y="150" width="110" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- CONTROL: RoomManager -->
+        <mxCell id="rm_head" value="«control»&#xa;:RoomManager" style="shape=umlControl;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="510" y="150" width="100" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- CONTROL: InvoiceManager -->
+        <mxCell id="im_head" value="«control»&#xa;:InvoiceManager" style="shape=umlControl;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="680" y="150" width="100" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- ENTITY: DataStorage -->
+        <mxCell id="ds_head" value="«entity»&#xa;:DataStorage" style="shape=umlEntity;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="860" y="150" width="100" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- Lifelines -->
+        <mxCell id="ll_actor" style="endArrow=none;dashed=1;html=1;strokeWidth=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="230" as="sourcePoint"/>
+            <mxPoint x="70" y="850" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_dp" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#6c8ebf;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="205" y="210" as="sourcePoint"/>
+            <mxPoint x="205" y="850" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_bm" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#d79b00;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="385" y="210" as="sourcePoint"/>
+            <mxPoint x="385" y="850" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_rm" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#d79b00;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="210" as="sourcePoint"/>
+            <mxPoint x="560" y="850" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_im" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#d79b00;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="730" y="210" as="sourcePoint"/>
+            <mxPoint x="730" y="850" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_ds" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="910" y="210" as="sourcePoint"/>
+            <mxPoint x="910" y="850" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- ========== ACTIVATION BOXES ========== -->
+        <!-- DashboardPanel activation -->
+        <mxCell id="act_dp" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="198" y="260" width="14" height="560" as="geometry"/>
+        </mxCell>
+        
+        <!-- BookingManager activation -->
+        <mxCell id="act_bm" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="378" y="320" width="14" height="120" as="geometry"/>
+        </mxCell>
+        
+        <!-- RoomManager activation -->
+        <mxCell id="act_rm" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="553" y="480" width="14" height="120" as="geometry"/>
+        </mxCell>
+        
+        <!-- InvoiceManager activation -->
+        <mxCell id="act_im" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="723" y="640" width="14" height="100" as="geometry"/>
+        </mxCell>
+        
+        <!-- DataStorage activation 1 -->
+        <mxCell id="act_ds1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="903" y="360" width="14" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- DataStorage activation 2 -->
+        <mxCell id="act_ds2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="903" y="520" width="14" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- DataStorage activation 3 -->
+        <mxCell id="act_ds3" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="903" y="680" width="14" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- ========== MESSAGES ========== -->
+        
+        <!-- 1. Actor mở Dashboard -->
+        <mxCell id="m1" value="1: click('Dashboard')" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="270" as="sourcePoint"/>
+            <mxPoint x="198" y="270" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 2. Boundary -> Control: lấy booking stats -->
+        <mxCell id="m2" value="2: getBookingStatistics()" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;fontStyle=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="212" y="330" as="sourcePoint"/>
+            <mxPoint x="378" y="330" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Note: Boundary -> Control -->
+        <mxCell id="note1" value="✓ Boundary → Control&#xa;UI delegate to Manager" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;align=left;spacingLeft=5;" parent="1" vertex="1">
+          <mxGeometry x="225" y="340" width="120" height="30" as="geometry"/>
+        </mxCell>
+        
+        <!-- 3. Control -> Entity: load bookings -->
+        <mxCell id="m3" value="3: loadAllBookings()" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="392" y="370" as="sourcePoint"/>
+            <mxPoint x="903" y="370" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 3.1 Trả về -->
+        <mxCell id="m3_1" value="3.1: List&lt;Booking&gt;" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="903" y="400" as="sourcePoint"/>
+            <mxPoint x="392" y="400" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 2.1 Trả về stats -->
+        <mxCell id="m2_1" value="2.1: BookingStats" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="378" y="440" as="sourcePoint"/>
+            <mxPoint x="212" y="440" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 4. Boundary -> Control: lấy room stats -->
+        <mxCell id="m4" value="4: getRoomStatistics()" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;fontStyle=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="212" y="490" as="sourcePoint"/>
+            <mxPoint x="553" y="490" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 5. Control -> Entity: load rooms -->
+        <mxCell id="m5" value="5: loadAllRooms()" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="567" y="530" as="sourcePoint"/>
+            <mxPoint x="903" y="530" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 5.1 Trả về -->
+        <mxCell id="m5_1" value="5.1: List&lt;Room&gt;" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="903" y="560" as="sourcePoint"/>
+            <mxPoint x="567" y="560" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 4.1 Trả về stats -->
+        <mxCell id="m4_1" value="4.1: RoomStats" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="553" y="600" as="sourcePoint"/>
+            <mxPoint x="212" y="600" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 6. Boundary -> Control: lấy revenue -->
+        <mxCell id="m6" value="6: getRevenueStatistics()" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;fontStyle=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="212" y="650" as="sourcePoint"/>
+            <mxPoint x="723" y="650" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 7. Control -> Entity: load invoices -->
+        <mxCell id="m7" value="7: loadAllInvoices()" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="737" y="690" as="sourcePoint"/>
+            <mxPoint x="903" y="690" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 7.1 Trả về -->
+        <mxCell id="m7_1" value="7.1: List&lt;Invoice&gt;" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="903" y="720" as="sourcePoint"/>
+            <mxPoint x="737" y="720" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 6.1 Trả về stats -->
+        <mxCell id="m6_1" value="6.1: RevenueStats" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="723" y="760" as="sourcePoint"/>
+            <mxPoint x="212" y="760" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 8. Boundary render charts -->
+        <mxCell id="m8" value="8: renderCharts(stats)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;fontStyle=2;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="212" y="790" as="sourcePoint"/>
+            <mxPoint x="252" y="790" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="232" y="810"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 9. Hiển thị cho actor -->
+        <mxCell id="m9" value="9: Hiển thị Dashboard với biểu đồ" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="198" y="830" as="sourcePoint"/>
+            <mxPoint x="70" y="830" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

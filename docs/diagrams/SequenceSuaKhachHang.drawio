@@ -1,0 +1,227 @@
+<mxfile host="app.diagrams.net" modified="2026-01-16" agent="Claude" version="22.1.0">
+  <diagram name="Sequence - Sửa khách hàng (BCE)" id="seqeditcust">
+    <mxGraphModel dx="1100" dy="850" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#ffffff">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        
+        <!-- Title -->
+        <mxCell id="title" value="Biểu đồ tuần tự: UC05b - Sửa khách hàng (BCE Pattern)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="280" y="10" width="480" height="30" as="geometry"/>
+        </mxCell>
+        
+        <!-- BCE Legend -->
+        <mxCell id="legend" value="BCE Pattern:&#xa;• Boundary → Control (✓)&#xa;• Control → Entity (✓)&#xa;• Information Expert: Customer" style="text;html=1;strokeColor=#b85450;fillColor=#f8cecc;align=left;verticalAlign=top;rounded=1;fontSize=10;spacingLeft=5;" parent="1" vertex="1">
+          <mxGeometry x="40" y="50" width="160" height="70" as="geometry"/>
+        </mxCell>
+        
+        <!-- Actor -->
+        <mxCell id="actor" value="Lễ tân" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=11;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="50" y="150" width="40" height="70" as="geometry"/>
+        </mxCell>
+        
+        <!-- BOUNDARY: CustomerPanel -->
+        <mxCell id="cp_head" value="«boundary»&#xa;:CustomerPanel" style="shape=umlBoundary;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="150" y="150" width="100" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- BOUNDARY: EditCustomerDialog -->
+        <mxCell id="ecd_head" value="«boundary»&#xa;:EditCustomerDialog" style="shape=umlBoundary;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="310" y="150" width="110" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- CONTROL: CustomerManager -->
+        <mxCell id="cm_head" value="«control»&#xa;:CustomerManager" style="shape=umlControl;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="490" y="150" width="110" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- ENTITY: Customer -->
+        <mxCell id="cust_head" value="«entity»&#xa;:Customer" style="shape=umlEntity;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="680" y="150" width="90" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- ENTITY: DataStorage -->
+        <mxCell id="ds_head" value="«entity»&#xa;:DataStorage" style="shape=umlEntity;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="860" y="150" width="100" height="60" as="geometry"/>
+        </mxCell>
+        
+        <!-- Lifelines -->
+        <mxCell id="ll_actor" style="endArrow=none;dashed=1;html=1;strokeWidth=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="230" as="sourcePoint"/>
+            <mxPoint x="70" y="750" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_cp" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#6c8ebf;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="200" y="210" as="sourcePoint"/>
+            <mxPoint x="200" y="750" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_ecd" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#6c8ebf;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="365" y="210" as="sourcePoint"/>
+            <mxPoint x="365" y="750" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_cm" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#d79b00;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="545" y="210" as="sourcePoint"/>
+            <mxPoint x="545" y="750" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_cust" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="725" y="210" as="sourcePoint"/>
+            <mxPoint x="725" y="750" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ll_ds" style="endArrow=none;dashed=1;html=1;strokeWidth=1;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="910" y="210" as="sourcePoint"/>
+            <mxPoint x="910" y="750" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Activation boxes -->
+        <mxCell id="act_cp" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="193" y="260" width="14" height="460" as="geometry"/>
+        </mxCell>
+        <mxCell id="act_ecd" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="358" y="340" width="14" height="310" as="geometry"/>
+        </mxCell>
+        <mxCell id="act_cm" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="538" y="410" width="14" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="act_cust" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="718" y="450" width="14" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="act_ds" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="903" y="530" width="14" height="50" as="geometry"/>
+        </mxCell>
+        
+        <!-- Messages -->
+        <!-- 1. Actor chọn khách -->
+        <mxCell id="m1" value="1: selectCustomer(customer)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="270" as="sourcePoint"/>
+            <mxPoint x="193" y="270" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 2. Click sửa -->
+        <mxCell id="m2" value="2: click('Sửa')" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="310" as="sourcePoint"/>
+            <mxPoint x="193" y="310" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 3. Mở dialog -->
+        <mxCell id="m3" value="3: showEditDialog(customer)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="207" y="350" as="sourcePoint"/>
+            <mxPoint x="358" y="350" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 4. Actor sửa thông tin -->
+        <mxCell id="m4" value="4: sửa thông tin (tên, SĐT, email)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="70" y="390" as="sourcePoint"/>
+            <mxPoint x="358" y="390" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 5. Boundary -> Control -->
+        <mxCell id="m5" value="5: updateCustomer(customerId, data)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;fontStyle=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="372" y="420" as="sourcePoint"/>
+            <mxPoint x="538" y="420" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Note: Boundary → Control -->
+        <mxCell id="note1" value="✓ Boundary → Control" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;" parent="1" vertex="1">
+          <mxGeometry x="385" y="425" width="110" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- 6. Control -> Entity: cập nhật -->
+        <mxCell id="m6" value="6: customer.setPhone(newPhone)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="552" y="460" as="sourcePoint"/>
+            <mxPoint x="718" y="460" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 6.1 -->
+        <mxCell id="m6_1" value="6.1: customer.setEmail(newEmail)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="552" y="490" as="sourcePoint"/>
+            <mxPoint x="718" y="490" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- Note: Information Expert -->
+        <mxCell id="note2" value="✓ Information Expert&#xa;Customer cập nhật data" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;" parent="1" vertex="1">
+          <mxGeometry x="730" y="450" width="120" height="35" as="geometry"/>
+        </mxCell>
+        
+        <!-- 7. Control -> Entity: lưu -->
+        <mxCell id="m7" value="7: saveCustomer(customer)" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="552" y="540" as="sourcePoint"/>
+            <mxPoint x="903" y="540" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 7.1 Return -->
+        <mxCell id="m7_1" value="7.1: Result.success()" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;strokeColor=#82b366;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="903" y="570" as="sourcePoint"/>
+            <mxPoint x="552" y="570" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 8. Control -> Boundary -->
+        <mxCell id="m8" value="8: Result.success(customer)" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="538" y="610" as="sourcePoint"/>
+            <mxPoint x="372" y="610" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 9. Hiển thị thông báo -->
+        <mxCell id="m9" value="9: showMessage('Cập nhật thành công')" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;fontStyle=2;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="372" y="640" as="sourcePoint"/>
+            <mxPoint x="412" y="640" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="392" y="660"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 10. Đóng dialog -->
+        <mxCell id="m10" value="10: dispose()" style="endArrow=open;endFill=0;html=1;strokeWidth=1.5;fontSize=10;dashed=1;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="358" y="680" as="sourcePoint"/>
+            <mxPoint x="207" y="680" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <!-- 11. Refresh -->
+        <mxCell id="m11" value="11: refreshTable()" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;fontSize=10;fontStyle=2;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="207" y="710" as="sourcePoint"/>
+            <mxPoint x="247" y="710" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="227" y="730"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
