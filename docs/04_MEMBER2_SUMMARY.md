@@ -171,8 +171,7 @@ BookingManager
 └── uses RoomManager để kiểm tra room availability
 
 DataStorage
-├── saves/loads Customers, Bookings, Invoices (thành viên 2)
-└── integrates với RoomStorage (thành viên 1)
+└── saves/loads tất cả data: Rooms, Customers, Bookings, Invoices, Users
 ```
 
 ### Entity Relationships
