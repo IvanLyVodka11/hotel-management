@@ -10,11 +10,12 @@
 |-----|-----------|
 | **Tên dự án** | Hotel Management System |
 | **Ngôn ngữ** | Java |
-| **UI Framework** | Java Swing |
-| **Lưu trữ** | JSON File |
+| **UI Framework** | Java Swing + FlatLaf |
+| **Lưu trữ** | JSON File (Gson) |
+| **Build Tool** | Maven |
 | **Số thành viên** | 2 |
 | **Phiên bản** | 1.0 |
-| **Ngày tạo** | 08/12/2025 |
+| **Ngày cập nhật** | 18/01/2026 |
 
 ---
 
@@ -127,93 +128,85 @@ Room (abstract)
 ├─────────────────────────────────────────────────────────┤
 │                     MODEL LAYER                          │
 │                  (Entity Classes)                        │
-│   Room, Customer, Booking, Invoice, User, etc.          │
+│   Room, Customer, Booking, Invoice, etc.                │
 ├─────────────────────────────────────────────────────────┤
 │                    DATA LAYER                            │
 │              (Storage & Persistence)                     │
-│           JsonStorage, FileHandler, etc.                │
+│               DataStorage (Gson + JSON)                 │
 └─────────────────────────────────────────────────────────┘
 ```
 
 ### 4.2 Package Structure
 ```
 src/
-├── com.hotel/
-│   ├── model/                 # Entity classes
-│   │   ├── person/
-│   │   │   ├── Person.java (abstract)
-│   │   │   ├── Customer.java
-│   │   │   └── User.java
-│   │   ├── room/
-│   │   │   ├── Room.java (abstract)
-│   │   │   ├── StandardRoom.java
-│   │   │   ├── VIPRoom.java
-│   │   │   └── DeluxeRoom.java
-│   │   ├── booking/
-│   │   │   ├── Booking.java
-│   │   │   └── Invoice.java
-│   │   └── enums/
-│   │       ├── RoomType.java
-│   │       ├── RoomStatus.java
-│   │       └── BookingStatus.java
-│   │
-│   ├── manager/               # Business logic
-│   │   ├── RoomManager.java
-│   │   ├── BookingManager.java
-│   │   ├── CustomerManager.java
-│   │   └── UserManager.java
-│   │
-│   ├── service/               # Service layer
-│   │   ├── interfaces/
-│   │   │   ├── IManageable.java
-│   │   │   ├── IStorable.java
-│   │   │   └── ISearchable.java
-│   │   ├── RoomService.java
-│   │   └── BookingService.java
-│   │
-│   ├── storage/               # Data persistence
-│   │   ├── JsonStorage.java
-│   │   ├── FileHandler.java
-│   │   └── DataManager.java
-│   │
-│   ├── ui/                    # Swing UI
-│   │   ├── MainFrame.java
-│   │   ├── panels/
-│   │   │   ├── LoginPanel.java
-│   │   │   ├── MenuPanel.java
-│   │   │   ├── RoomPanel.java
-│   │   │   ├── BookingPanel.java
-│   │   │   └── ReportPanel.java
-│   │   ├── dialogs/
-│   │   │   ├── AddRoomDialog.java
-│   │   │   ├── EditRoomDialog.java
-│   │   │   └── SearchDialog.java
-│   │   └── components/
-│   │       ├── RoomTable.java
-│   │       └── CustomButton.java
-│   │
-│   ├── factory/               # Factory pattern
-│   │   └── RoomFactory.java
-│   │
-│   ├── util/                  # Utilities
-│   │   ├── Constants.java
-│   │   ├── Validator.java
-│   │   └── DateUtil.java
-│   │
-│   └── HotelManagementSystem.java  # Main entry point
-│
-├── resources/
-│   ├── data/
-│   │   ├── rooms.json
-│   │   ├── customers.json
-│   │   ├── bookings.json
-│   │   └── users.json
-│   └── images/
-│       └── logo.png
-│
-└── test/                      # Unit tests
+└── com/hotel/
+    ├── Main.java                      # Entry point
+    ├── auth/                          # Authentication & Authorization
+    │   ├── PermissionManager.java
+    │   └── UserSession.java
+    ├── model/                         # Entity classes
+    │   ├── room/
+    │   │   ├── Room.java (abstract)
+    │   │   ├── StandardRoom.java
+    │   │   ├── VIPRoom.java
+    │   │   ├── DeluxeRoom.java
+    │   │   └── RoomFactory.java
+    │   ├── customer/
+    │   │   └── Customer.java
+    │   ├── booking/
+    │   │   └── Booking.java
+    │   ├── invoice/
+    │   │   └── Invoice.java
+    │   └── enums/
+    │       ├── RoomType.java
+    │       ├── RoomStatus.java
+    │       └── BookingStatus.java
+    │
+    ├── service/                       # Business logic + Interfaces
+    │   ├── RoomManager.java
+    │   ├── BookingManager.java
+    │   ├── CustomerManager.java
+    │   ├── InvoiceManager.java
+    │   └── interfaces/
+    │       ├── IManageable.java
+    │       ├── IStorable.java
+    │       └── ISearchable.java
+    │
+    ├── storage/                       # Data persistence
+    │   └── DataStorage.java
+    │
+    ├── ui/                            # Swing UI
+    │   ├── LoginFrame.java
+    │   ├── MainFrame.java
+    │   ├── DashboardPanel.java
+    │   ├── RoomPanel.java
+    │   ├── BookingPanel.java
+    │   ├── CustomerPanel.java
+    │   ├── InvoicePanel.java
+    │   ├── RoomDialog.java
+    │   ├── AddBookingDialog.java
+    │   ├── EditBookingDialog.java
+    │   ├── AddCustomerDialog.java
+    │   ├── EditCustomerDialog.java
+    │   ├── CustomerDetailDialog.java
+    │   ├── base/
+    │   ├── theme/
+    │   └── util/
+    │
+    └── util/                          # Utilities
+        ├── AppLogger.java
+        └── Result.java
+
+data/                                  # JSON data files
+├── rooms.json
+├── customers.json
+├── bookings.json
+├── invoices.json
+└── users.json
+
+test/                                  # Unit tests
+└── com/hotel/
     ├── model/
-    ├── manager/
     └── service/
 ```
 
@@ -226,60 +219,49 @@ src/
 ```
 ┌────────────────────────────────────────┐
 │           <<abstract>>                  │
-│              Person                     │
-├────────────────────────────────────────┤
-│ - id: String                           │
-│ - name: String                         │
-│ - phoneNumber: String                  │
-├────────────────────────────────────────┤
-│ + Person(id, name, phone)              │
-│ + getId(): String                      │
-│ + getName(): String                    │
-│ + setName(name): void                  │
-│ + getPhoneNumber(): String             │
-│ + setPhoneNumber(phone): void          │
-│ + {abstract} getInfo(): String         │
-│ + toString(): String                   │
-└────────────────────────────────────────┘
-            △
-            │ extends
-    ┌───────┴───────┐
-    │               │
-┌───┴───┐       ┌───┴───┐
-│Customer│       │ User  │
-└───────┘       └───────┘
-```
-
-```
-┌────────────────────────────────────────┐
-│           <<abstract>>                  │
 │               Room                      │
 ├────────────────────────────────────────┤
 │ - roomId: String                       │
 │ - floor: int                           │
-│ - status: RoomStatus                   │
 │ - basePrice: double                    │
+│ - status: RoomStatus                   │
+│ - maxOccupancy: int                    │
 ├────────────────────────────────────────┤
-│ + Room(roomId, floor, basePrice)       │
+│ + Room(id, floor, price, occupancy)    │
 │ + getRoomId(): String                  │
-│ + getFloor(): int                      │
 │ + getStatus(): RoomStatus              │
 │ + setStatus(status): void              │
-│ + getBasePrice(): double               │
-│ + isAvailable(): boolean               │
-│ + {abstract} calculatePrice(days): double │
+│ + {abstract} calculatePrice(): double  │
 │ + {abstract} getRoomType(): RoomType   │
-│ + {abstract} getDescription(): String  │
 │ + toString(): String                   │
 └────────────────────────────────────────┘
-            △
-            │ extends
-    ┌───────┼───────┐
-    │       │       │
-┌───┴────┐ ┌┴──┐ ┌──┴────┐
-│Standard│ │VIP│ │Deluxe │
-│  Room  │ │   │ │ Room  │
-└────────┘ └───┘ └───────┘
+                △
+                │ extends
+    ┌───────────┼───────────┐
+    │           │           │
+┌───┴────┐ ┌────┴────┐ ┌────┴────┐
+│Standard│ │  VIP    │ │ Deluxe  │
+│  Room  │ │  Room   │ │  Room   │
+└────────┘ └─────────┘ └─────────┘
+
+
+┌────────────────────────────────────────┐
+│              Customer                   │
+├────────────────────────────────────────┤
+│ - customerId: String                   │
+│ - fullName: String                     │
+│ - email: String                        │
+│ - phoneNumber: String                  │
+│ - idCard: String                       │
+│ - address: String                      │
+│ - registrationDate: LocalDate         │
+│ - isVIP: boolean                       │
+│ - loyaltyPoints: double                │
+├────────────────────────────────────────┤
+│ + getters/setters                      │
+│ + addLoyaltyPoints(points): void       │
+│ + toString(): String                   │
+└────────────────────────────────────────┘
 ```
 
 ### 5.2 Interface Definitions

@@ -1,6 +1,6 @@
 # Tóm tắt Tính năng Thành viên 2 - Quản lý Đặt phòng, Khách hàng, Hóa đơn
 
-## 📅 Ngày cập nhật: 15/12/2025
+## 📅 Ngày cập nhật: 18/01/2026
 
 ---
 
@@ -284,6 +284,6 @@ getUnpaidRevenue() - doanh thu chưa thanh toán
 
 ---
 
-**Trạng thái**: ✅ Sprint 1-3 HOÀN THÀNH, Sprint 4-5 ĐANG TIẾN HÀNH
+**Trạng thái**: ✅ HOÀN THÀNH
 **Người phụ trách**: Thành viên 2
-**Ngày cập nhật cuối**: 15/12/2025
+**Ngày cập nhật cuối**: 18/01/2026
