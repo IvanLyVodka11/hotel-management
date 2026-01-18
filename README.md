@@ -210,14 +210,6 @@ mvn test
 
 ## 📚 Tài liệu
 
-### Báo cáo LaTeX
-- `Chương 1_ Khảo sát hệ thống.tex`
-- `Chương 2_ Đặc tả yêu cầu.tex`
-- `Chương 3_ Thiết kế hệ thống.tex`
-- `Chương 4_ Thiết kế giao diện.tex`
-- `Chương 5_ Kiểm thử.tex`
-- `Chương 6_ Bảo trì phần mềm.tex`
-
 ### UML Diagrams (`docs/diagrams/`)
 - **Use Case:** UseCaseTongQuan, QuanLy, LeTan, DichVu
 - **Sequence:** DangNhap, DatPhong, CheckIn, CheckOut, ThemPhong, SuaPhong, XoaPhong, XemPhong, ThemKhachHang, SuaKhachHang, XoaKhachHang
